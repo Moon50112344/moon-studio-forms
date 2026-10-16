@@ -7,3 +7,9 @@ compatibility_date = "2026-10-16"
 directory = "./public"
 binding = "ASSETS"
 run_worker_first = ["/api/*"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "moon-studio-forms"
+database_id = "4f25074b-84c4-4e63-a9bb-89fd057549a5"
+migrations_dir = "migrations"
