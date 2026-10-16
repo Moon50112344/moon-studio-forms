@@ -1,0 +1,1357 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d18">
+  <meta name="description" content="Đăng nhập, đăng ký hoặc tiếp tục với tài khoản khách trên Moon Studio Forms.">
+  <title>Tiếp tục — Moon Studio Forms</title>
+
+  <link rel="icon" href="https://moonstudio.us.ci/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080d18;
+      --panel: #0d1424;
+      --panel-hover: #121d31;
+      --text: #e8ecf5;
+      --muted: #8794ad;
+      --border: #202c43;
+      --blue: #2f8bff;
+      --blue-hover: #1a7aee;
+      --error: #ff7777;
+      --success: #2ecc71;
+      --warning: #ffcc8a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { min-height: 100%; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(47,139,255,.11), transparent 48%),
+        var(--bg);
+    }
+
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    .topbar {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand img {
+      display: block;
+      width: 39px;
+      height: 39px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      object-fit: cover;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -.6px;
+      white-space: nowrap;
+    }
+
+    .brand-name .studio { color: var(--blue); }
+
+    .main {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 34px 0;
+    }
+
+    .screen {
+      width: 100%;
+      max-width: 440px;
+      animation: appear .35s ease both;
+    }
+
+    .hidden { display: none !important; }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(9px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: rgba(13,20,36,.96);
+      box-shadow: 0 22px 65px rgba(0,0,0,.2);
+    }
+
+    .heading {
+      margin: 0 0 9px;
+      font-size: clamp(25px, 6vw, 29px);
+      line-height: 1.3;
+      letter-spacing: -.9px;
+      font-weight: 800;
+    }
+
+    .description {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .choice-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .choice {
+      width: 100%;
+      min-height: 78px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+      border: 1px solid #29364e;
+      border-radius: 12px;
+      color: var(--text);
+      background: #0a1120;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+
+    .choice:hover {
+      border-color: #3b75bd;
+      background: var(--panel-hover);
+      transform: translateY(-1px);
+    }
+
+    .choice-icon {
+      width: 43px;
+      height: 43px;
+      flex: 0 0 43px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(47,139,255,.24);
+      border-radius: 11px;
+      color: var(--blue);
+      background: rgba(47,139,255,.09);
+    }
+
+    .choice-icon svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .choice-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .choice-title {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .choice-description {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .choice-arrow {
+      color: #7586a2;
+      font-size: 20px;
+    }
+
+    .note {
+      margin-top: 18px;
+      color: #73819b;
+      font-size: 11px;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0 0 20px;
+      padding: 0;
+      border: 0;
+      color: var(--muted);
+      background: transparent;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .back-button:hover { color: var(--text); }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 17px;
+    }
+
+    .form-group label.field-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #b7c3d8;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .input-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      width: 17px;
+      height: 17px;
+      color: #71819d;
+      pointer-events: none;
+    }
+
+    .input-box input {
+      width: 100%;
+      min-width: 0;
+      height: 47px;
+      padding: 0 43px 0 41px;
+      border: 1px solid #29364e;
+      border-radius: 9px;
+      outline: none;
+      color: var(--text);
+      background: #090f1c;
+      font-size: 13px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .input-box input::placeholder { color: #596780; }
+
+    .input-box input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(47,139,255,.11);
+    }
+
+    .input-box input.field-error { border-color: var(--error); }
+
+    .toggle-pass {
+      position: absolute;
+      right: 6px;
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 8px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .toggle-pass:hover {
+      color: var(--text);
+      background: #182238;
+    }
+
+    .toggle-pass svg { width: 17px; height: 17px; }
+
+    .error-text {
+      display: none;
+      margin-top: 6px;
+      color: var(--error);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .error-text.show { display: block; }
+    .confirm-group { display: none; }
+    .confirm-group.show { display: block; }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 19px 0;
+      font-size: 11px;
+    }
+
+    .checkbox-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-wrap input {
+      width: 15px;
+      height: 15px;
+      margin: 0;
+      accent-color: var(--blue);
+    }
+
+    .forgot, .text-link { color: #69a9ff; }
+
+    .forgot:hover, .text-link:hover { text-decoration: underline; }
+
+    .btn-primary {
+      width: 100%;
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 12px 16px;
+      border: 1px solid var(--blue);
+      border-radius: 9px;
+      color: white;
+      background: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .2s, opacity .2s;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--blue-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      min-height: 44px;
+      margin-top: 10px;
+      padding: 11px 15px;
+      border: 1px solid #29364e;
+      border-radius: 9px;
+      color: var(--text);
+      background: #10192a;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover { background: #152137; }
+
+    .spinner {
+      display: none;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255,255,255,.35);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .65s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .btn-primary.loading .spinner { display: block; }
+    .btn-primary.loading .button-arrow { display: none; }
+
+    .divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      min-width: 0;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      flex: 0 0 auto;
+      color: #8997af;
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .socials {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .social-btn {
+      min-width: 0;
+      min-height: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid #29364e;
+      border-radius: 9px;
+      color: var(--text);
+      background: #10192a;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .social-btn:hover:not(:disabled) {
+      border-color: #3b5277;
+      background: #152137;
+    }
+
+    .social-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .social-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .account-footer {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .account-footer a {
+      color: #69a9ff;
+      font-weight: 600;
+    }
+
+    .account-footer a:hover { text-decoration: underline; }
+
+    .warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin: 20px 0;
+      padding: 14px;
+      border: 1px solid rgba(255,204,138,.28);
+      border-radius: 10px;
+      color: #d6c3a9;
+      background: rgba(255,204,138,.055);
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .warning svg {
+      width: 19px;
+      height: 19px;
+      flex: 0 0 19px;
+      margin-top: 1px;
+      color: var(--warning);
+    }
+
+    .consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 18px 0;
+      color: #b7c3d8;
+      font-size: 12px;
+      line-height: 1.7;
+      cursor: pointer;
+    }
+
+    .consent input {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 16px;
+      margin: 2px 0 0;
+      accent-color: var(--blue);
+    }
+
+    .guest-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 15px;
+      padding: 6px 9px;
+      border: 1px solid #263d5f;
+      border-radius: 7px;
+      color: #91bfff;
+      background: rgba(47,139,255,.08);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .guest-name {
+      overflow-wrap: anywhere;
+      margin: 17px 0;
+      padding: 17px;
+      border: 1px solid #263d5f;
+      border-radius: 10px;
+      color: #91bfff;
+      background: #091323;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      text-align: center;
+    }
+
+    .status-icon {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 19px;
+      border: 1px solid rgba(46,204,113,.25);
+      border-radius: 16px;
+      color: var(--success);
+      background: rgba(46,204,113,.08);
+    }
+
+    .status-icon svg { width: 27px; height: 27px; }
+
+    .toast {
+      position: fixed;
+      z-index: 100;
+      bottom: 22px;
+      left: 50%;
+      width: max-content;
+      max-width: calc(100vw - 32px);
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      background: #16203a;
+      box-shadow: 0 10px 30px rgba(0,0,0,.3);
+      font-size: 12px;
+      line-height: 1.6;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%,12px);
+      transition: opacity .25s, transform .25s;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%,0);
+    }
+
+    .toast.error { border-color: var(--error); }
+    .toast.success { border-color: var(--success); }
+
+    .site-footer {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: #65728a;
+      font-size: 10px;
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 17px; }
+      .main { padding: 26px 0; }
+      .card { padding: 22px 18px; }
+      .brand img { width: 35px; height: 35px; }
+      .brand-name { font-size: 14px; }
+      .site-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Moon Studio — Trang chủ">
+      <img src="https://moonstudio.us.ci/logo.jpg" alt="Moon Studio" width="39" height="39">
+      <span class="brand-name">Moon <span class="studio">Studio</span></span>
+    </a>
+  </header>
+
+  <main class="main">
+    <!-- MÀN HÌNH 1: CHỌN CÁCH TIẾP TỤC -->
+    <section class="screen" id="choiceScreen" aria-labelledby="choiceHeading">
+      <div class="card">
+        <h1 class="heading" id="choiceHeading">Chào mừng bạn</h1>
+        <p class="description">
+          Chọn cách bạn muốn tiếp tục sử dụng Moon Studio Forms.
+        </p>
+
+        <div class="choice-list">
+          <button type="button" class="choice" id="chooseLogin">
+            <span class="choice-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                <path d="M10 17l5-5-5-5"/>
+                <path d="M15 12H3"/>
+              </svg>
+            </span>
+            <span class="choice-content">
+              <span class="choice-title">Đăng nhập / Tạo tài khoản</span>
+              <span class="choice-description">Sử dụng tài khoản của bạn để tiếp tục.</span>
+            </span>
+            <span class="choice-arrow" aria-hidden="true">›</span>
+          </button>
+
+          <button type="button" class="choice" id="chooseGuest">
+            <span class="choice-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
+              </svg>
+            </span>
+            <span class="choice-content">
+              <span class="choice-title">Tiếp tục với tài khoản khách</span>
+              <span class="choice-description">Tạo một danh tính khách tạm thời trên trình duyệt này.</span>
+            </span>
+            <span class="choice-arrow" aria-hidden="true">›</span>
+          </button>
+        </div>
+
+        <p class="note">
+          Tài khoản khách là lựa chọn tạm thời và không thay thế tài khoản chính thức.
+        </p>
+      </div>
+    </section>
+
+    <!-- MÀN HÌNH 2: ĐĂNG NHẬP / ĐĂNG KÝ -->
+    <section class="screen hidden" id="authScreen" aria-labelledby="pageHeading">
+      <button type="button" class="back-button" id="backFromAuth">Quay lại lựa chọn</button>
+
+      <div class="card">
+        <h1 class="heading" id="pageHeading">Đăng nhập</h1>
+
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label class="field-label" for="email">Email</label>
+            <div class="input-box">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="3"/>
+                <path d="m3 6 9 7 9-7"/>
+              </svg>
+              <input type="email" id="email" name="email"
+                     placeholder="name@example.com" autocomplete="email"
+                     aria-describedby="emailError" required>
+            </div>
+            <span class="error-text" id="emailError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="field-label" for="password">Mật khẩu</label>
+            <div class="input-box">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input type="password" id="password" name="password"
+                     placeholder="Nhập mật khẩu" autocomplete="current-password"
+                     aria-describedby="passwordError" required>
+              <button type="button" class="toggle-pass" id="togglePass"
+                      aria-label="Hiện mật khẩu" aria-pressed="false">
+                <svg id="eyeOn" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg id="eyeOff" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round" style="display:none" aria-hidden="true">
+                  <path d="m3 3 18 18"/>
+                  <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
+                  <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.2 4.1"/>
+                  <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 3-.5"/>
+                </svg>
+              </button>
+            </div>
+            <span class="error-text" id="passwordError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group confirm-group" id="confirmGroup">
+            <label class="field-label" for="confirmPassword">Xác nhận mật khẩu</label>
+            <div class="input-box">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              <input type="password" id="confirmPassword" name="confirmPassword"
+                     placeholder="Nhập lại mật khẩu" autocomplete="new-password"
+                     aria-describedby="confirmError">
+            </div>
+            <span class="error-text" id="confirmError" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row" id="loginRow">
+            <label class="checkbox-wrap" for="remember">
+              <input type="checkbox" id="remember" name="remember">
+              <span>Ghi nhớ email</span>
+            </label>
+            <a href="#" class="forgot" id="forgotLink">Quên mật khẩu?</a>
+          </div>
+
+          <button type="submit" class="btn-primary" id="btnLogin">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-text">Đăng nhập</span>
+            <svg class="button-arrow" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+
+        <div class="divider"><span>hoặc</span></div>
+
+        <div class="socials">
+          <button type="button" class="social-btn" id="googleBtn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.1 5.1 0 0 1-2.2 3.31v2.77h3.56c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.56-2.77c-.98.66-2.23 1.06-3.72 1.06-2.86 0-5.28-1.93-6.15-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.85 14.1a6.6 6.6 0 0 1 0-4.19V7.07H2.18a11 11 0 0 0 0 9.86z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.67 2.84c.87-2.6 3.29-4.53 6.15-4.53z"/>
+            </svg>
+            Google
+          </button>
+          <button type="button" class="social-btn" id="facebookBtn">
+            <svg viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true">
+              <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/>
+            </svg>
+            Facebook
+          </button>
+        </div>
+
+        <div class="account-footer">
+          <span id="modeText">Chưa có tài khoản? </span>
+          <a href="#" id="toggleModeLink">Đăng ký ngay</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÀN HÌNH 3: CẢNH BÁO TÀI KHOẢN KHÁCH -->
+    <section class="screen hidden" id="guestScreen" aria-labelledby="guestHeading">
+      <button type="button" class="back-button" id="backFromGuest">← Quay lại lựa chọn</button>
+
+      <div class="card">
+        <span class="guest-label">TÀI KHOẢN KHÁCH</span>
+        <h1 class="heading" id="guestHeading">Tiếp tục với tư cách khách</h1>
+        <p class="description">
+          Bạn có thể tạo một tài khoản khách tạm thời để tiếp tục.
+        </p>
+
+        <div class="warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <path d="M10.3 3.9 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>
+            <path d="M12 9v4"/>
+            <path d="M12 17h.01"/>
+          </svg>
+          <span>
+            <strong>Lưu ý trước khi tiếp tục.</strong><br>
+            Tài khoản khách có thể bị xóa. Dữ liệu liên quan có thể bị mất
+            và không khôi phục được. Tài khoản khách trên bản tĩnh này chỉ
+            được lưu trong trình duyệt hiện tại; xóa dữ liệu trình duyệt
+            hoặc đổi thiết bị có thể làm mất thông tin.
+          </span>
+        </div>
+
+        <label class="consent" for="guestConsent">
+          <input type="checkbox" id="guestConsent">
+          <span>Tôi đã đọc và đồng ý với lưu ý trên.</span>
+        </label>
+
+        <button type="button" class="btn-primary" id="createGuestBtn" disabled>
+          Tạo tài khoản khách
+        </button>
+
+        <p class="note">
+          Giới hạn một tài khoản khách cho mỗi IP chưa được triển khai.
+          Bản tĩnh này không kiểm tra hoặc lưu địa chỉ IP.
+        </p>
+      </div>
+    </section>
+
+    <!-- MÀN HÌNH 4: TẠO KHÁCH THÀNH CÔNG -->
+    <section class="screen hidden" id="guestSuccessScreen" aria-labelledby="successHeading">
+      <div class="card">
+        <div class="status-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m5 12 4 4L19 6"/>
+          </svg>
+        </div>
+
+        <h1 class="heading" id="successHeading">Tài khoản khách đã được tạo</h1>
+        <p class="description">
+          Đây là tên tài khoản khách được tạo trên trình duyệt hiện tại.
+          Hãy lưu lại nếu bạn cần nhận biết tài khoản này.
+        </p>
+
+        <div class="guest-name" id="guestUsername">Guest-000000</div>
+
+        <button type="button" class="btn-primary" id="copyGuestBtn">
+          Sao chép tên tài khoản
+        </button>
+
+        <button type="button" class="btn-secondary" id="continueGuestBtn">
+          Tiếp tục
+        </button>
+
+        <p class="note" id="continueNote">
+          Bước tiếp theo chưa được kết nối. Dashboard sẽ được bổ sung sau.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 Moon Studio Forms</span>
+    <span>Community Surveys &amp; Forms</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import {
+      initializeApp,
+      getApps
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+    import {
+      getAuth,
+      setPersistence,
+      browserLocalPersistence,
+      browserSessionPersistence,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      sendPasswordResetEmail,
+      sendEmailVerification,
+      signOut,
+      onAuthStateChanged,
+      GoogleAuthProvider,
+      FacebookAuthProvider,
+      signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+    /*
+      CẤU HÌNH IP — CHƯA TRIỂN KHAI:
+      Sau này có thể bổ sung API/máy chủ để kiểm tra giới hạn tài khoản khách
+      theo IP. Không thể bảo đảm một tài khoản/IP chỉ bằng HTML phía trình duyệt.
+      Phiên bản này không gọi dịch vụ lấy IP, không thu thập IP và không giả
+      vờ rằng đã kiểm tra IP.
+    */
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDlTcZfcnoftOYIGEXPcmr_3g9pYcms3V8",
+      authDomain: "wifichecker-ccf9b.firebaseapp.com",
+      projectId: "wifichecker-ccf9b",
+      storageBucket: "wifichecker-ccf9b.firebasestorage.app",
+      messagingSenderId: "58738730558",
+      appId: "1:58738730558:web:b0c0e18daac85aa3d9136f",
+      measurementId: "G-5MLQGREBJE"
+    };
+
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+    const facebookProvider = new FacebookAuthProvider();
+
+    const $ = id => document.getElementById(id);
+
+    const screens = {
+      choice: $("choiceScreen"),
+      auth: $("authScreen"),
+      guest: $("guestScreen"),
+      success: $("guestSuccessScreen")
+    };
+
+    const form = $("loginForm");
+    const btnLogin = $("btnLogin");
+    const btnText = btnLogin.querySelector(".btn-text");
+    const emailInput = $("email");
+    const passInput = $("password");
+    const confirmInput = $("confirmPassword");
+    const confirmGroup = $("confirmGroup");
+    const rememberCheck = $("remember");
+    const toast = $("toast");
+    const emailError = $("emailError");
+    const passError = $("passwordError");
+    const confirmError = $("confirmError");
+    const togglePass = $("togglePass");
+    const eyeOn = $("eyeOn");
+    const eyeOff = $("eyeOff");
+    const forgotLink = $("forgotLink");
+    const googleBtn = $("googleBtn");
+    const facebookBtn = $("facebookBtn");
+    const modeText = $("modeText");
+    const toggleModeLink = $("toggleModeLink");
+    const loginRow = $("loginRow");
+    const guestConsent = $("guestConsent");
+    const createGuestBtn = $("createGuestBtn");
+
+    let mode = "login";
+    let toastTimer;
+    let isCreatingAccount = false;
+    let hasRedirected = false;
+
+    function showScreen(name) {
+      Object.values(screens).forEach(screen => screen.classList.add("hidden"));
+      screens[name].classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    $("chooseLogin").addEventListener("click", () => showScreen("auth"));
+    $("chooseGuest").addEventListener("click", () => showScreen("guest"));
+    $("backFromAuth").addEventListener("click", () => showScreen("choice"));
+    $("backFromGuest").addEventListener("click", () => showScreen("choice"));
+
+    function showToast(message, type = "") {
+      toast.textContent = message;
+      toast.classList.remove("error", "success");
+      if (type) toast.classList.add(type);
+      toast.classList.add("show");
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 4200);
+    }
+
+    function clearErrors() {
+      [emailInput, passInput, confirmInput].forEach(input => {
+        input.classList.remove("field-error");
+      });
+
+      [emailError, passError, confirmError].forEach(error => {
+        error.textContent = "";
+        error.classList.remove("show");
+      });
+    }
+
+    function showFieldError(fieldId, message) {
+      const field = $(fieldId);
+      const error = {
+        email: emailError,
+        password: passError,
+        confirmPassword: confirmError
+      }[fieldId];
+
+      if (!field || !error) return;
+
+      field.classList.add("field-error");
+      error.textContent = message;
+      error.classList.add("show");
+    }
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    togglePass.addEventListener("click", () => {
+      const shouldShow = passInput.type === "password";
+      passInput.type = shouldShow ? "text" : "password";
+      togglePass.setAttribute("aria-label", shouldShow ? "Ẩn mật khẩu" : "Hiện mật khẩu");
+      togglePass.setAttribute("aria-pressed", String(shouldShow));
+      eyeOn.style.display = shouldShow ? "none" : "";
+      eyeOff.style.display = shouldShow ? "" : "none";
+    });
+
+    try {
+      const savedEmail = localStorage.getItem("saved_email");
+      if (savedEmail) {
+        emailInput.value = savedEmail;
+        rememberCheck.checked = true;
+      }
+    } catch {
+      // Tiếp tục hoạt động nếu storage không khả dụng.
+    }
+
+    function saveEmailPreference(email) {
+      try {
+        if (rememberCheck.checked) {
+          localStorage.setItem("saved_email", email);
+        } else {
+          localStorage.removeItem("saved_email");
+        }
+      } catch {
+        // Không ảnh hưởng xác thực.
+      }
+    }
+
+    function setLoading(loading) {
+      btnLogin.disabled = loading;
+      btnLogin.classList.toggle("loading", loading);
+
+      btnText.textContent = loading
+        ? "Đang xử lý..."
+        : mode === "register" ? "Tạo tài khoản" : "Đăng nhập";
+
+      googleBtn.disabled = loading;
+      facebookBtn.disabled = loading;
+      toggleModeLink.style.pointerEvents = loading ? "none" : "";
+      forgotLink.style.pointerEvents = loading ? "none" : "";
+    }
+
+    function switchMode(newMode) {
+      mode = newMode;
+      clearErrors();
+
+      const registering = mode === "register";
+
+      $("pageHeading").textContent = registering ? "Tạo tài khoản" : "Đăng nhập";
+      modeText.textContent = registering ? "Đã có tài khoản? " : "Chưa có tài khoản? ";
+      toggleModeLink.textContent = registering ? "Đăng nhập ngay" : "Đăng ký ngay";
+      btnText.textContent = registering ? "Tạo tài khoản" : "Đăng nhập";
+
+      confirmGroup.classList.toggle("show", registering);
+      loginRow.style.display = registering ? "none" : "flex";
+      forgotLink.style.display = registering ? "none" : "inline";
+
+      passInput.value = "";
+      confirmInput.value = "";
+      passInput.autocomplete = registering ? "new-password" : "current-password";
+    }
+
+    toggleModeLink.addEventListener("click", event => {
+      event.preventDefault();
+      if (!btnLogin.disabled) {
+        switchMode(mode === "login" ? "register" : "login");
+      }
+    });
+
+    function mapAuthError(code) {
+      const errors = {
+        "auth/invalid-email": "Email không hợp lệ.",
+        "auth/missing-email": "Vui lòng nhập email.",
+        "auth/missing-password": "Vui lòng nhập mật khẩu.",
+        "auth/user-disabled": "Tài khoản đã bị vô hiệu hóa.",
+        "auth/user-not-found": "Không tìm thấy tài khoản với email này.",
+        "auth/wrong-password": "Email hoặc mật khẩu không chính xác.",
+        "auth/invalid-credential": "Email hoặc mật khẩu không chính xác.",
+        "auth/too-many-requests": "Bạn đã thử quá nhiều lần. Hãy thử lại sau.",
+        "auth/network-request-failed": "Lỗi mạng. Hãy kiểm tra kết nối Internet.",
+        "auth/operation-not-allowed": "Phương thức này chưa được bật trong Firebase Console.",
+        "auth/weak-password": "Mật khẩu quá yếu. Hãy dùng ít nhất 6 ký tự.",
+        "auth/email-already-in-use": "Email này đã được đăng ký.",
+        "auth/popup-blocked": "Trình duyệt đã chặn cửa sổ đăng nhập.",
+        "auth/popup-closed-by-user": "Bạn đã đóng cửa sổ đăng nhập.",
+        "auth/cancelled-popup-request": "Một cửa sổ đăng nhập khác đang được mở.",
+        "auth/account-exists-with-different-credential": "Email này đã được dùng với phương thức đăng nhập khác.",
+        "auth/unauthorized-domain": "Tên miền hiện tại chưa được cho phép trong Firebase Authentication."
+      };
+
+      return errors[code] || "Đã xảy ra lỗi. Vui lòng thử lại.";
+    }
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      clearErrors();
+      if (btnLogin.disabled) return;
+
+      const email = emailInput.value.trim();
+      const password = passInput.value;
+      const confirmPassword = confirmInput.value;
+      let valid = true;
+
+      if (!email) {
+        showFieldError("email", "Vui lòng nhập email.");
+        valid = false;
+      } else if (!isValidEmail(email)) {
+        showFieldError("email", "Email không hợp lệ.");
+        valid = false;
+      }
+
+      if (!password) {
+        showFieldError("password", "Vui lòng nhập mật khẩu.");
+        valid = false;
+      } else if (password.length < 6) {
+        showFieldError("password", "Mật khẩu tối thiểu 6 ký tự.");
+        valid = false;
+      }
+
+      if (mode === "register") {
+        if (!confirmPassword) {
+          showFieldError("confirmPassword", "Vui lòng xác nhận mật khẩu.");
+          valid = false;
+        } else if (password !== confirmPassword) {
+          showFieldError("confirmPassword", "Mật khẩu xác nhận không khớp.");
+          valid = false;
+        }
+      }
+
+      if (!valid) return;
+
+      const submittedMode = mode;
+      setLoading(true);
+
+      try {
+        const persistence = rememberCheck.checked
+          ? browserLocalPersistence
+          : browserSessionPersistence;
+
+        await setPersistence(auth, persistence);
+
+        if (submittedMode === "register") {
+          isCreatingAccount = true;
+
+          try {
+            const credential = await createUserWithEmailAndPassword(auth, email, password);
+            await sendEmailVerification(credential.user);
+            await signOut(auth);
+
+            saveEmailPreference(email);
+            switchMode("login");
+            emailInput.value = email;
+            rememberCheck.checked = true;
+
+            showToast(
+              "Tạo tài khoản thành công! Hãy kiểm tra email để xác minh trước khi đăng nhập.",
+              "success"
+            );
+          } finally {
+            if (auth.currentUser && !auth.currentUser.emailVerified) {
+              try { await signOut(auth); } catch {}
+            }
+            isCreatingAccount = false;
+          }
+
+          return;
+        }
+
+        const credential = await signInWithEmailAndPassword(auth, email, password);
+
+        if (!credential.user.emailVerified) {
+          try {
+            await sendEmailVerification(credential.user);
+          } catch {
+            // Vẫn hướng dẫn người dùng xác minh tài khoản.
+          }
+
+          await signOut(auth);
+          showToast("Tài khoản chưa được xác minh. Hãy kiểm tra email của bạn.", "error");
+          return;
+        }
+
+        saveEmailPreference(email);
+        hasRedirected = true;
+        showToast("Đăng nhập thành công.", "success");
+
+        // Đích điều hướng giữ nguyên để tích hợp Dashboard sau này.
+        window.location.assign("/dashboard");
+      } catch (error) {
+        showToast(mapAuthError(error.code), "error");
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    forgotLink.addEventListener("click", async event => {
+      event.preventDefault();
+      clearErrors();
+
+      const email = emailInput.value.trim();
+
+      if (!email || !isValidEmail(email)) {
+        showFieldError("email", "Nhập email hợp lệ để đặt lại mật khẩu.");
+        emailInput.focus();
+        return;
+      }
+
+      forgotLink.style.pointerEvents = "none";
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showToast("Email đặt lại mật khẩu đã được gửi. Hãy kiểm tra hộp thư.", "success");
+      } catch (error) {
+        showToast(mapAuthError(error.code), "error");
+      } finally {
+        forgotLink.style.pointerEvents = "";
+      }
+    });
+
+    async function socialSignIn(provider) {
+      if (googleBtn.disabled || facebookBtn.disabled) return;
+
+      googleBtn.disabled = true;
+      facebookBtn.disabled = true;
+
+      try {
+        const result = await signInWithPopup(auth, provider);
+        saveEmailPreference(result.user.email || "");
+        hasRedirected = true;
+        window.location.assign("/dashboard");
+      } catch (error) {
+        if (error.code !== "auth/popup-closed-by-user") {
+          showToast(mapAuthError(error.code), "error");
+        }
+      } finally {
+        googleBtn.disabled = false;
+        facebookBtn.disabled = false;
+      }
+    }
+
+    googleBtn.addEventListener("click", () => socialSignIn(googleProvider));
+    facebookBtn.addEventListener("click", () => socialSignIn(facebookProvider));
+
+    onAuthStateChanged(auth, user => {
+      if (hasRedirected || isCreatingAccount || !user) return;
+
+      const path = window.location.pathname;
+      const isLoginPage =
+        path.endsWith("/login.html") ||
+        path === "/login" ||
+        path === "/login/";
+
+      // Không tự chuyển trang khi người dùng đang chọn tài khoản khách.
+      if (isLoginPage && user.emailVerified) {
+        hasRedirected = true;
+        window.location.assign("/dashboard");
+      }
+    });
+
+    /*
+      TÀI KHOẢN KHÁCH TĨNH:
+      - Tên tài khoản ngẫu nhiên.
+      - Chỉ lưu trong localStorage của trình duyệt này.
+      - Không phải tài khoản Firebase.
+      - Chưa có xác minh IP, chưa giới hạn một tài khoản/IP.
+      - Muốn bảo đảm giới hạn IP cần triển khai ở máy chủ.
+    */
+
+    guestConsent.addEventListener("change", () => {
+      createGuestBtn.disabled = !guestConsent.checked;
+    });
+
+    function generateGuestName() {
+      const randomPart = Math.random().toString(36).slice(2, 8).toUpperCase();
+      const timePart = Date.now().toString(36).slice(-4).toUpperCase();
+      return `Guest-${randomPart}-${timePart}`;
+    }
+
+    createGuestBtn.addEventListener("click", () => {
+      if (!guestConsent.checked || createGuestBtn.disabled) return;
+
+      let guest;
+
+      try {
+        // Nếu đã có tài khoản khách được tạo trên trình duyệt này,
+        // sử dụng lại thay vì tự tạo thêm một tài khoản khác.
+        const saved = localStorage.getItem("moonstudio_guest_account");
+
+        if (saved) {
+          guest = JSON.parse(saved);
+        }
+
+        if (!guest || typeof guest.username !== "string" ||
+            !guest.username.startsWith("Guest-")) {
+          guest = {
+            username: generateGuestName(),
+            type: "guest",
+            createdAt: new Date().toISOString()
+          };
+
+          localStorage.setItem("moonstudio_guest_account", JSON.stringify(guest));
+        }
+      } catch {
+        // Storage bị chặn: tạo tên cho phiên hiện tại nhưng không thể lưu bền.
+        guest = {
+          username: generateGuestName(),
+          type: "guest",
+          createdAt: new Date().toISOString()
+        };
+
+        showToast(
+          "Trình duyệt không cho phép lưu tài khoản. Tên này chỉ tồn tại tạm thời.",
+          "error"
+        );
+      }
+
+      $("guestUsername").textContent = guest.username;
+      showScreen("success");
+    });
+
+    $("copyGuestBtn").addEventListener("click", async () => {
+      const username = $("guestUsername").textContent;
+
+      try {
+        await navigator.clipboard.writeText(username);
+        showToast("Đã sao chép tên tài khoản khách.", "success");
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents($("guestUsername"));
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        showToast("Không thể tự sao chép. Hãy sao chép tên đang được chọn.", "error");
+      }
+    });
+
+    $("continueGuestBtn").addEventListener("click", () => {
+      // Chưa có Dashboard hoặc trang tiếp theo nên không chuyển tới URL giả.
+      showToast("Tài khoản khách đã sẵn sàng. Bước tiếp theo sẽ được bổ sung sau.", "success");
+    });
+  </script>
+</body>
+</html>
