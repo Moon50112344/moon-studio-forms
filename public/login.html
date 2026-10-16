@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -793,7 +792,7 @@
 
     <!-- MÀN HÌNH 3: CẢNH BÁO TÀI KHOẢN KHÁCH -->
     <section class="screen hidden" id="guestScreen" aria-labelledby="guestHeading">
-      <button type="button" class="back-button" id="backFromGuest">← Quay lại lựa chọn</button>
+      <button type="button" class="back-button" id="backFromGuest">Quay lại lựa chọn</button>
 
       <div class="card">
         <span class="guest-label">TÀI KHOẢN KHÁCH</span>
@@ -851,7 +850,7 @@
           Hãy lưu lại nếu bạn cần nhận biết tài khoản này.
         </p>
 
-        <div class="guest-name" id="guestUsername">Guest-000000</div>
+        <div class="guest-name" id="guestUsername">user_1000000000</div>
 
         <button type="button" class="btn-primary" id="copyGuestBtn">
           Sao chép tên tài khoản
@@ -899,10 +898,9 @@
 
     /*
       CẤU HÌNH IP — CHƯA TRIỂN KHAI:
-      Sau này có thể bổ sung API/máy chủ để kiểm tra giới hạn tài khoản khách
-      theo IP. Không thể bảo đảm một tài khoản/IP chỉ bằng HTML phía trình duyệt.
-      Phiên bản này không gọi dịch vụ lấy IP, không thu thập IP và không giả
-      vờ rằng đã kiểm tra IP.
+      HTML phía trình duyệt không thể bảo đảm giới hạn một tài khoản khách/IP.
+      Bản này không gọi dịch vụ lấy IP và không thu thập địa chỉ IP.
+      Muốn triển khai giới hạn thực sự cần máy chủ.
     */
 
     const firebaseConfig = {
@@ -915,7 +913,10 @@
       measurementId: "G-5MLQGREBJE"
     };
 
-    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const app = getApps().length
+      ? getApps()[0]
+      : initializeApp(firebaseConfig);
+
     const auth = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
     const facebookProvider = new FacebookAuthProvider();
@@ -959,7 +960,12 @@
     let hasRedirected = false;
 
     function showScreen(name) {
-      Object.values(screens).forEach(screen => screen.classList.add("hidden"));
+      if (!screens[name]) return;
+
+      Object.values(screens).forEach(screen => {
+        screen.classList.add("hidden");
+      });
+
       screens[name].classList.remove("hidden");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -972,11 +978,15 @@
     function showToast(message, type = "") {
       toast.textContent = message;
       toast.classList.remove("error", "success");
-      if (type) toast.classList.add(type);
-      toast.classList.add("show");
 
+      if (type) toast.classList.add(type);
+
+      toast.classList.add("show");
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove("show"), 4200);
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 4200);
     }
 
     function clearErrors() {
@@ -992,6 +1002,7 @@
 
     function showFieldError(fieldId, message) {
       const field = $(fieldId);
+
       const error = {
         email: emailError,
         password: passError,
@@ -1011,15 +1022,21 @@
 
     togglePass.addEventListener("click", () => {
       const shouldShow = passInput.type === "password";
+
       passInput.type = shouldShow ? "text" : "password";
-      togglePass.setAttribute("aria-label", shouldShow ? "Ẩn mật khẩu" : "Hiện mật khẩu");
+      togglePass.setAttribute(
+        "aria-label",
+        shouldShow ? "Ẩn mật khẩu" : "Hiện mật khẩu"
+      );
       togglePass.setAttribute("aria-pressed", String(shouldShow));
+
       eyeOn.style.display = shouldShow ? "none" : "";
       eyeOff.style.display = shouldShow ? "" : "none";
     });
 
     try {
       const savedEmail = localStorage.getItem("saved_email");
+
       if (savedEmail) {
         emailInput.value = savedEmail;
         rememberCheck.checked = true;
@@ -1036,7 +1053,7 @@
           localStorage.removeItem("saved_email");
         }
       } catch {
-        // Không ảnh hưởng xác thực.
+        // Không ảnh hưởng đến quá trình xác thực.
       }
     }
 
@@ -1046,7 +1063,9 @@
 
       btnText.textContent = loading
         ? "Đang xử lý..."
-        : mode === "register" ? "Tạo tài khoản" : "Đăng nhập";
+        : mode === "register"
+          ? "Tạo tài khoản"
+          : "Đăng nhập";
 
       googleBtn.disabled = loading;
       facebookBtn.disabled = loading;
@@ -1060,10 +1079,21 @@
 
       const registering = mode === "register";
 
-      $("pageHeading").textContent = registering ? "Tạo tài khoản" : "Đăng nhập";
-      modeText.textContent = registering ? "Đã có tài khoản? " : "Chưa có tài khoản? ";
-      toggleModeLink.textContent = registering ? "Đăng nhập ngay" : "Đăng ký ngay";
-      btnText.textContent = registering ? "Tạo tài khoản" : "Đăng nhập";
+      $("pageHeading").textContent = registering
+        ? "Tạo tài khoản"
+        : "Đăng nhập";
+
+      modeText.textContent = registering
+        ? "Đã có tài khoản? "
+        : "Chưa có tài khoản? ";
+
+      toggleModeLink.textContent = registering
+        ? "Đăng nhập ngay"
+        : "Đăng ký ngay";
+
+      btnText.textContent = registering
+        ? "Tạo tài khoản"
+        : "Đăng nhập";
 
       confirmGroup.classList.toggle("show", registering);
       loginRow.style.display = registering ? "none" : "flex";
@@ -1071,11 +1101,15 @@
 
       passInput.value = "";
       confirmInput.value = "";
-      passInput.autocomplete = registering ? "new-password" : "current-password";
+
+      passInput.autocomplete = registering
+        ? "new-password"
+        : "current-password";
     }
 
     toggleModeLink.addEventListener("click", event => {
       event.preventDefault();
+
       if (!btnLogin.disabled) {
         switchMode(mode === "login" ? "register" : "login");
       }
@@ -1099,7 +1133,8 @@
         "auth/popup-closed-by-user": "Bạn đã đóng cửa sổ đăng nhập.",
         "auth/cancelled-popup-request": "Một cửa sổ đăng nhập khác đang được mở.",
         "auth/account-exists-with-different-credential": "Email này đã được dùng với phương thức đăng nhập khác.",
-        "auth/unauthorized-domain": "Tên miền hiện tại chưa được cho phép trong Firebase Authentication."
+        "auth/unauthorized-domain": "Tên miền hiện tại chưa được cho phép trong Firebase Authentication.",
+        "auth/invalid-api-key": "Firebase API key không hợp lệ. Hãy kiểm tra cấu hình Firebase."
       };
 
       return errors[code] || "Đã xảy ra lỗi. Vui lòng thử lại.";
@@ -1108,11 +1143,13 @@
     form.addEventListener("submit", async event => {
       event.preventDefault();
       clearErrors();
+
       if (btnLogin.disabled) return;
 
       const email = emailInput.value.trim();
       const password = passInput.value;
       const confirmPassword = confirmInput.value;
+
       let valid = true;
 
       if (!email) {
@@ -1133,10 +1170,16 @@
 
       if (mode === "register") {
         if (!confirmPassword) {
-          showFieldError("confirmPassword", "Vui lòng xác nhận mật khẩu.");
+          showFieldError(
+            "confirmPassword",
+            "Vui lòng xác nhận mật khẩu."
+          );
           valid = false;
         } else if (password !== confirmPassword) {
-          showFieldError("confirmPassword", "Mật khẩu xác nhận không khớp.");
+          showFieldError(
+            "confirmPassword",
+            "Mật khẩu xác nhận không khớp."
+          );
           valid = false;
         }
       }
@@ -1157,12 +1200,18 @@
           isCreatingAccount = true;
 
           try {
-            const credential = await createUserWithEmailAndPassword(auth, email, password);
+            const credential = await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
             await sendEmailVerification(credential.user);
             await signOut(auth);
 
             saveEmailPreference(email);
             switchMode("login");
+
             emailInput.value = email;
             rememberCheck.checked = true;
 
@@ -1172,36 +1221,51 @@
             );
           } finally {
             if (auth.currentUser && !auth.currentUser.emailVerified) {
-              try { await signOut(auth); } catch {}
+              try {
+                await signOut(auth);
+              } catch {
+                // Không ghi đè lỗi ban đầu nếu signOut thất bại.
+              }
             }
+
             isCreatingAccount = false;
           }
 
           return;
         }
 
-        const credential = await signInWithEmailAndPassword(auth, email, password);
+        const credential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
         if (!credential.user.emailVerified) {
           try {
             await sendEmailVerification(credential.user);
           } catch {
-            // Vẫn hướng dẫn người dùng xác minh tài khoản.
+            // Vẫn yêu cầu người dùng xác minh email.
           }
 
           await signOut(auth);
-          showToast("Tài khoản chưa được xác minh. Hãy kiểm tra email của bạn.", "error");
+
+          showToast(
+            "Tài khoản chưa được xác minh. Hãy kiểm tra email của bạn.",
+            "error"
+          );
+
           return;
         }
 
         saveEmailPreference(email);
         hasRedirected = true;
+
         showToast("Đăng nhập thành công.", "success");
 
-        // Đích điều hướng giữ nguyên để tích hợp Dashboard sau này.
+        // Giữ nguyên đích điều hướng để tích hợp Dashboard sau này.
         window.location.assign("/dashboard");
       } catch (error) {
-        showToast(mapAuthError(error.code), "error");
+        showToast(mapAuthError(error?.code), "error");
       } finally {
         setLoading(false);
       }
@@ -1214,7 +1278,11 @@
       const email = emailInput.value.trim();
 
       if (!email || !isValidEmail(email)) {
-        showFieldError("email", "Nhập email hợp lệ để đặt lại mật khẩu.");
+        showFieldError(
+          "email",
+          "Nhập email hợp lệ để đặt lại mật khẩu."
+        );
+
         emailInput.focus();
         return;
       }
@@ -1223,9 +1291,13 @@
 
       try {
         await sendPasswordResetEmail(auth, email);
-        showToast("Email đặt lại mật khẩu đã được gửi. Hãy kiểm tra hộp thư.", "success");
+
+        showToast(
+          "Email đặt lại mật khẩu đã được gửi. Hãy kiểm tra hộp thư.",
+          "success"
+        );
       } catch (error) {
-        showToast(mapAuthError(error.code), "error");
+        showToast(mapAuthError(error?.code), "error");
       } finally {
         forgotLink.style.pointerEvents = "";
       }
@@ -1239,12 +1311,14 @@
 
       try {
         const result = await signInWithPopup(auth, provider);
+
         saveEmailPreference(result.user.email || "");
         hasRedirected = true;
+
         window.location.assign("/dashboard");
       } catch (error) {
-        if (error.code !== "auth/popup-closed-by-user") {
-          showToast(mapAuthError(error.code), "error");
+        if (error?.code !== "auth/popup-closed-by-user") {
+          showToast(mapAuthError(error?.code), "error");
         }
       } finally {
         googleBtn.disabled = false;
@@ -1252,19 +1326,25 @@
       }
     }
 
-    googleBtn.addEventListener("click", () => socialSignIn(googleProvider));
-    facebookBtn.addEventListener("click", () => socialSignIn(facebookProvider));
+    googleBtn.addEventListener("click", () => {
+      socialSignIn(googleProvider);
+    });
+
+    facebookBtn.addEventListener("click", () => {
+      socialSignIn(facebookProvider);
+    });
 
     onAuthStateChanged(auth, user => {
       if (hasRedirected || isCreatingAccount || !user) return;
 
       const path = window.location.pathname;
+
       const isLoginPage =
         path.endsWith("/login.html") ||
         path === "/login" ||
         path === "/login/";
 
-      // Không tự chuyển trang khi người dùng đang chọn tài khoản khách.
+      // Không tự chuyển trang khi đang chọn tài khoản khách.
       if (isLoginPage && user.emailVerified) {
         hasRedirected = true;
         window.location.assign("/dashboard");
@@ -1273,84 +1353,156 @@
 
     /*
       TÀI KHOẢN KHÁCH TĨNH:
-      - Tên tài khoản ngẫu nhiên.
-      - Chỉ lưu trong localStorage của trình duyệt này.
+      - Tên có định dạng user_##########.
+      - Suffix gồm đúng 10 chữ số.
+      - Tên được lưu trong localStorage của trình duyệt.
       - Không phải tài khoản Firebase.
-      - Chưa có xác minh IP, chưa giới hạn một tài khoản/IP.
-      - Muốn bảo đảm giới hạn IP cần triển khai ở máy chủ.
+      - Tên cũ dạng Guest-... sẽ được thay bằng định dạng mới.
+      - Chưa có xác minh IP hoặc giới hạn một tài khoản/IP.
     */
+
+    const GUEST_STORAGE_KEY = "moonstudio_guest_account";
+    const GUEST_NAME_PATTERN = /^user_\d{10}$/;
+
+    function generateGuestName() {
+      const suffix = Math.floor(
+        1000000000 + Math.random() * 9000000000
+      );
+
+      return `user_${suffix}`;
+    }
+
+    function createGuestRecord() {
+      return {
+        username: generateGuestName(),
+        type: "guest",
+        createdAt: new Date().toISOString()
+      };
+    }
+
+    function isValidGuestRecord(guest) {
+      return Boolean(
+        guest &&
+        typeof guest === "object" &&
+        typeof guest.username === "string" &&
+        GUEST_NAME_PATTERN.test(guest.username)
+      );
+    }
 
     guestConsent.addEventListener("change", () => {
       createGuestBtn.disabled = !guestConsent.checked;
     });
 
-    function generateGuestName() {
-      const randomPart = Math.random().toString(36).slice(2, 8).toUpperCase();
-      const timePart = Date.now().toString(36).slice(-4).toUpperCase();
-      return `Guest-${randomPart}-${timePart}`;
-    }
-
     createGuestBtn.addEventListener("click", () => {
       if (!guestConsent.checked || createGuestBtn.disabled) return;
 
-      let guest;
+      createGuestBtn.disabled = true;
+
+      let guest = null;
+      let savedSuccessfully = false;
+      let storageFailed = false;
 
       try {
-        // Nếu đã có tài khoản khách được tạo trên trình duyệt này,
-        // sử dụng lại thay vì tự tạo thêm một tài khoản khác.
-        const saved = localStorage.getItem("moonstudio_guest_account");
+        const saved = localStorage.getItem(GUEST_STORAGE_KEY);
 
         if (saved) {
-          guest = JSON.parse(saved);
+          try {
+            const parsed = JSON.parse(saved);
+
+            if (isValidGuestRecord(parsed)) {
+              guest = parsed;
+            }
+          } catch {
+            // Dữ liệu cũ hoặc JSON hỏng: tạo bản ghi mới.
+          }
         }
 
-        if (!guest || typeof guest.username !== "string" ||
-            !guest.username.startsWith("Guest-")) {
-          guest = {
-            username: generateGuestName(),
-            type: "guest",
-            createdAt: new Date().toISOString()
-          };
+        if (!guest) {
+          guest = createGuestRecord();
 
-          localStorage.setItem("moonstudio_guest_account", JSON.stringify(guest));
+          // Chỉ báo lưu thành công sau khi setItem hoàn tất.
+          localStorage.setItem(
+            GUEST_STORAGE_KEY,
+            JSON.stringify(guest)
+          );
+
+          savedSuccessfully = true;
+        } else {
+          // Tài khoản đã có sẵn và đang dùng đúng định dạng.
+          savedSuccessfully = true;
         }
       } catch {
-        // Storage bị chặn: tạo tên cho phiên hiện tại nhưng không thể lưu bền.
-        guest = {
-          username: generateGuestName(),
-          type: "guest",
-          createdAt: new Date().toISOString()
-        };
+        storageFailed = true;
 
-        showToast(
-          "Trình duyệt không cho phép lưu tài khoản. Tên này chỉ tồn tại tạm thời.",
-          "error"
-        );
+        // Chỉ tạo danh tính tạm thời cho phiên hiện tại.
+        guest = createGuestRecord();
+      } finally {
+        createGuestBtn.disabled = !guestConsent.checked;
       }
 
       $("guestUsername").textContent = guest.username;
       showScreen("success");
+
+      if (storageFailed) {
+        showToast(
+          "Không thể lưu vào trình duyệt. Tên này chỉ dùng tạm thời trong phiên hiện tại.",
+          "error"
+        );
+      } else if (savedSuccessfully) {
+        showToast(
+          "Tài khoản khách đã sẵn sàng.",
+          "success"
+        );
+      }
     });
 
     $("copyGuestBtn").addEventListener("click", async () => {
       const username = $("guestUsername").textContent;
 
       try {
+        if (!navigator.clipboard?.writeText) {
+          throw new Error("Clipboard API không khả dụng.");
+        }
+
         await navigator.clipboard.writeText(username);
-        showToast("Đã sao chép tên tài khoản khách.", "success");
+
+        showToast(
+          "Đã sao chép tên tài khoản khách.",
+          "success"
+        );
       } catch {
-        const range = document.createRange();
-        range.selectNodeContents($("guestUsername"));
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-        showToast("Không thể tự sao chép. Hãy sao chép tên đang được chọn.", "error");
+        try {
+          const range = document.createRange();
+          range.selectNodeContents($("guestUsername"));
+
+          const selection = window.getSelection();
+
+          if (!selection) {
+            throw new Error("Không thể chọn văn bản.");
+          }
+
+          selection.removeAllRanges();
+          selection.addRange(range);
+
+          showToast(
+            "Không thể tự sao chép. Tên tài khoản đã được chọn để bạn sao chép thủ công.",
+            "error"
+          );
+        } catch {
+          showToast(
+            "Không thể sao chép tự động. Hãy sao chép tên tài khoản thủ công.",
+            "error"
+          );
+        }
       }
     });
 
     $("continueGuestBtn").addEventListener("click", () => {
-      // Chưa có Dashboard hoặc trang tiếp theo nên không chuyển tới URL giả.
-      showToast("Tài khoản khách đã sẵn sàng. Bước tiếp theo sẽ được bổ sung sau.", "success");
+      // Chưa có Dashboard nên không điều hướng tới URL giả.
+      showToast(
+        "Tài khoản khách đã sẵn sàng. Bước tiếp theo sẽ được bổ sung sau.",
+        "success"
+      );
     });
   </script>
 </body>
