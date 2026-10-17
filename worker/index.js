@@ -137,11 +137,22 @@ async function readJson(request) {
 }
 
 /*
- * Supports ISO date strings and numeric Unix timestamps.
- * Returns Unix seconds, or null when the value is invalid.
+ * Convert Firebase account creation time to Unix seconds.
+ *
+ * Supported inputs:
+ * - Unix timestamp in milliseconds
+ * - Unix timestamp in seconds
+ * - Numeric strings
+ * - ISO date strings
+ *
+ * Invalid or absent values return null.
  */
 function normalizeAccountCreatedAt(value) {
-  if (typeof value === "number" && Number.isFinite(value)) {
+  if (
+    typeof value === "number" &&
+    Number.isFinite(value) &&
+    value > 0
+  ) {
     const seconds = value > 1e12
       ? Math.floor(value / 1000)
       : Math.floor(value);
@@ -179,43 +190,45 @@ function normalizeAccountCreatedAt(value) {
 }
 
 function getProviderIds(user) {
-  const providers = Array.isArray(user?.providerUserInfo)
+  const providerInfo = Array.isArray(user?.providerUserInfo)
     ? user.providerUserInfo
+    : [];
+
+  return [
+    ...new Set(
+      providerInfo
         .map(item => item?.providerId)
         .filter(value =>
           typeof value === "string" && value.length > 0
         )
-    : [];
-
-  return [...new Set(providers)];
+    ),
+  ];
 }
 
-function getProviderLabel(providerIds) {
-  if (!Array.isArray(providerIds) || providerIds.length === 0) {
+/*
+ * This identifies linked-provider information only.
+ * It cannot prove which provider was used for this exact login.
+ */
+function inferSingleLinkedProvider(providerIds) {
+  if (!Array.isArray(providerIds) || providerIds.length !== 1) {
     return null;
   }
 
-  const labels = {
-    password: "Email/Password",
-    google.com: "Google",
-    "facebook.com": "Facebook",
-    "github.com": "GitHub",
-    "apple.com": "Apple",
-    "microsoft.com": "Microsoft",
-    "twitter.com": "X",
-    "phone": "Phone",
-    "yahoo.com": "Yahoo",
-  };
+  const provider = providerIds[0];
 
-  const recognized = providerIds
-    .map(id => labels[id])
-    .filter(Boolean);
+  const allowedProviders = new Set([
+    "password",
+    "google.com",
+    "facebook.com",
+    "github.com",
+    "apple.com",
+    "microsoft.com",
+    "twitter.com",
+    "yahoo.com",
+    "phone",
+  ]);
 
-  if (recognized.length === 1) return recognized[0];
-
-  // Multiple linked providers do not establish which was used
-  // for the current login.
-  return recognized.length > 1 ? "Multiple linked providers" : null;
+  return allowedProviders.has(provider) ? provider : null;
 }
 
 async function verifyFirebaseIdToken(idToken, env) {
@@ -228,6 +241,7 @@ async function verifyFirebaseIdToken(idToken, env) {
   }
 
   const controller = new AbortController();
+
   const timeout = setTimeout(
     () => controller.abort(),
     FIREBASE_LOOKUP_TIMEOUT
@@ -260,7 +274,11 @@ async function verifyFirebaseIdToken(idToken, env) {
         return { ok: false, reason: "invalid-token" };
       }
 
-      console.error("Firebase token lookup failed:", response.status);
+      console.error(
+        "Firebase token lookup failed:",
+        response.status
+      );
+
       return { ok: false, reason: "firebase-unavailable" };
     }
 
@@ -284,21 +302,39 @@ async function verifyFirebaseIdToken(idToken, env) {
 
     const providerIds = getProviderIds(user);
 
+    const accountCreatedAt =
+      normalizeAccountCreatedAt(user.createdAt);
+
+    /*
+     * Diagnostic logs intentionally omit tokens, email addresses,
+     * API keys and other account identifiers.
+     */
+    console.log("Firebase metadata diagnostic:", {
+      hasCreatedAt: user.createdAt !== undefined &&
+        user.createdAt !== null,
+      createdAtType: typeof user.createdAt,
+      createdAtParsed: accountCreatedAt !== null,
+      providerCount: providerIds.length,
+    });
+
     return {
       ok: true,
       user: {
         uid: user.localId,
-        email: typeof user.email === "string" ? user.email : null,
+        email:
+          typeof user.email === "string" ? user.email : null,
         displayName:
           typeof user.displayName === "string"
             ? user.displayName
             : null,
         photoURL:
-          typeof user.photoUrl === "string" ? user.photoUrl : null,
+          typeof user.photoUrl === "string"
+            ? user.photoUrl
+            : null,
       },
-      accountCreatedAt: normalizeAccountCreatedAt(user.createdAt),
+      accountCreatedAt,
       providerIds,
-      providerLabel: getProviderLabel(providerIds),
+      loginMethod: inferSingleLinkedProvider(providerIds),
     };
   } catch (error) {
     console.error(
@@ -331,14 +367,16 @@ function firebaseErrorResponse(reason) {
     case "firebase-unavailable":
       return json({
         authenticated: false,
-        error: "Authentication service is temporarily unavailable. Please try again.",
+        error:
+          "Authentication service is temporarily unavailable. Please try again.",
         code: "AUTH_SERVICE_UNAVAILABLE",
       }, 503);
 
     default:
       return json({
         authenticated: false,
-        error: "Your sign-in session is invalid or has expired. Please sign in again.",
+        error:
+          "Your sign-in session is invalid or has expired. Please sign in again.",
         code: "INVALID_ID_TOKEN",
       }, 401);
   }
@@ -350,7 +388,9 @@ async function handleHealth(env) {
   return json({
     ok: true,
     service: "Moon Studio Forms",
-    sessionSystem: configured ? "configured" : "needs-configuration",
+    sessionSystem: configured
+      ? "configured"
+      : "needs-configuration",
   }, configured ? 200 : 503);
 }
 
@@ -376,20 +416,27 @@ async function saveAccountMetadata(env, verification, now) {
 
 async function handleLogin(request, env) {
   if (!isSameOrigin(request)) {
-    return json({ error: "Cross-origin request rejected." }, 403);
+    return json({
+      error: "Cross-origin request rejected.",
+    }, 403);
   }
 
   if (!isConfigured(env)) {
-    return json({ error: "Session service is not configured." }, 503);
+    return json({
+      error: "Session service is not configured.",
+    }, 503);
   }
 
   const parsed = await readJson(request);
+
   if (!parsed.ok) return parsed.response;
 
   const idToken = parsed.data.idToken;
 
   if (typeof idToken !== "string" || !idToken) {
-    return json({ error: "Firebase ID token is required." }, 400);
+    return json({
+      error: "Firebase ID token is required.",
+    }, 400);
   }
 
   const verification = await verifyFirebaseIdToken(idToken, env);
@@ -400,13 +447,10 @@ async function handleLogin(request, env) {
 
   const now = Math.floor(Date.now() / 1000);
   const expiresAt = now + SESSION_TTL;
+
   const sessionKey = generateSessionKey();
   const sessionHash = await sha256(sessionKey);
 
-  /*
-   * providerLabel represents linked provider information, not
-   * guaranteed proof of the provider used for this exact sign-in.
-   */
   try {
     await env.DB.prepare(
       `INSERT INTO sessions
@@ -417,7 +461,7 @@ async function handleLogin(request, env) {
       verification.user.uid,
       now,
       expiresAt,
-      verification.providerLabel
+      verification.loginMethod
     ).run();
   } catch (error) {
     console.error(
@@ -441,17 +485,21 @@ async function handleLogin(request, env) {
 
   try {
     await env.DB.prepare(
-      "DELETE FROM sessions WHERE expires_at <= ? OR revoked_at IS NOT NULL"
+      `DELETE FROM sessions
+       WHERE expires_at <= ? OR revoked_at IS NOT NULL`
     ).bind(now).run();
   } catch (error) {
-    console.error("Session cleanup failed:", error?.message || error);
+    console.error(
+      "Session cleanup failed:",
+      error?.message || error
+    );
   }
 
   return json({
     authenticated: true,
     user: verification.user,
     accountCreatedAt: verification.accountCreatedAt,
-    loginMethod: verification.providerLabel,
+    loginMethod: verification.loginMethod,
     expiresAt,
   }, 200, {
     "Set-Cookie": cookieHeader(sessionKey, SESSION_TTL),
@@ -460,7 +508,9 @@ async function handleLogin(request, env) {
 
 async function handleMe(request, env) {
   if (!isConfigured(env)) {
-    return json({ error: "Session service is not configured." }, 503);
+    return json({
+      error: "Session service is not configured.",
+    }, 503);
   }
 
   const sessionKey = getCookie(request, COOKIE_NAME);
@@ -487,9 +537,14 @@ async function handleMe(request, env) {
        LIMIT 1`
     ).bind(sessionHash, now).first();
   } catch (error) {
-    console.error("Could not read D1 session:", error?.message || error);
+    console.error(
+      "Could not read D1 session:",
+      error?.message || error
+    );
 
-    return json({ error: "Could not verify your session." }, 503);
+    return json({
+      error: "Could not verify your session.",
+    }, 503);
   }
 
   if (!session) {
@@ -523,34 +578,38 @@ async function handleMe(request, env) {
       ? metadata.account_created_at
       : null;
 
+  let linkedProviders = [];
+
+  try {
+    const parsedProviders = JSON.parse(
+      metadata?.provider_ids || "[]"
+    );
+
+    if (Array.isArray(parsedProviders)) {
+      linkedProviders = parsedProviders;
+    }
+  } catch {
+    linkedProviders = [];
+  }
+
   return json({
     authenticated: true,
-    user: { uid: session.user_id },
+    user: {
+      uid: session.user_id,
+    },
     accountCreatedAt,
-    loginMethod:
-      typeof session.login_method === "string"
-        ? session.login_method
-        : null,
-    linkedProviders: metadata?.provider_ids
-      ? safeParseJson(metadata.provider_ids)
-      : [],
+    loginMethod: session.login_method || null,
+    linkedProviders,
     createdAt: session.created_at,
     expiresAt: session.expires_at,
   });
 }
 
-function safeParseJson(value) {
-  try {
-    const parsed = JSON.parse(value);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
 async function handleLogout(request, env) {
   if (!isSameOrigin(request)) {
-    return json({ error: "Cross-origin request rejected." }, 403);
+    return json({
+      error: "Cross-origin request rejected.",
+    }, 403);
   }
 
   const sessionKey = getCookie(request, COOKIE_NAME);
@@ -558,7 +617,8 @@ async function handleLogout(request, env) {
   if (sessionKey && /^[a-f0-9]{64}$/.test(sessionKey)) {
     if (!isConfigured(env)) {
       return json({
-        error: "Session service is not configured; sign-out could not be confirmed.",
+        error:
+          "Session service is not configured; sign-out could not be confirmed.",
       }, 503);
     }
 
@@ -573,7 +633,10 @@ async function handleLogout(request, env) {
            AND revoked_at IS NULL`
       ).bind(now, sessionHash).run();
     } catch (error) {
-      console.error("Could not revoke D1 session:", error?.message || error);
+      console.error(
+        "Could not revoke D1 session:",
+        error?.message || error
+      );
 
       return json({
         error: "Could not revoke your session. Please try again.",
@@ -615,7 +678,9 @@ async function handleRequest(request, env) {
     return env.ASSETS.fetch(request);
   }
 
-  return json({ error: "Static assets are not configured." }, 500);
+  return json({
+    error: "Static assets are not configured.",
+  }, 500);
 }
 
 export default {
@@ -628,7 +693,9 @@ export default {
         error?.message || error
       );
 
-      return json({ error: "Internal server error." }, 500);
+      return json({
+        error: "Internal server error.",
+      }, 500);
     }
   },
 };
