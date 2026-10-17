@@ -1,0 +1,703 @@
+<!DOCTYPE html><html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <title>Dashboard — Moon Studio Forms</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --panel: #0d1424;
+      --border: #1e2a44;
+      --text: #e8ecf5;
+      --muted: #8490aa;
+      --blue: #2f8bff;
+      --green: #42d6a0;
+      --red: #ff7b8c;
+    }* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button, a { font: inherit; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+
+.layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 235px minmax(0, 1fr);
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  padding: 25px 17px;
+  background: #090e19;
+  border-right: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 8px 32px;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--blue);
+  color: white;
+  font-weight: 800;
+  font-size: 19px;
+}
+
+.brand-name { font-weight: 800; font-size: 16px; }
+.brand-name span { color: var(--blue); }
+.brand-sub { color: var(--muted); font-size: 11px; margin-top: 4px; }
+
+.nav-label {
+  padding: 8px 10px;
+  color: #697690;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+nav { display: grid; gap: 6px; }
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  color: #9ba7bf;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.nav-link.active {
+  color: white;
+  background: #142543;
+  border-color: #24477a;
+}
+
+.nav-link:hover { background: #111b2e; }
+
+.sidebar-bottom { margin-top: auto; }
+
+.help {
+  padding: 14px;
+  margin: 25px 2px 17px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.help p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.help a { color: #79b6ff; font-size: 12px; }
+
+.sidebar-footer {
+  padding: 15px 8px 0;
+  border-top: 1px solid var(--border);
+  color: #697690;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.breadcrumb { color: var(--muted); font-size: 12px; }
+.breadcrumb strong { color: var(--text); }
+
+.online {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a2b1c9;
+  font-size: 12px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  display: inline-block;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+main { min-width: 0; }
+
+.content {
+  max-width: 1150px;
+  margin: auto;
+  padding: 34px 32px;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+  color: #72b2ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(27px, 4vw, 34px);
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+}
+
+.button:hover { border-color: #3c5275; }
+.button.danger { color: #ff9aa7; }
+
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 28px;
+  margin-bottom: 28px;
+  border: 1px solid #25436c;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at 90% 10%, #2f8bff20, transparent 50%), #0d1729;
+}
+
+.welcome h2 { margin: 0 0 10px; font-size: 22px; }
+.welcome p { max-width: 510px; margin: 0; color: #a2afc8; font-size: 13px; line-height: 1.8; }
+
+.welcome-icon {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+  border: 1px solid #3678c4;
+  border-radius: 20px;
+  background: #132a49;
+  color: #8fc2ff;
+  font-size: 30px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 0 14px;
+}
+
+.section-heading h2 { margin: 0; font-size: 15px; }
+.section-heading span { color: var(--muted); font-size: 11px; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card, .panel {
+  min-width: 0;
+  padding: 19px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--panel);
+}
+
+.stat-label { color: #9ba7bf; font-size: 12px; }
+.stat-value { margin-top: 15px; font-size: 18px; font-weight: 750; overflow-wrap: anywhere; }
+.stat-description { margin-top: 9px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+
+.columns {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 15px;
+  margin-top: 16px;
+}
+
+.panel h2 { margin: 0 0 7px; font-size: 15px; }
+.panel-intro { margin: 0 0 17px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px 0;
+  border-top: 1px solid var(--border);
+}
+
+.row-label { color: #91a0ba; font-size: 12px; }
+.row-value { max-width: 65%; text-align: right; font-size: 12px; font-weight: 650; overflow-wrap: anywhere; }
+.uid { color: #b5c7e5; font-family: monospace; font-size: 11px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 9px;
+  border: 1px solid #205943;
+  border-radius: 8px;
+  background: #102a22;
+  color: #6ce0b1;
+  font-size: 11px;
+}
+
+.quick-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px;
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+
+.quick-link:hover { background: #111b2e; border-color: #34517a; }
+
+.quick-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #13243c;
+  color: #8fc2ff;
+  font-size: 18px;
+}
+
+.quick-copy { flex: 1; }
+.quick-title { font-size: 12px; font-weight: 750; }
+.quick-description { margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+
+#message {
+  display: none;
+  padding: 13px;
+  margin-bottom: 18px;
+  border: 1px solid #75404a;
+  border-radius: 10px;
+  background: #29141c;
+  color: #ffabb6;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+#message.visible { display: block; }
+
+.loading {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--muted);
+}
+
+.spinner {
+  width: 29px;
+  height: 29px;
+  border: 2px solid #25334b;
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 17px;
+  border-top: 1px solid var(--border);
+  color: #697690;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+[hidden] { display: none !important; }
+
+@media (max-width: 950px) {
+  .layout { grid-template-columns: 205px minmax(0, 1fr); }
+  .content { padding: 25px 20px; }
+  header { padding: 0 20px; }
+  .stats { grid-template-columns: 1fr; }
+  .columns { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 650px) {
+  .layout { display: block; }
+  aside { padding: 14px; border-right: 0; border-bottom: 1px solid var(--border); }
+  .brand { padding: 0 2px 13px; }
+  .nav-label, .sidebar-bottom { display: none; }
+  nav { display: flex; overflow-x: auto; gap: 6px; }
+  .nav-link { flex-shrink: 0; padding: 10px; font-size: 12px; }
+  header { height: 58px; padding: 0 15px; }
+  .content { padding: 23px 15px; }
+  .welcome { padding: 20px; }
+  .welcome h2 { font-size: 19px; }
+  .welcome-icon { width: 48px; height: 48px; font-size: 22px; border-radius: 14px; }
+  .heading .button { padding: 10px; font-size: 11px; }
+  footer { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+  </style>
+</head>
+<body>
+  <div id="loading" class="loading" role="status">
+    <div class="spinner"></div>
+    <div>Đang xác minh phiên đăng nhập...</div>
+  </div>  <div id="app" class="layout" hidden>
+    <aside>
+      <a class="brand" href="/dashboard.html">
+        <div class="brand-icon">M</div>
+        <div>
+          <div class="brand-name">Moon <span>Studio</span></div>
+          <div class="brand-sub">Forms workspace</div>
+        </div>
+      </a>  <div class="nav-label">Workspace</div>
+  <nav aria-label="Điều hướng">
+    <a class="nav-link active" href="/dashboard.html">⌂ &nbsp; Dashboard</a>
+    <a class="nav-link" href="/survey.html">▤ &nbsp; Surveys</a>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="help">
+      <strong>Moon Studio Forms</strong>
+      <p>Không gian quản lý và truy cập biểu mẫu của bạn.</p>
+      <a href="https://moonstudio.us.ci/" target="_blank" rel="noopener noreferrer">Moon Studio website ↗</a>
+    </div>
+    <div class="sidebar-footer">
+      Powered by Moon Studio<br>
+      © 2026 Moon Studio
+    </div>
+  </div>
+</aside>
+
+<main>
+  <header>
+    <div class="breadcrumb">Workspace / <strong>Dashboard</strong></div>
+    <div class="online"><span class="dot"></span> Session active</div>
+  </header>
+
+  <div class="content">
+    <div id="message" role="alert"></div>
+
+    <section class="heading">
+      <div>
+        <div class="eyebrow">MOON STUDIO / FORMS</div>
+        <h1>Dashboard</h1>
+        <p class="subtitle">Tổng quan tài khoản và phiên đăng nhập.</p>
+      </div>
+      <button id="logout" class="button danger" type="button">↪ Đăng xuất</button>
+    </section>
+
+    <section class="welcome">
+      <div>
+        <div class="eyebrow">WORKSPACE OVERVIEW</div>
+        <h2>Chào mừng đến với Moon Studio Forms.</h2>
+        <p>Phiên đăng nhập của bạn đã được xác thực. Từ đây, bạn có thể truy cập các biểu mẫu và kiểm tra trạng thái tài khoản.</p>
+      </div>
+      <div class="welcome-icon" aria-hidden="true">✳</div>
+    </section>
+
+    <div class="section-heading">
+      <h2>Tổng quan tài khoản</h2>
+      <span>Dữ liệu từ server</span>
+    </div>
+
+    <section class="stats">
+      <article class="card">
+        <div class="stat-label">Trạng thái đăng nhập</div>
+        <div class="stat-value">Đã xác thực</div>
+        <div class="stat-description">Session được kiểm tra qua Worker.</div>
+      </article>
+
+      <article class="card">
+        <div class="stat-label">Thời điểm tạo session</div>
+        <div id="created" class="stat-value">Đang tải...</div>
+        <div class="stat-description">Thời gian server ghi nhận phiên.</div>
+      </article>
+
+      <article class="card">
+        <div class="stat-label">Session hết hạn</div>
+        <div id="expires" class="stat-value">Đang tải...</div>
+        <div id="remaining" class="stat-description">Thời hạn phiên đăng nhập.</div>
+      </article>
+    </section>
+
+    <section class="columns">
+      <article class="panel">
+        <h2>Thông tin tài khoản</h2>
+        <p class="panel-intro">Thông tin được trả về từ API session.</p>
+
+        <div class="row">
+          <span class="row-label">Trạng thái</span>
+          <span class="row-value"><span class="badge"><span class="dot"></span> Active</span></span>
+        </div>
+        <div class="row">
+          <span class="row-label">Firebase UID</span>
+          <span id="uid" class="row-value uid">Đang tải...</span>
+        </div>
+        <div class="row">
+          <span class="row-label">Phương thức session</span>
+          <span class="row-value">HttpOnly cookie</span>
+        </div>
+        <div class="row">
+          <span class="row-label">Thời hạn cấu hình</span>
+          <span class="row-value">7 ngày</span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Truy cập nhanh</h2>
+        <p class="panel-intro">Đi đến các khu vực trong dự án.</p>
+
+        <a class="quick-link" href="/survey.html">
+          <span class="quick-icon">▤</span>
+          <span class="quick-copy">
+            <span class="quick-title">Surveys</span>
+            <div class="quick-description">Mở trang khảo sát.</div>
+          </span>
+          <span>→</span>
+        </a>
+
+        <a class="quick-link" href="https://moonstudio.us.ci/" target="_blank" rel="noopener noreferrer">
+          <span class="quick-icon">↗</span>
+          <span class="quick-copy">
+            <span class="quick-title">Moon Studio</span>
+            <div class="quick-description">Truy cập website chính.</div>
+          </span>
+          <span>→</span>
+        </a>
+
+        <button id="refresh" class="quick-link" type="button">
+          <span class="quick-icon">↻</span>
+          <span class="quick-copy">
+            <span class="quick-title">Kiểm tra session</span>
+            <div class="quick-description">Xác minh lại với server.</div>
+          </span>
+          <span>→</span>
+        </button>
+      </article>
+    </section>
+
+    <footer>
+      <div>© 2026 <strong>Moon Studio</strong>. All rights reserved.</div>
+      <div>Moon Studio Forms · Secure session</div>
+    </footer>
+  </div>
+</main>
+
+  </div>  <script>
+    (() => {
+      "use strict";
+
+      // Đổi đường dẫn này nếu trang đăng nhập của bạn dùng URL khác.
+      const LOGIN_PATH = "/login.html";
+      const SESSION_URL = "/api/session/me";
+      const LOGOUT_URL = "/api/session/logout";
+
+      const $ = id => document.getElementById(id);
+      let busy = false;
+
+      function showError(message) {
+        $("message").textContent = message;
+        $("message").classList.add("visible");
+      }
+
+      function clearError() {
+        $("message").textContent = "";
+        $("message").classList.remove("visible");
+      }
+
+      function formatDate(timestamp) {
+        if (typeof timestamp !== "number" || !Number.isFinite(timestamp)) {
+          return "Không có dữ liệu";
+        }
+
+        const date = new Date(timestamp * 1000);
+        if (Number.isNaN(date.getTime())) return "Không có dữ liệu";
+
+        return new Intl.DateTimeFormat("vi-VN", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }).format(date);
+      }
+
+      async function getSession() {
+        const response = await fetch(SESSION_URL, {
+          method: "GET",
+          credentials: "same-origin",
+          cache: "no-store",
+          headers: { Accept: "application/json" }
+        });
+
+        let data;
+        try {
+          data = await response.json();
+        } catch {
+          throw new Error("Server trả về dữ liệu không hợp lệ.");
+        }
+
+        if (response.status === 401 || data.authenticated === false) {
+          window.location.replace(LOGIN_PATH);
+          return null;
+        }
+
+        if (!response.ok || data.authenticated !== true) {
+          throw new Error(data.error || "Không thể xác minh session.");
+        }
+
+        return data;
+      }
+
+      function renderSession(data) {
+        const user = data.user || {};
+        $("uid").textContent =
+          typeof user.uid === "string" && user.uid
+            ? user.uid
+            : "Không có UID";
+
+        $("created").textContent = formatDate(data.createdAt);
+        $("expires").textContent = formatDate(data.expiresAt);
+
+        if (typeof data.expiresAt === "number") {
+          const secondsLeft = data.expiresAt - Math.floor(Date.now() / 1000);
+
+          if (secondsLeft <= 0) {
+            $("remaining").textContent = "Phiên đã quá thời hạn.";
+          } else {
+            const days = Math.floor(secondsLeft / 86400);
+            const hours = Math.floor((secondsLeft % 86400) / 3600);
+            $("remaining").textContent =
+              `Còn khoảng ${days} ngày ${hours} giờ.`;
+          }
+        } else {
+          $("remaining").textContent = "Không có dữ liệu thời hạn.";
+        }
+      }
+
+      async function checkSession(initial = false) {
+        if (busy) return;
+        busy = true;
+        clearError();
+
+        $("refresh").disabled = true;
+
+        try {
+          const data = await getSession();
+          if (!data) return;
+
+          renderSession(data);
+          $("loading").hidden = true;
+          $("app").hidden = false;
+        } catch (error) {
+          $("loading").hidden = true;
+          $("app").hidden = false;
+          showError(
+            `${error.message || "Đã xảy ra lỗi."} Hãy kiểm tra kết nối và thử lại.`
+          );
+        } finally {
+          busy = false;
+          $("refresh").disabled = false;
+        }
+      }
+
+      async function logout() {
+        if (busy) return;
+        if (!window.confirm("Bạn muốn đăng xuất khỏi Moon Studio Forms?")) return;
+
+        busy = true;
+        $("logout").disabled = true;
+        $("logout").textContent = "Đang đăng xuất...";
+        clearError();
+
+        try {
+          const response = await fetch(LOGOUT_URL, {
+            method: "POST",
+            credentials: "same-origin",
+            cache: "no-store",
+            headers: { Accept: "application/json" }
+          });
+
+          if (!response.ok) {
+            throw new Error("Server không thể hoàn tất đăng xuất.");
+          }
+
+          window.location.replace(LOGIN_PATH);
+        } catch (error) {
+          showError(error.message || "Không thể đăng xuất. Hãy thử lại.");
+          $("logout").disabled = false;
+          $("logout").textContent = "↪ Đăng xuất";
+          busy = false;
+        }
+      }
+
+      $("refresh").addEventListener("click", () => checkSession());
+      $("logout").addEventListener("click", logout);
+
+      checkSession(true);
+    })();
+  </script></body>
+</html>
