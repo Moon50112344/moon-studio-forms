@@ -29,16 +29,13 @@
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    body.modal-open { overflow: hidden; }
-
     button, a { font: inherit; }
     a { color: inherit; text-decoration: none; }
     button { cursor: pointer; }
-    button:disabled { opacity: .45; cursor: not-allowed; }
 
-    button:focus-visible, a:focus-visible, input:focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .55;
     }
 
     .layout {
@@ -73,9 +70,18 @@
       background: var(--panel);
     }
 
-    .brand-name { font-weight: 800; font-size: 16px; }
+    .brand-name {
+      font-weight: 800;
+      font-size: 16px;
+    }
+
     .brand-name span { color: var(--blue); }
-    .brand-sub { color: var(--muted); font-size: 11px; margin-top: 4px; }
+
+    .brand-sub {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
 
     .nav-label {
       padding: 8px 10px;
@@ -85,7 +91,10 @@
       letter-spacing: 1.5px;
     }
 
-    nav { display: grid; gap: 6px; }
+    nav {
+      display: grid;
+      gap: 6px;
+    }
 
     .nav-link {
       display: flex;
@@ -96,7 +105,7 @@
       border: 1px solid transparent;
       border-radius: 10px;
       font-size: 13px;
-      transition: background .2s;
+      transition: background .2s, border-color .2s;
     }
 
     .nav-link.active {
@@ -133,7 +142,11 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .breadcrumb { color: var(--muted); font-size: 12px; }
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     .breadcrumb strong { color: var(--text); }
 
     .online {
@@ -203,7 +216,7 @@
       transition: border-color .2s, background .2s;
     }
 
-    .button:hover:not(:disabled) { border-color: #3c5275; }
+    .button:hover { border-color: #3c5275; }
     .button.danger { color: #ff9aa7; }
 
     .button-icon {
@@ -226,7 +239,10 @@
         #0d1729;
     }
 
-    .welcome h2 { margin: 0 0 10px; font-size: 22px; }
+    .welcome h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
 
     .welcome p {
       max-width: 510px;
@@ -248,7 +264,10 @@
       color: #8fc2ff;
     }
 
-    .welcome-icon svg { width: 32px; height: 32px; }
+    .welcome-icon svg {
+      width: 32px;
+      height: 32px;
+    }
 
     .section-heading {
       display: flex;
@@ -258,7 +277,10 @@
       margin: 25px 0 14px;
     }
 
-    .section-heading h2 { margin: 0; font-size: 15px; }
+    .section-heading h2 {
+      margin: 0;
+      font-size: 15px;
+    }
 
     .section-heading > span {
       color: var(--muted);
@@ -279,7 +301,10 @@
       background: var(--panel);
     }
 
-    .stat-label { color: #9ba7bf; font-size: 12px; }
+    .stat-label {
+      color: #9ba7bf;
+      font-size: 12px;
+    }
 
     .stat-value {
       margin-top: 15px;
@@ -302,7 +327,10 @@
       margin-top: 16px;
     }
 
-    .panel h2 { margin: 0 0 7px; font-size: 15px; }
+    .panel h2 {
+      margin: 0 0 7px;
+      font-size: 15px;
+    }
 
     .panel-intro {
       margin: 0 0 17px;
@@ -311,68 +339,19 @@
       line-height: 1.7;
     }
 
-    .account-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 7px;
-    }
-
-    .account-heading h2 { margin: 0; }
-
-    .eye-button {
-      width: 37px;
-      height: 37px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #111c30;
-      color: #9ecbff;
-      transition: background .2s, border-color .2s;
-    }
-
-    .eye-button:hover {
-      background: #172944;
-      border-color: #3c6ca6;
-    }
-
-    .eye-button svg { width: 19px; height: 19px; }
-
-    .privacy-hint {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin: 13px 0 15px;
-      padding: 10px;
-      border: 1px solid #253957;
-      border-radius: 9px;
-      background: #0a1220;
-      color: #91a6c5;
-      font-size: 11px;
-      line-height: 1.65;
-    }
-
-    .privacy-hint svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-      margin-top: 1px;
-      color: #7fb7ff;
-    }
-
     .row {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       gap: 15px;
       padding: 15px 0;
       border-top: 1px solid var(--border);
     }
 
-    .row-label { color: #91a0ba; font-size: 12px; }
+    .row-label {
+      color: #91a0ba;
+      font-size: 12px;
+    }
 
     .row-value {
       max-width: 65%;
@@ -389,19 +368,37 @@
       user-select: text;
     }
 
-    .private-value {
+    .uid-value {
       display: inline-block;
-      min-width: 100px;
-      letter-spacing: 2px;
-      color: #7284a2;
-      user-select: none;
+      vertical-align: middle;
+      max-width: 100%;
+      overflow-wrap: anywhere;
     }
 
-    .private-value.revealed {
-      min-width: 0;
-      letter-spacing: normal;
-      color: #b5c7e5;
-      user-select: text;
+    .eye-button {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      margin-left: 7px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #111d31;
+      color: #9fc9ff;
+      vertical-align: middle;
+      transition: border-color .2s, background .2s;
+    }
+
+    .eye-button:hover {
+      border-color: #3a6ba7;
+      background: #172844;
+    }
+
+    .eye-button svg {
+      width: 17px;
+      height: 17px;
     }
 
     .badge {
@@ -436,6 +433,14 @@
       border-color: #34517a;
     }
 
+    .quick-link:focus-visible,
+    .button:focus-visible,
+    .nav-link:focus-visible,
+    .eye-button:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+
     .quick-icon {
       display: grid;
       place-items: center;
@@ -447,8 +452,12 @@
       color: #8fc2ff;
     }
 
-    .quick-icon svg { width: 19px; height: 19px; }
-    .quick-copy { flex: 1; min-width: 0; }
+    .quick-icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .quick-copy { flex: 1; }
 
     .quick-title {
       display: block;
@@ -457,7 +466,6 @@
     }
 
     .quick-description {
-      display: block;
       margin-top: 5px;
       color: var(--muted);
       font-size: 11px;
@@ -514,7 +522,135 @@
       animation: spin .8s linear infinite;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Privacy confirmation modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgb(0 0 0 / 72%);
+      backdrop-filter: blur(5px);
+    }
+
+    .privacy-modal {
+      width: min(100%, 440px);
+      padding: 24px;
+      border: 1px solid #2b4265;
+      border-radius: 17px;
+      background: #0d1424;
+      box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+      animation: modal-in .2s ease-out;
+    }
+
+    @keyframes modal-in {
+      from { opacity: 0; transform: translateY(8px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 17px;
+      border: 1px solid #294b76;
+      border-radius: 13px;
+      background: #142745;
+      color: #8fc2ff;
+    }
+
+    .modal-icon svg {
+      width: 23px;
+      height: 23px;
+    }
+
+    .privacy-modal h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .privacy-modal p {
+      margin: 0;
+      color: #a2afc8;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .privacy-notice {
+      margin-top: 16px;
+      padding: 13px;
+      border: 1px solid #293c5b;
+      border-radius: 11px;
+      background: #101c30;
+      color: #c6d4e9;
+      font-size: 12px;
+      line-height: 1.75;
+    }
+
+    .consent-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-top: 19px;
+      color: #dce6f6;
+      font-size: 12px;
+      line-height: 1.7;
+      cursor: pointer;
+    }
+
+    .consent-label input {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin: 2px 0 0;
+      accent-color: var(--blue);
+      cursor: pointer;
+    }
+
+    .wait-status {
+      min-height: 20px;
+      margin-top: 13px !important;
+      color: #8fa6c8 !important;
+      font-size: 12px !important;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-button {
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #111b2e;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .modal-button.primary {
+      border-color: #2f8bff;
+      background: #2f8bff;
+      color: white;
+    }
+
+    .modal-button.primary:hover:not(:disabled) {
+      background: #1b78ed;
+    }
+
+    .modal-button:hover:not(:disabled) {
+      border-color: #42618c;
+    }
 
     footer {
       display: flex;
@@ -528,153 +664,13 @@
       line-height: 1.7;
     }
 
-    /* Privacy confirmation dialog */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      overflow-y: auto;
-      background: rgb(2 5 12 / 78%);
-      backdrop-filter: blur(8px);
-    }
-
-    .privacy-modal {
-      width: 100%;
-      max-width: 440px;
-      padding: 25px;
-      border: 1px solid #29446a;
-      border-radius: 17px;
-      background: #0b1220;
-      box-shadow: 0 25px 90px rgb(0 0 0 / 45%);
-      animation: modal-in .2s ease-out;
-    }
-
-    @keyframes modal-in {
-      from { opacity: 0; transform: translateY(8px) scale(.99); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .modal-symbol {
-      width: 47px;
-      height: 47px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 19px;
-      border: 1px solid #315b8b;
-      border-radius: 13px;
-      background: #122846;
-      color: #8fc2ff;
-    }
-
-    .modal-symbol svg { width: 24px; height: 24px; }
-
-    .privacy-modal h2 {
-      margin: 0 0 10px;
-      font-size: 21px;
-      letter-spacing: -.4px;
-    }
-
-    .modal-description {
-      margin: 0;
-      color: #a1aec5;
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-    .warning-note {
-      margin-top: 17px;
-      padding: 13px;
-      border: 1px solid #5b4930;
-      border-radius: 10px;
-      background: #211b13;
-      color: #e8c995;
-      font-size: 12px;
-      line-height: 1.75;
-    }
-
-    .consent-label {
-      display: flex;
-      align-items: flex-start;
-      gap: 11px;
-      margin-top: 19px;
-      padding: 13px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #0d1728;
-      cursor: pointer;
-    }
-
-    .consent-label input {
-      width: 17px;
-      height: 17px;
-      flex-shrink: 0;
-      margin: 2px 0 0;
-      accent-color: var(--blue);
-      cursor: pointer;
-    }
-
-    .consent-copy {
-      color: #d6dfef;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .countdown {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-top: 17px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    .countdown svg {
-      width: 17px;
-      height: 17px;
-      flex-shrink: 0;
-      color: #81baff;
-    }
-
-    .countdown strong { color: #dce9fc; }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 21px;
-    }
-
-    .modal-actions .button { flex: 1; }
-
-    .button.primary {
-      border-color: #347ee0;
-      background: var(--blue);
-      color: white;
-      font-weight: 700;
-    }
-
-    .button.primary:hover:not(:disabled) {
-      border-color: #66a7ff;
-      background: #2278ee;
-    }
-
-    .button.secondary { background: #111a2a; }
-
-    .modal-footnote {
-      margin: 15px 0 0;
-      color: #667793;
-      font-size: 10px;
-      line-height: 1.7;
-      text-align: center;
-    }
-
     [hidden] { display: none !important; }
 
     @media (max-width: 950px) {
-      .layout { grid-template-columns: 205px minmax(0, 1fr); }
+      .layout {
+        grid-template-columns: 205px minmax(0, 1fr);
+      }
+
       .content { padding: 25px 20px; }
       header { padding: 0 20px; }
       .stats { grid-template-columns: 1fr; }
@@ -692,7 +688,12 @@
 
       .brand { padding: 0 2px 13px; }
       .nav-label, .sidebar-bottom { display: none; }
-      nav { display: flex; overflow-x: auto; gap: 6px; }
+
+      nav {
+        display: flex;
+        overflow-x: auto;
+        gap: 6px;
+      }
 
       .nav-link {
         flex-shrink: 0;
@@ -700,7 +701,11 @@
         font-size: 12px;
       }
 
-      header { min-height: 58px; padding: 0 15px; }
+      header {
+        min-height: 58px;
+        padding: 0 15px;
+      }
+
       .content { padding: 23px 15px; }
       .welcome { padding: 20px; }
       .welcome h2 { font-size: 19px; }
@@ -711,7 +716,10 @@
         border-radius: 14px;
       }
 
-      .welcome-icon svg { width: 24px; height: 24px; }
+      .welcome-icon svg {
+        width: 24px;
+        height: 24px;
+      }
 
       .heading .button {
         padding: 10px;
@@ -719,15 +727,20 @@
       }
 
       footer { flex-direction: column; }
-      .privacy-modal { padding: 21px; }
+
+      .privacy-modal { padding: 20px; }
+      .modal-actions { flex-direction: column-reverse; }
+      .modal-button { width: 100%; }
     }
 
     @media (max-width: 390px) {
       .heading { flex-direction: column; }
       .heading .button { align-self: flex-start; }
-      .online, .breadcrumb { font-size: 11px; }
+      .online { font-size: 11px; }
+      .breadcrumb { font-size: 11px; }
       .welcome { gap: 12px; }
-      .modal-actions { flex-direction: column-reverse; }
+      .row { gap: 8px; }
+      .row-value { max-width: 68%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -776,7 +789,7 @@
           <span>Dashboard</span>
         </a>
 
-        <a class="nav-link" href="/survey">
+        <a class="nav-link" href="/survey.html">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.8"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -871,47 +884,11 @@
         </section>
 
         <section class="columns">
-          <article class="panel" id="accountPanel">
-            <div class="account-heading">
-              <h2>Thông tin tài khoản</h2>
-
-              <button
-                id="privacyButton"
-                class="eye-button"
-                type="button"
-                aria-label="Xác nhận để xem thông tin riêng tư"
-                title="Xem thông tin riêng tư"
-                aria-haspopup="dialog"
-              >
-                <svg id="eyeClosed" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.8"
-                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M3 3l18 18"></path>
-                  <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
-                  <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c5 0 8.5 4.5 9.5 7-.4 1.1-1.3 2.5-2.6 3.7"></path>
-                  <path d="M6.2 6.2C3.8 7.7 2.5 10 2.5 12c1 2.5 4.5 7 9.5 7 1.3 0 2.5-.3 3.6-.8"></path>
-                </svg>
-                <svg id="eyeOpen" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.8"
-                     stroke-linecap="round" stroke-linejoin="round"
-                     aria-hidden="true" hidden>
-                  <path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </button>
-            </div>
-
-            <p class="panel-intro">Thông tin được trả về từ API session.</p>
-
-            <div class="privacy-hint">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                   aria-hidden="true">
-                <rect x="5" y="10" width="14" height="11" rx="2"></rect>
-                <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
-              </svg>
-              <span>Thông tin nhạy cảm đang được ẩn. Nhấn biểu tượng con mắt để xác nhận trước khi xem.</span>
-            </div>
+          <article class="panel">
+            <h2>Thông tin tài khoản</h2>
+            <p class="panel-intro">
+              Một số thông tin được ẩn theo mặc định để hạn chế hiển thị ngoài ý muốn.
+            </p>
 
             <div class="row">
               <span class="row-label">Trạng thái</span>
@@ -925,27 +902,33 @@
 
             <div class="row">
               <span class="row-label">Firebase UID</span>
-              <span id="uid" class="row-value uid private-value" data-private="true">
-                ●●●●●●●●●●●●●●●●
+              <span class="row-value">
+                <span id="uid" class="uid uid-value">••••••••••••</span>
+                <button
+                  id="showUid"
+                  class="eye-button"
+                  type="button"
+                  aria-label="Xác nhận trước khi xem Firebase UID"
+                  title="Xem thông tin riêng tư"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                       aria-hidden="true">
+                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
               </span>
             </div>
 
             <div class="row">
               <span class="row-label">Phương thức session</span>
-              <span
-                id="sessionMethod"
-                class="row-value private-value"
-                data-private="true"
-              >●●●●●●●●●●●●</span>
+              <span class="row-value">HttpOnly cookie</span>
             </div>
 
             <div class="row">
               <span class="row-label">Thời hạn cấu hình</span>
-              <span
-                id="sessionDuration"
-                class="row-value private-value"
-                data-private="true"
-              >●●●●●●●●●●●●</span>
+              <span class="row-value">7 ngày</span>
             </div>
           </article>
 
@@ -953,7 +936,7 @@
             <h2>Truy cập nhanh</h2>
             <p class="panel-intro">Đi đến các khu vực trong dự án.</p>
 
-            <a class="quick-link" href="/survey">
+            <a class="quick-link" href="/survey.html">
               <span class="quick-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                      stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -961,10 +944,12 @@
                   <path d="M9 8h6M9 12h6M9 16h4"></path>
                 </svg>
               </span>
+
               <span class="quick-copy">
                 <span class="quick-title">Surveys</span>
                 <span class="quick-description">Mở trang khảo sát.</span>
               </span>
+
               <svg class="arrow-icon" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" stroke-width="1.8"
                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -984,10 +969,12 @@
                   <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path>
                 </svg>
               </span>
+
               <span class="quick-copy">
                 <span class="quick-title">Moon Studio</span>
                 <span class="quick-description">Truy cập website chính.</span>
               </span>
+
               <svg class="arrow-icon" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" stroke-width="1.8"
                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1006,10 +993,12 @@
                   <path d="M4 12l2.8 5a7 7 0 0 0 11.6-2"></path>
                 </svg>
               </span>
+
               <span class="quick-copy">
                 <span class="quick-title">Kiểm tra session</span>
                 <span class="quick-description">Xác minh lại với server.</span>
               </span>
+
               <svg class="arrow-icon" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" stroke-width="1.8"
                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1028,10 +1017,11 @@
     </main>
   </div>
 
-  <!-- Privacy confirmation dialog -->
+  <!-- Hộp xác nhận quyền riêng tư -->
   <div
     id="privacyBackdrop"
     class="modal-backdrop"
+    role="presentation"
     hidden
   >
     <section
@@ -1041,7 +1031,7 @@
       aria-labelledby="privacyTitle"
       aria-describedby="privacyDescription"
     >
-      <div class="modal-symbol" aria-hidden="true">
+      <div class="modal-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="4" y="10" width="16" height="11" rx="2"></rect>
@@ -1050,51 +1040,43 @@
         </svg>
       </div>
 
-      <div class="eyebrow">MOON STUDIO / PRIVACY</div>
       <h2 id="privacyTitle">Thông tin riêng tư</h2>
 
-      <p id="privacyDescription" class="modal-description">
-        Đây là thông tin riêng tư của tài khoản. Vui lòng cân nhắc trước khi
-        hiển thị và không chia sẻ thông tin này công khai.
+      <p id="privacyDescription">
+        Firebase UID là thông tin định danh tài khoản. Hãy giữ thông tin này
+        riêng tư và tránh đăng công khai hoặc gửi cho người không đáng tin cậy.
       </p>
 
-      <div class="warning-note">
-        Chỉ cung cấp thông tin cho đội ngũ Moon Studio khi thực sự cần thiết
-        để hỗ trợ hoặc xử lý sự cố, và thông qua kênh hỗ trợ phù hợp.
-        Không bao giờ chia sẻ mật khẩu hoặc mã xác thực.
+      <div class="privacy-notice">
+        Chỉ cung cấp thông tin này cho đội ngũ Moon Studio khi có lý do phù hợp
+        và cần thiết để hỗ trợ bạn. Không chia sẻ mật khẩu, mã xác minh hoặc
+        cookie phiên đăng nhập.
       </div>
 
       <label class="consent-label" for="privacyConsent">
         <input id="privacyConsent" type="checkbox">
-        <span class="consent-copy">
-          Tôi đã đọc cảnh báo, hiểu rằng đây là thông tin riêng tư và đồng ý
-          chỉ xem, sử dụng thông tin này khi cần thiết.
+        <span>
+          Tôi hiểu đây là thông tin riêng tư và đồng ý tiếp tục để xem Firebase UID.
         </span>
       </label>
 
-      <div class="countdown" aria-live="polite">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true">
-          <circle cx="12" cy="13" r="8"></circle>
-          <path d="M12 9v4l2.5 1.5M9 2h6"></path>
-        </svg>
-        <span id="countdownText">Nút xem thông tin sẽ mở sau <strong>5 giây</strong>.</span>
-      </div>
+      <p id="waitStatus" class="wait-status" aria-live="polite">
+        Đánh dấu ô xác nhận để bắt đầu.
+      </p>
 
       <div class="modal-actions">
-        <button id="cancelPrivacy" class="button secondary" type="button">
+        <button id="cancelPrivacy" class="modal-button" type="button">
           Hủy
         </button>
-        <button id="confirmPrivacy" class="button primary" type="button" disabled>
-          Chờ 5 giây...
+        <button
+          id="confirmPrivacy"
+          class="modal-button primary"
+          type="button"
+          disabled
+        >
+          Xem thông tin
         </button>
       </div>
-
-      <p class="modal-footnote">
-        Xác nhận này chỉ mở thông tin trên giao diện hiện tại, không cấp thêm
-        quyền truy cập cho tài khoản.
-      </p>
     </section>
   </div>
 
@@ -1102,25 +1084,20 @@
     (() => {
       "use strict";
 
-      const LOGIN_PATH = "/login";
+      const LOGIN_PATH = "/login.html";
       const SESSION_URL = "/api/session/me";
       const LOGOUT_URL = "/api/session/logout";
+      const PRIVACY_WAIT_SECONDS = 5;
 
       const $ = id => document.getElementById(id);
 
       let busy = false;
       let redirecting = false;
-      let privateData = {
-        uid: "",
-        method: "HttpOnly cookie",
-        duration: "7 ngày"
-      };
-
-      let countdownTimer = null;
-      let countdownEndsAt = 0;
-      let countdownComplete = false;
+      let actualUid = "";
+      let uidVisible = false;
+      let waitInterval = null;
+      let secondsRemaining = PRIVACY_WAIT_SECONDS;
       let previousFocus = null;
-      let revealed = false;
 
       function showError(message, success = false) {
         const element = $("message");
@@ -1130,8 +1107,9 @@
       }
 
       function clearError() {
-        $("message").textContent = "";
-        $("message").classList.remove("visible", "success");
+        const element = $("message");
+        element.textContent = "";
+        element.classList.remove("visible", "success");
       }
 
       function formatDate(timestamp) {
@@ -1207,10 +1185,14 @@
       function renderSession(data) {
         const user = data.user || {};
 
-        privateData.uid =
+        actualUid =
           typeof user.uid === "string" && user.uid
             ? user.uid
-            : "Không có UID";
+            : "";
+
+        // UID luôn bị ẩn khi dữ liệu session được tải lại.
+        uidVisible = false;
+        renderUid();
 
         $("created").textContent = formatDate(data.createdAt);
         $("expires").textContent = formatDate(data.expiresAt);
@@ -1235,140 +1217,37 @@
         } else {
           $("remaining").textContent = "Không có dữ liệu thời hạn.";
         }
-
-        // Always mask private information after a fresh session check.
-        lockPrivateInfo();
       }
 
-      function renderPrivateInfo() {
-        $("uid").textContent = privateData.uid;
-        $("sessionMethod").textContent = privateData.method;
-        $("sessionDuration").textContent = privateData.duration;
+      function renderUid() {
+        $("uid").textContent = uidVisible
+          ? (actualUid || "Không có UID")
+          : "••••••••••••";
 
-        [$("uid"), $("sessionMethod"), $("sessionDuration")].forEach(element => {
-          element.classList.add("revealed");
-        });
-
-        $("eyeClosed").hidden = true;
-        $("eyeOpen").hidden = false;
-        $("privacyButton").setAttribute(
+        $("showUid").setAttribute(
           "aria-label",
-          "Ẩn thông tin riêng tư"
+          uidVisible ? "Ẩn Firebase UID" : "Xác nhận trước khi xem Firebase UID"
         );
-        $("privacyButton").title = "Ẩn thông tin riêng tư";
 
-        $("accountPanel").setAttribute("data-unlocked", "true");
-        $("privacyButton").setAttribute("aria-expanded", "true");
-        revealed = true;
-      }
+        $("showUid").title = uidVisible
+          ? "Ẩn thông tin"
+          : "Xem thông tin riêng tư";
 
-      function lockPrivateInfo() {
-        cancelCountdown();
-
-        $("uid").textContent = "●●●●●●●●●●●●●●●●";
-        $("sessionMethod").textContent = "●●●●●●●●●●●●";
-        $("sessionDuration").textContent = "●●●●●●●●●●●●";
-
-        [$("uid"), $("sessionMethod"), $("sessionDuration")].forEach(element => {
-          element.classList.remove("revealed");
-        });
-
-        $("eyeClosed").hidden = false;
-        $("eyeOpen").hidden = true;
-        $("privacyButton").setAttribute(
-          "aria-label",
-          "Xác nhận để xem thông tin riêng tư"
-        );
-        $("privacyButton").title = "Xem thông tin riêng tư";
-        $("privacyButton").setAttribute("aria-expanded", "false");
-        $("accountPanel").removeAttribute("data-unlocked");
-
-        revealed = false;
-      }
-
-      function updateConfirmButton() {
-        const consent = $("privacyConsent").checked;
-        const canUnlock = consent && countdownComplete;
-
-        $("confirmPrivacy").disabled = !canUnlock;
-
-        if (!countdownComplete) {
-          $("confirmPrivacy").textContent =
-            `Chờ ${Math.max(0, Math.ceil((countdownEndsAt - Date.now()) / 1000))} giây...`;
-        } else if (!consent) {
-          $("confirmPrivacy").textContent = "Vui lòng xác nhận";
-        } else {
-          $("confirmPrivacy").textContent = "Đồng ý và xem";
-        }
-      }
-
-      function cancelCountdown() {
-        if (countdownTimer !== null) {
-          clearInterval(countdownTimer);
-          countdownTimer = null;
-        }
-
-        $("privacyBackdrop").hidden = true;
-        $("privacyConsent").checked = false;
-        $("countdownText").textContent =
-          "Nút xem thông tin sẽ mở sau 5 giây.";
-        countdownComplete = false;
-        countdownEndsAt = 0;
-        document.body.classList.remove("modal-open");
-      }
-
-      function openPrivacyDialog() {
-        if (revealed) {
-          lockPrivateInfo();
-          return;
-        }
-
-        previousFocus = document.activeElement;
-        $("privacyConsent").checked = false;
-        $("privacyBackdrop").hidden = false;
-        document.body.classList.add("modal-open");
-
-        countdownComplete = false;
-        countdownEndsAt = Date.now() + 5000;
-
-        $("countdownText").innerHTML =
-          'Nút xem thông tin sẽ mở sau <strong>5 giây</strong>.';
-
-        updateConfirmButton();
-        $("privacyConsent").focus();
-
-        if (countdownTimer !== null) {
-          clearInterval(countdownTimer);
-        }
-
-        countdownTimer = setInterval(() => {
-          const seconds = Math.max(
-            0,
-            Math.ceil((countdownEndsAt - Date.now()) / 1000)
-          );
-
-          if (seconds > 0) {
-            $("countdownText").innerHTML =
-              `Nút xem thông tin sẽ mở sau <strong>${seconds} giây</strong>.`;
-          } else {
-            countdownComplete = true;
-            $("countdownText").textContent =
-              "Đã hết thời gian chờ. Hãy xác nhận để xem thông tin.";
-
-            clearInterval(countdownTimer);
-            countdownTimer = null;
-          }
-
-          updateConfirmButton();
-        }, 150);
-      }
-
-      function closePrivacyDialog() {
-        cancelCountdown();
-
-        if (previousFocus && typeof previousFocus.focus === "function") {
-          previousFocus.focus();
-        }
+        $("showUid").innerHTML = uidVisible
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+               <path d="M3 3l18 18"></path>
+               <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+               <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a15.8 15.8 0 0 1-3.1 3.8"></path>
+               <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10.3 10.3 0 0 0 4-.8"></path>
+             </svg>`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+               <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
+               <circle cx="12" cy="12" r="3"></circle>
+             </svg>`;
       }
 
       async function checkSession() {
@@ -1399,6 +1278,84 @@
         }
       }
 
+      function stopPrivacyTimer() {
+        if (waitInterval !== null) {
+          clearInterval(waitInterval);
+          waitInterval = null;
+        }
+      }
+
+      function resetPrivacyConfirmation() {
+        stopPrivacyTimer();
+        secondsRemaining = PRIVACY_WAIT_SECONDS;
+        $("privacyConsent").checked = false;
+        $("confirmPrivacy").disabled = true;
+        $("waitStatus").textContent =
+          "Đánh dấu ô xác nhận để bắt đầu.";
+      }
+
+      function startPrivacyTimer() {
+        stopPrivacyTimer();
+        secondsRemaining = PRIVACY_WAIT_SECONDS;
+        $("confirmPrivacy").disabled = true;
+        $("waitStatus").textContent =
+          `Bạn có thể tiếp tục sau ${secondsRemaining} giây.`;
+
+        waitInterval = setInterval(() => {
+          if (!$("privacyConsent").checked) {
+            resetPrivacyConfirmation();
+            return;
+          }
+
+          secondsRemaining -= 1;
+
+          if (secondsRemaining <= 0) {
+            stopPrivacyTimer();
+            secondsRemaining = 0;
+            $("waitStatus").textContent = "Bạn có thể tiếp tục.";
+            $("confirmPrivacy").disabled = false;
+            return;
+          }
+
+          $("waitStatus").textContent =
+            `Bạn có thể tiếp tục sau ${secondsRemaining} giây.`;
+        }, 1000);
+      }
+
+      function openPrivacyModal() {
+        previousFocus = document.activeElement;
+        resetPrivacyConfirmation();
+        $("privacyBackdrop").hidden = false;
+        $("privacyConsent").focus();
+      }
+
+      function closePrivacyModal() {
+        stopPrivacyTimer();
+        $("privacyBackdrop").hidden = true;
+        resetPrivacyConfirmation();
+
+        if (previousFocus && typeof previousFocus.focus === "function") {
+          previousFocus.focus();
+        }
+      }
+
+      function confirmPrivacy() {
+        if (
+          !$("privacyConsent").checked ||
+          secondsRemaining > 0 ||
+          $("confirmPrivacy").disabled
+        ) {
+          return;
+        }
+
+        stopPrivacyTimer();
+        uidVisible = true;
+        renderUid();
+        $("privacyBackdrop").hidden = true;
+        resetPrivacyConfirmation();
+        $("showUid").focus();
+      }
+
       async function logout() {
         if (busy || redirecting) return;
 
@@ -1407,7 +1364,6 @@
         }
 
         busy = true;
-        lockPrivateInfo();
         $("logout").disabled = true;
         $("refresh").disabled = true;
         $("logout").querySelector("span").textContent = "Đang đăng xuất...";
@@ -1440,35 +1396,50 @@
         }
       }
 
-      $("privacyButton").addEventListener("click", openPrivacyDialog);
-      $("cancelPrivacy").addEventListener("click", closePrivacyDialog);
+      $("showUid").addEventListener("click", () => {
+        if (uidVisible) {
+          uidVisible = false;
+          renderUid();
+          return;
+        }
 
-      $("privacyConsent").addEventListener("change", updateConfirmButton);
+        if (!actualUid) {
+          showError("Không có Firebase UID để hiển thị.");
+          return;
+        }
 
-      $("confirmPrivacy").addEventListener("click", () => {
-        if (!countdownComplete || !$("privacyConsent").checked) return;
-
-        cancelCountdown();
-        renderPrivateInfo();
+        openPrivacyModal();
       });
+
+      $("privacyConsent").addEventListener("change", event => {
+        if (event.target.checked) {
+          startPrivacyTimer();
+        } else {
+          resetPrivacyConfirmation();
+        }
+      });
+
+      $("confirmPrivacy").addEventListener("click", confirmPrivacy);
+      $("cancelPrivacy").addEventListener("click", closePrivacyModal);
 
       $("privacyBackdrop").addEventListener("click", event => {
         if (event.target === $("privacyBackdrop")) {
-          closePrivacyDialog();
+          closePrivacyModal();
         }
       });
 
       document.addEventListener("keydown", event => {
-        if (event.key === "Escape" && !$("privacyBackdrop").hidden) {
-          closePrivacyDialog();
+        if (
+          event.key === "Escape" &&
+          !$("privacyBackdrop").hidden
+        ) {
+          closePrivacyModal();
         }
       });
 
       $("refresh").addEventListener("click", checkSession);
       $("logout").addEventListener("click", logout);
 
-      // Data remains hidden until the user completes the confirmation flow.
-      lockPrivateInfo();
       checkSession();
     })();
   </script>
