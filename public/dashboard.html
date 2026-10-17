@@ -91,10 +91,7 @@
       letter-spacing: 1.5px;
     }
 
-    nav {
-      display: grid;
-      gap: 6px;
-    }
+    nav { display: grid; gap: 6px; }
 
     .nav-link {
       display: flex;
@@ -526,7 +523,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Privacy confirmation modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -540,6 +536,8 @@
 
     .privacy-modal {
       width: min(100%, 440px);
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
       padding: 24px;
       border: 1px solid #2b4265;
       border-radius: 17px;
@@ -667,10 +665,7 @@
     [hidden] { display: none !important; }
 
     @media (max-width: 950px) {
-      .layout {
-        grid-template-columns: 205px minmax(0, 1fr);
-      }
-
+      .layout { grid-template-columns: 205px minmax(0, 1fr); }
       .content { padding: 25px 20px; }
       header { padding: 0 20px; }
       .stats { grid-template-columns: 1fr; }
@@ -727,7 +722,6 @@
       }
 
       footer { flex-direction: column; }
-
       .privacy-modal { padding: 20px; }
       .modal-actions { flex-direction: column-reverse; }
       .modal-button { width: 100%; }
@@ -761,7 +755,7 @@
 
   <div id="app" class="layout" hidden>
     <aside>
-      <a class="brand" href="/" aria-label="Moon Studio Dashboard">
+      <a class="brand" href="/" aria-label="Moon Studio — Trang chính">
         <img
           class="brand-icon"
           src="https://moonstudio.us.ci/logo.jpg"
@@ -778,7 +772,7 @@
       <div class="nav-label">WORKSPACE</div>
 
       <nav aria-label="Điều hướng">
-        <a class="nav-link active" href="/" aria-current="page">
+        <a class="nav-link active" href="/dashboard" aria-current="page">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.8"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -789,7 +783,7 @@
           <span>Dashboard</span>
         </a>
 
-        <a class="nav-link" href="/survey.html">
+        <a class="nav-link" href="/survey">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.8"
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -910,6 +904,8 @@
                   type="button"
                   aria-label="Xác nhận trước khi xem Firebase UID"
                   title="Xem thông tin riêng tư"
+                  aria-controls="privacyBackdrop"
+                  aria-haspopup="dialog"
                 >
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
@@ -923,12 +919,12 @@
 
             <div class="row">
               <span class="row-label">Phương thức session</span>
-              <span class="row-value">HttpOnly cookie</span>
+              <span id="sessionMethod" class="row-value">••••••••</span>
             </div>
 
             <div class="row">
               <span class="row-label">Thời hạn cấu hình</span>
-              <span class="row-value">7 ngày</span>
+              <span id="sessionDuration" class="row-value">••••</span>
             </div>
           </article>
 
@@ -936,7 +932,7 @@
             <h2>Truy cập nhanh</h2>
             <p class="panel-intro">Đi đến các khu vực trong dự án.</p>
 
-            <a class="quick-link" href="/survey.html">
+            <a class="quick-link" href="/survey">
               <span class="quick-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                      stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -1017,13 +1013,7 @@
     </main>
   </div>
 
-  <!-- Hộp xác nhận quyền riêng tư -->
-  <div
-    id="privacyBackdrop"
-    class="modal-backdrop"
-    role="presentation"
-    hidden
-  >
+  <div id="privacyBackdrop" class="modal-backdrop" role="presentation" hidden>
     <section
       class="privacy-modal"
       role="dialog"
@@ -1065,17 +1055,13 @@
       </p>
 
       <div class="modal-actions">
-        <button id="cancelPrivacy" class="modal-button" type="button">
-          Hủy
-        </button>
+        <button id="cancelPrivacy" class="modal-button" type="button">Hủy</button>
         <button
           id="confirmPrivacy"
           class="modal-button primary"
           type="button"
           disabled
-        >
-          Xem thông tin
-        </button>
+        >Xem thông tin</button>
       </div>
     </section>
   </div>
@@ -1190,9 +1176,12 @@
             ? user.uid
             : "";
 
-        // UID luôn bị ẩn khi dữ liệu session được tải lại.
+        // Mỗi lần tải session, thông tin riêng tư trở lại trạng thái ẩn.
         uidVisible = false;
         renderUid();
+
+        $("sessionMethod").textContent = "••••••••";
+        $("sessionDuration").textContent = "••••";
 
         $("created").textContent = formatDate(data.createdAt);
         $("expires").textContent = formatDate(data.expiresAt);
@@ -1224,9 +1213,19 @@
           ? (actualUid || "Không có UID")
           : "••••••••••••";
 
+        $("sessionMethod").textContent = uidVisible
+          ? "HttpOnly cookie"
+          : "••••••••";
+
+        $("sessionDuration").textContent = uidVisible
+          ? "7 ngày"
+          : "••••";
+
         $("showUid").setAttribute(
           "aria-label",
-          uidVisible ? "Ẩn Firebase UID" : "Xác nhận trước khi xem Firebase UID"
+          uidVisible
+            ? "Ẩn thông tin tài khoản"
+            : "Xác nhận trước khi xem thông tin tài khoản"
         );
 
         $("showUid").title = uidVisible
@@ -1239,7 +1238,7 @@
                  aria-hidden="true">
                <path d="M3 3l18 18"></path>
                <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
-               <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a15.8 15.8 0 0 1-3.1 3.8"></path>
+               <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7s-1.1 2.2-3.1 3.8"></path>
                <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10.3 10.3 0 0 0 4-.8"></path>
              </svg>`
           : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1296,10 +1295,11 @@
 
       function startPrivacyTimer() {
         stopPrivacyTimer();
+
         secondsRemaining = PRIVACY_WAIT_SECONDS;
         $("confirmPrivacy").disabled = true;
         $("waitStatus").textContent =
-          `Bạn có thể tiếp tục sau ${secondsRemaining} giây.`;
+          `Có thể xem sau ${secondsRemaining} giây.`;
 
         waitInterval = setInterval(() => {
           if (!$("privacyConsent").checked) {
@@ -1312,13 +1312,13 @@
           if (secondsRemaining <= 0) {
             stopPrivacyTimer();
             secondsRemaining = 0;
-            $("waitStatus").textContent = "Bạn có thể tiếp tục.";
+            $("waitStatus").textContent = "Bạn có thể xem thông tin.";
             $("confirmPrivacy").disabled = false;
             return;
           }
 
           $("waitStatus").textContent =
-            `Bạn có thể tiếp tục sau ${secondsRemaining} giây.`;
+            `Có thể xem sau ${secondsRemaining} giây.`;
         }, 1000);
       }
 
