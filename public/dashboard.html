@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#070b14">
-  <meta name="description" content="Moon Studio Forms Dashboard">
+  <meta name="description" content="Moon Studio Forms Workspace Dashboard">
   <title>Dashboard — Moon Studio Forms</title>
 
   <style>
     :root {
       --bg: #070b14;
+      --sidebar: #090e19;
       --panel: #0d1424;
+      --panel-hover: #111b2e;
       --border: #1e2a44;
       --text: #e8ecf5;
       --muted: #8490aa;
@@ -26,7 +28,8 @@
       min-height: 100vh;
       background: var(--bg);
       color: var(--text);
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
     }
 
     button, a { font: inherit; }
@@ -38,6 +41,8 @@
       opacity: .55;
     }
 
+    [hidden] { display: none !important; }
+
     .layout {
       min-height: 100vh;
       display: grid;
@@ -48,7 +53,7 @@
       display: flex;
       flex-direction: column;
       padding: 25px 17px;
-      background: #090e19;
+      background: var(--sidebar);
       border-right: 1px solid var(--border);
     }
 
@@ -62,7 +67,6 @@
     .brand-icon {
       width: 38px;
       height: 38px;
-      display: block;
       flex-shrink: 0;
       object-fit: cover;
       border: 1px solid var(--border);
@@ -105,13 +109,15 @@
       transition: background .2s, border-color .2s;
     }
 
+    .nav-link:hover {
+      background: var(--panel-hover);
+    }
+
     .nav-link.active {
       color: white;
       background: #142543;
       border-color: #24477a;
     }
-
-    .nav-link:hover { background: #111b2e; }
 
     .nav-icon {
       width: 18px;
@@ -128,6 +134,8 @@
       font-size: 11px;
       line-height: 1.8;
     }
+
+    .main-area { min-width: 0; }
 
     header {
       min-height: 72px;
@@ -164,8 +172,6 @@
       background: var(--green);
     }
 
-    main { min-width: 0; }
-
     .content {
       max-width: 1150px;
       margin: auto;
@@ -174,10 +180,10 @@
 
     .heading {
       display: flex;
-      justify-content: space-between;
       align-items: flex-start;
+      justify-content: space-between;
       gap: 16px;
-      margin-bottom: 25px;
+      margin-bottom: 28px;
     }
 
     .eyebrow {
@@ -195,9 +201,10 @@
     }
 
     .subtitle {
+      margin: 10px 0 0;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     .button {
@@ -222,13 +229,22 @@
       flex-shrink: 0;
     }
 
+    .button:focus-visible,
+    .nav-link:focus-visible,
+    .quick-link:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+
     .welcome {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
-      padding: 28px;
-      margin-bottom: 28px;
+      padding: 30px;
+      margin-bottom: 30px;
+      overflow: hidden;
       border: 1px solid #25436c;
       border-radius: 16px;
       background:
@@ -236,24 +252,27 @@
         #0d1729;
     }
 
+    .welcome-copy { min-width: 0; }
+
     .welcome h2 {
-      margin: 0 0 10px;
-      font-size: 22px;
+      margin: 0 0 11px;
+      font-size: clamp(20px, 3vw, 25px);
+      letter-spacing: -.5px;
     }
 
     .welcome p {
-      max-width: 510px;
+      max-width: 550px;
       margin: 0;
       color: #a2afc8;
       font-size: 13px;
-      line-height: 1.8;
+      line-height: 1.9;
     }
 
     .welcome-icon {
       display: grid;
       place-items: center;
-      width: 70px;
-      height: 70px;
+      width: 72px;
+      height: 72px;
       flex-shrink: 0;
       border: 1px solid #3678c4;
       border-radius: 20px;
@@ -262,21 +281,21 @@
     }
 
     .welcome-icon svg {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
     }
 
     .section-heading {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
-      margin: 25px 0 14px;
+      margin: 28px 0 15px;
     }
 
     .section-heading h2 {
       margin: 0;
-      font-size: 15px;
+      font-size: 16px;
     }
 
     .section-heading > span {
@@ -284,165 +303,134 @@
       font-size: 11px;
     }
 
-    .stats {
+    .overview-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
 
-    .card, .panel {
+    .overview-card {
       min-width: 0;
-      padding: 19px;
+      padding: 20px;
       border: 1px solid var(--border);
       border-radius: 13px;
       background: var(--panel);
+      transition: border-color .2s, transform .2s;
     }
 
-    .stat-label {
-      color: #9ba7bf;
-      font-size: 12px;
+    .overview-card:hover {
+      border-color: #34517a;
+      transform: translateY(-2px);
     }
 
-    .stat-value {
-      margin-top: 15px;
-      font-size: 18px;
-      font-weight: 750;
-      overflow-wrap: anywhere;
-    }
-
-    .stat-description {
-      margin-top: 9px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .columns {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 15px;
-      margin-top: 16px;
-    }
-
-    .panel h2 {
-      margin: 0 0 7px;
-      font-size: 15px;
-    }
-
-    .panel-intro {
-      margin: 0 0 17px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .row {
+    .card-top {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 15px;
-      padding: 15px 0;
-      border-top: 1px solid var(--border);
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 19px;
     }
 
-    .row-label {
-      color: #91a0ba;
-      font-size: 12px;
-    }
-
-    .row-value {
-      max-width: 65%;
-      text-align: right;
-      font-size: 12px;
-      font-weight: 650;
-      overflow-wrap: anywhere;
-    }
-
-    .uid {
-      color: #b5c7e5;
-      font-family: monospace;
-      font-size: 11px;
-      user-select: text;
-    }
-
-    .uid-value {
-      display: inline-block;
-      vertical-align: middle;
-      max-width: 100%;
-      overflow-wrap: anywhere;
-    }
-
-    .eye-button {
-      display: inline-grid;
+    .card-icon {
+      display: grid;
       place-items: center;
-      width: 34px;
-      height: 34px;
-      flex-shrink: 0;
-      margin-left: 7px;
-      padding: 0;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: #111d31;
-      color: #9fc9ff;
-      vertical-align: middle;
-      transition: border-color .2s, background .2s;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #233c61;
+      border-radius: 11px;
+      background: #13243c;
+      color: #8fc2ff;
     }
 
-    .eye-button:hover {
-      border-color: #3a6ba7;
-      background: #172844;
+    .card-icon svg {
+      width: 20px;
+      height: 20px;
     }
 
-    .eye-button svg {
+    .card-arrow {
       width: 17px;
       height: 17px;
+      color: #7184a3;
     }
 
-    .badge {
-      display: inline-flex;
+    .card-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .card-description {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .status-line {
+      display: flex;
       align-items: center;
-      gap: 7px;
-      padding: 6px 9px;
-      border: 1px solid #205943;
-      border-radius: 8px;
-      background: #102a22;
-      color: #6ce0b1;
+      gap: 8px;
+      margin-top: 14px;
+      color: #8ce8c5;
       font-size: 11px;
+    }
+
+    .status-line .dot {
+      width: 6px;
+      height: 6px;
+    }
+
+    .workspace-panel {
+      margin-top: 20px;
+      padding: 23px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel);
+    }
+
+    .workspace-panel h2 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .workspace-panel > p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 19px;
     }
 
     .quick-link {
-      width: 100%;
+      min-width: 0;
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 13px;
-      margin-top: 10px;
+      padding: 15px;
       border: 1px solid var(--border);
       border-radius: 11px;
-      background: transparent;
+      background: #0a1120;
       color: var(--text);
       text-align: left;
       transition: background .2s, border-color .2s;
     }
 
     .quick-link:hover {
-      background: #111b2e;
+      background: var(--panel-hover);
       border-color: #34517a;
-    }
-
-    .quick-link:focus-visible,
-    .button:focus-visible,
-    .nav-link:focus-visible,
-    .eye-button:focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
     }
 
     .quick-icon {
       display: grid;
       place-items: center;
-      width: 38px;
-      height: 38px;
+      width: 39px;
+      height: 39px;
       flex-shrink: 0;
       border-radius: 10px;
       background: #13243c;
@@ -454,7 +442,10 @@
       height: 19px;
     }
 
-    .quick-copy { flex: 1; }
+    .quick-copy {
+      flex: 1;
+      min-width: 0;
+    }
 
     .quick-title {
       display: block;
@@ -463,6 +454,7 @@
     }
 
     .quick-description {
+      display: block;
       margin-top: 5px;
       color: var(--muted);
       font-size: 11px;
@@ -478,14 +470,14 @@
 
     #message {
       display: none;
-      padding: 13px;
-      margin-bottom: 18px;
+      padding: 13px 15px;
+      margin-bottom: 20px;
       border: 1px solid #75404a;
       border-radius: 10px;
       background: #29141c;
       color: #ffabb6;
       font-size: 12px;
-      line-height: 1.7;
+      line-height: 1.8;
       overflow-wrap: anywhere;
     }
 
@@ -498,7 +490,7 @@
     }
 
     .loading {
-      min-height: 70vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -523,153 +515,26 @@
       to { transform: rotate(360deg); }
     }
 
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      background: rgb(0 0 0 / 72%);
-      backdrop-filter: blur(5px);
-    }
-
-    .privacy-modal {
-      width: min(100%, 440px);
-      max-height: calc(100vh - 40px);
-      overflow-y: auto;
-      padding: 24px;
-      border: 1px solid #2b4265;
-      border-radius: 17px;
-      background: #0d1424;
-      box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
-      animation: modal-in .2s ease-out;
-    }
-
-    @keyframes modal-in {
-      from { opacity: 0; transform: translateY(8px) scale(.985); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .modal-icon {
-      width: 46px;
-      height: 46px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 17px;
-      border: 1px solid #294b76;
-      border-radius: 13px;
-      background: #142745;
-      color: #8fc2ff;
-    }
-
-    .modal-icon svg {
-      width: 23px;
-      height: 23px;
-    }
-
-    .privacy-modal h2 {
-      margin: 0 0 10px;
-      font-size: 20px;
-    }
-
-    .privacy-modal p {
-      margin: 0;
-      color: #a2afc8;
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-    .privacy-notice {
-      margin-top: 16px;
-      padding: 13px;
-      border: 1px solid #293c5b;
-      border-radius: 11px;
-      background: #101c30;
-      color: #c6d4e9;
-      font-size: 12px;
-      line-height: 1.75;
-    }
-
-    .consent-label {
-      display: flex;
-      align-items: flex-start;
-      gap: 11px;
-      margin-top: 19px;
-      color: #dce6f6;
-      font-size: 12px;
-      line-height: 1.7;
-      cursor: pointer;
-    }
-
-    .consent-label input {
-      width: 17px;
-      height: 17px;
-      flex-shrink: 0;
-      margin: 2px 0 0;
-      accent-color: var(--blue);
-      cursor: pointer;
-    }
-
-    .wait-status {
-      min-height: 20px;
-      margin-top: 13px !important;
-      color: #8fa6c8 !important;
-      font-size: 12px !important;
-    }
-
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .modal-button {
-      min-height: 42px;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #111b2e;
-      color: var(--text);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .modal-button.primary {
-      border-color: #2f8bff;
-      background: #2f8bff;
-      color: white;
-    }
-
-    .modal-button.primary:hover:not(:disabled) {
-      background: #1b78ed;
-    }
-
-    .modal-button:hover:not(:disabled) {
-      border-color: #42618c;
-    }
-
     footer {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      margin-top: 28px;
-      padding-top: 17px;
+      margin-top: 30px;
+      padding-top: 18px;
       border-top: 1px solid var(--border);
       color: #697690;
       font-size: 11px;
       line-height: 1.7;
     }
 
-    [hidden] { display: none !important; }
+    @media (max-width: 1000px) {
+      .layout {
+        grid-template-columns: 205px minmax(0, 1fr);
+      }
 
-    @media (max-width: 950px) {
-      .layout { grid-template-columns: 205px minmax(0, 1fr); }
-      .content { padding: 25px 20px; }
-      header { padding: 0 20px; }
-      .stats { grid-template-columns: 1fr; }
-      .columns { grid-template-columns: 1fr; }
+      .content { padding: 26px 22px; }
+      header { padding: 0 22px; }
+      .overview-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 650px) {
@@ -686,9 +551,12 @@
 
       nav {
         display: flex;
-        overflow-x: auto;
         gap: 6px;
+        overflow-x: auto;
+        scrollbar-width: none;
       }
+
+      nav::-webkit-scrollbar { display: none; }
 
       .nav-link {
         flex-shrink: 0;
@@ -702,12 +570,12 @@
       }
 
       .content { padding: 23px 15px; }
-      .welcome { padding: 20px; }
-      .welcome h2 { font-size: 19px; }
+      .welcome { padding: 22px; }
+      .welcome h2 { font-size: 20px; }
 
       .welcome-icon {
-        width: 48px;
-        height: 48px;
+        width: 49px;
+        height: 49px;
         border-radius: 14px;
       }
 
@@ -716,15 +584,10 @@
         height: 24px;
       }
 
-      .heading .button {
-        padding: 10px;
-        font-size: 11px;
-      }
-
+      .quick-links { grid-template-columns: 1fr; }
+      .workspace-panel { padding: 19px; }
+      .heading .button { padding: 10px; font-size: 11px; }
       footer { flex-direction: column; }
-      .privacy-modal { padding: 20px; }
-      .modal-actions { flex-direction: column-reverse; }
-      .modal-button { width: 100%; }
     }
 
     @media (max-width: 390px) {
@@ -733,8 +596,6 @@
       .online { font-size: 11px; }
       .breadcrumb { font-size: 11px; }
       .welcome { gap: 12px; }
-      .row { gap: 8px; }
-      .row-value { max-width: 68%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -775,10 +636,12 @@
         <a class="nav-link active" href="/dashboard" aria-current="page">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.8"
-               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="m3 10 9-7 9 7"></path>
-            <path d="M5 9v12h14V9"></path>
-            <path d="M9 21v-7h6v7"></path>
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <rect x="3" y="3" width="8" height="8" rx="2"></rect>
+            <rect x="13" y="3" width="8" height="5" rx="2"></rect>
+            <rect x="13" y="10" width="8" height="11" rx="2"></rect>
+            <rect x="3" y="13" width="8" height="8" rx="2"></rect>
           </svg>
           <span>Dashboard</span>
         </a>
@@ -786,11 +649,23 @@
         <a class="nav-link" href="/survey">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.8"
-               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
             <rect x="5" y="3" width="14" height="18" rx="2"></rect>
             <path d="M9 8h6M9 12h6M9 16h4"></path>
           </svg>
           <span>Surveys</span>
+        </a>
+
+        <a class="nav-link" href="/profile">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+          <span>Profile</span>
         </a>
       </nav>
 
@@ -802,12 +677,15 @@
       </div>
     </aside>
 
-    <main>
+    <main class="main-area">
       <header>
-        <div class="breadcrumb">Workspace / <strong>Dashboard</strong></div>
+        <div class="breadcrumb">
+          Workspace / <strong>Dashboard</strong>
+        </div>
+
         <div class="online">
           <span class="dot" aria-hidden="true"></span>
-          <span>Session active</span>
+          <span id="sessionStatus">Đang kiểm tra</span>
         </div>
       </header>
 
@@ -818,13 +696,16 @@
           <div>
             <div class="eyebrow">MOON STUDIO / FORMS</div>
             <h1>Dashboard</h1>
-            <p class="subtitle">Tổng quan tài khoản và phiên đăng nhập.</p>
+            <p class="subtitle">
+              Không gian làm việc của bạn trên Moon Studio Forms.
+            </p>
           </div>
 
           <button id="logout" class="button danger" type="button">
             <svg class="button-icon" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.8"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
               <path d="M10 17l5-5-5-5"></path>
               <path d="M15 12H3"></path>
               <path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"></path>
@@ -834,18 +715,20 @@
         </section>
 
         <section class="welcome">
-          <div>
-            <div class="eyebrow">WORKSPACE OVERVIEW</div>
+          <div class="welcome-copy">
+            <div class="eyebrow">YOUR WORKSPACE</div>
             <h2>Chào mừng đến với Moon Studio Forms.</h2>
             <p>
-              Phiên đăng nhập của bạn đã được xác thực. Từ đây, bạn có thể
-              truy cập các biểu mẫu và kiểm tra trạng thái tài khoản.
+              Mọi thứ bạn cần để bắt đầu đều nằm tại đây.
+              Truy cập Surveys để đến khu vực khảo sát hoặc mở Profile
+              để quản lý thông tin tài khoản của bạn.
             </p>
           </div>
 
           <div class="welcome-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                 stroke-width="1.7" stroke-linecap="round"
+                 stroke-linejoin="round">
               <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
               <circle cx="12" cy="12" r="3"></circle>
             </svg>
@@ -853,217 +736,183 @@
         </section>
 
         <div class="section-heading">
-          <h2>Tổng quan tài khoản</h2>
-          <span>Dữ liệu từ server</span>
+          <h2>Workspace overview</h2>
+          <span>Tổng quan không gian làm việc</span>
         </div>
 
-        <section class="stats" aria-label="Tổng quan session">
-          <article class="card">
-            <div class="stat-label">Trạng thái đăng nhập</div>
-            <div class="stat-value">Đã xác thực</div>
-            <div class="stat-description">Session được kiểm tra qua Worker.</div>
-          </article>
+        <section class="overview-grid" aria-label="Tổng quan workspace">
+          <a class="overview-card" href="/survey">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+                  <path d="M9 8h6M9 12h6M9 16h4"></path>
+                </svg>
+              </span>
 
-          <article class="card">
-            <div class="stat-label">Thời điểm tạo session</div>
-            <div id="created" class="stat-value">Đang tải...</div>
-            <div class="stat-description">Thời gian server ghi nhận phiên.</div>
-          </article>
+              <svg class="card-arrow" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </div>
 
-          <article class="card">
-            <div class="stat-label">Session hết hạn</div>
-            <div id="expires" class="stat-value">Đang tải...</div>
-            <div id="remaining" class="stat-description">Thời hạn phiên đăng nhập.</div>
-          </article>
+            <h3 class="card-title">Surveys</h3>
+            <p class="card-description">
+              Truy cập khu vực khảo sát và các chức năng liên quan.
+            </p>
+          </a>
+
+          <a class="overview-card" href="/profile">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"></circle>
+                  <path d="M4 21a8 8 0 0 1 16 0"></path>
+                </svg>
+              </span>
+
+              <svg class="card-arrow" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </div>
+
+            <h3 class="card-title">Profile</h3>
+            <p class="card-description">
+              Xem thông tin tài khoản và các tùy chọn liên quan đến bảo mật.
+            </p>
+          </a>
+
+          <a class="overview-card"
+             href="https://moonstudio.us.ci/"
+             target="_blank"
+             rel="noopener noreferrer">
+            <div class="card-top">
+              <span class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"></circle>
+                  <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path>
+                </svg>
+              </span>
+
+              <svg class="card-arrow" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </div>
+
+            <h3 class="card-title">Moon Studio</h3>
+            <p class="card-description">
+              Khám phá website chính của Moon Studio.
+            </p>
+          </a>
         </section>
 
-        <section class="columns">
-          <article class="panel">
-            <h2>Thông tin tài khoản</h2>
-            <p class="panel-intro">
-              Một số thông tin được ẩn theo mặc định để hạn chế hiển thị ngoài ý muốn.
-            </p>
+        <section class="workspace-panel">
+          <h2>Quick access</h2>
+          <p>
+            Các lối tắt thường dùng trong không gian làm việc.
+          </p>
 
-            <div class="row">
-              <span class="row-label">Trạng thái</span>
-              <span class="row-value">
-                <span class="badge">
-                  <span class="dot" aria-hidden="true"></span>
-                  Active
-                </span>
-              </span>
-            </div>
-
-            <div class="row">
-              <span class="row-label">Firebase UID</span>
-              <span class="row-value">
-                <span id="uid" class="uid uid-value">••••••••••••</span>
-                <button
-                  id="showUid"
-                  class="eye-button"
-                  type="button"
-                  aria-label="Xác nhận trước khi xem Firebase UID"
-                  title="Xem thông tin riêng tư"
-                  aria-controls="privacyBackdrop"
-                  aria-haspopup="dialog"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                       stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                       aria-hidden="true">
-                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
-                </button>
-              </span>
-            </div>
-
-            <div class="row">
-              <span class="row-label">Phương thức session</span>
-              <span id="sessionMethod" class="row-value">••••••••</span>
-            </div>
-
-            <div class="row">
-              <span class="row-label">Thời hạn cấu hình</span>
-              <span id="sessionDuration" class="row-value">••••</span>
-            </div>
-          </article>
-
-          <article class="panel">
-            <h2>Truy cập nhanh</h2>
-            <p class="panel-intro">Đi đến các khu vực trong dự án.</p>
-
+          <div class="quick-links">
             <a class="quick-link" href="/survey">
               <span class="quick-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                     stroke-width="1.8" stroke-linecap="round"
+                     stroke-linejoin="round">
                   <rect x="5" y="3" width="14" height="18" rx="2"></rect>
                   <path d="M9 8h6M9 12h6M9 16h4"></path>
                 </svg>
               </span>
 
               <span class="quick-copy">
-                <span class="quick-title">Surveys</span>
-                <span class="quick-description">Mở trang khảo sát.</span>
+                <span class="quick-title">Open Surveys</span>
+                <span class="quick-description">
+                  Đi đến khu vực khảo sát.
+                </span>
               </span>
 
               <svg class="arrow-icon" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" stroke-width="1.8"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
+                   stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
             </a>
 
-            <a class="quick-link"
-               href="https://moonstudio.us.ci/"
-               target="_blank"
-               rel="noopener noreferrer">
+            <a class="quick-link" href="/profile">
               <span class="quick-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="9"></circle>
-                  <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path>
+                     stroke-width="1.8" stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"></circle>
+                  <path d="M4 21a8 8 0 0 1 16 0"></path>
                 </svg>
               </span>
 
               <span class="quick-copy">
-                <span class="quick-title">Moon Studio</span>
-                <span class="quick-description">Truy cập website chính.</span>
+                <span class="quick-title">Account profile</span>
+                <span class="quick-description">
+                  Quản lý thông tin tài khoản.
+                </span>
               </span>
 
               <svg class="arrow-icon" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" stroke-width="1.8"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
+                   stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
               </svg>
             </a>
+          </div>
+        </section>
 
-            <button id="refresh" class="quick-link" type="button">
-              <span class="quick-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 7v5h-5"></path>
-                  <path d="M4 17v-5h5"></path>
-                  <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12"></path>
-                  <path d="M4 12l2.8 5a7 7 0 0 0 11.6-2"></path>
-                </svg>
-              </span>
+        <section class="workspace-panel">
+          <h2>Session status</h2>
+          <p>
+            Dashboard chỉ hiển thị trạng thái xác thực tổng quan.
+            Thông tin chi tiết về tài khoản sẽ được chuyển sang Profile.
+          </p>
 
-              <span class="quick-copy">
-                <span class="quick-title">Kiểm tra session</span>
-                <span class="quick-description">Xác minh lại với server.</span>
-              </span>
+          <div class="status-line">
+            <span class="dot" aria-hidden="true"></span>
+            <span id="verifiedText">Session đã được xác minh.</span>
+          </div>
 
-              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none"
+          <div style="margin-top: 18px;">
+            <button id="refresh" class="button" type="button">
+              <svg class="button-icon" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" stroke-width="1.8"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
+                   stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="M20 7v5h-5"></path>
+                <path d="M4 17v-5h5"></path>
+                <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12"></path>
+                <path d="M4 12l2.8 5a7 7 0 0 0 11.6-2"></path>
               </svg>
+              <span>Kiểm tra session</span>
             </button>
-          </article>
+          </div>
         </section>
 
         <footer>
           <div>© 2026 <strong>Moon Studio</strong>. All rights reserved.</div>
-          <div>Moon Studio Forms · Secure session</div>
+          <div>Moon Studio Forms · Secure workspace</div>
         </footer>
       </div>
     </main>
-  </div>
-
-  <div id="privacyBackdrop" class="modal-backdrop" role="presentation" hidden>
-    <section
-      class="privacy-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="privacyTitle"
-      aria-describedby="privacyDescription"
-    >
-      <div class="modal-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="4" y="10" width="16" height="11" rx="2"></rect>
-          <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
-          <path d="M12 14v3"></path>
-        </svg>
-      </div>
-
-      <h2 id="privacyTitle">Thông tin riêng tư</h2>
-
-      <p id="privacyDescription">
-        Firebase UID là thông tin định danh tài khoản. Hãy giữ thông tin này
-        riêng tư và tránh đăng công khai hoặc gửi cho người không đáng tin cậy.
-      </p>
-
-      <div class="privacy-notice">
-        Chỉ cung cấp thông tin này cho đội ngũ Moon Studio khi có lý do phù hợp
-        và cần thiết để hỗ trợ bạn. Không chia sẻ mật khẩu, mã xác minh hoặc
-        cookie phiên đăng nhập.
-      </div>
-
-      <label class="consent-label" for="privacyConsent">
-        <input id="privacyConsent" type="checkbox">
-        <span>
-          Tôi hiểu đây là thông tin riêng tư và đồng ý tiếp tục để xem Firebase UID.
-        </span>
-      </label>
-
-      <p id="waitStatus" class="wait-status" aria-live="polite">
-        Đánh dấu ô xác nhận để bắt đầu.
-      </p>
-
-      <div class="modal-actions">
-        <button id="cancelPrivacy" class="modal-button" type="button">Hủy</button>
-        <button
-          id="confirmPrivacy"
-          class="modal-button primary"
-          type="button"
-          disabled
-        >Xem thông tin</button>
-      </div>
-    </section>
   </div>
 
   <script>
@@ -1073,46 +922,23 @@
       const LOGIN_PATH = "/login.html";
       const SESSION_URL = "/api/session/me";
       const LOGOUT_URL = "/api/session/logout";
-      const PRIVACY_WAIT_SECONDS = 5;
 
       const $ = id => document.getElementById(id);
 
       let busy = false;
       let redirecting = false;
-      let actualUid = "";
-      let uidVisible = false;
-      let waitInterval = null;
-      let secondsRemaining = PRIVACY_WAIT_SECONDS;
-      let previousFocus = null;
 
-      function showError(message, success = false) {
+      function showMessage(message, success = false) {
         const element = $("message");
         element.textContent = message;
         element.classList.toggle("success", success);
         element.classList.add("visible");
       }
 
-      function clearError() {
+      function clearMessage() {
         const element = $("message");
         element.textContent = "";
         element.classList.remove("visible", "success");
-      }
-
-      function formatDate(timestamp) {
-        if (typeof timestamp !== "number" || !Number.isFinite(timestamp)) {
-          return "Không có dữ liệu";
-        }
-
-        const date = new Date(timestamp * 1000);
-
-        if (Number.isNaN(date.getTime())) {
-          return "Không có dữ liệu";
-        }
-
-        return new Intl.DateTimeFormat("vi-VN", {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }).format(date);
       }
 
       async function requestJSON(url, options = {}) {
@@ -1129,7 +955,9 @@
             }
           });
         } catch {
-          throw new Error("Không thể kết nối đến server. Hãy kiểm tra mạng.");
+          throw new Error(
+            "Không thể kết nối đến server. Hãy kiểm tra mạng."
+          );
         }
 
         let data;
@@ -1162,198 +990,50 @@
         }
 
         if (!response.ok || data.authenticated !== true) {
-          throw new Error(data.error || "Không thể xác minh session.");
+          throw new Error(
+            data.error || "Không thể xác minh session."
+          );
         }
 
         return data;
-      }
-
-      function renderSession(data) {
-        const user = data.user || {};
-
-        actualUid =
-          typeof user.uid === "string" && user.uid
-            ? user.uid
-            : "";
-
-        // Mỗi lần tải session, thông tin riêng tư trở lại trạng thái ẩn.
-        uidVisible = false;
-        renderUid();
-
-        $("sessionMethod").textContent = "••••••••";
-        $("sessionDuration").textContent = "••••";
-
-        $("created").textContent = formatDate(data.createdAt);
-        $("expires").textContent = formatDate(data.expiresAt);
-
-        if (
-          typeof data.expiresAt === "number" &&
-          Number.isFinite(data.expiresAt)
-        ) {
-          const secondsLeft =
-            data.expiresAt - Math.floor(Date.now() / 1000);
-
-          if (secondsLeft <= 0) {
-            $("remaining").textContent = "Phiên đã hết hạn.";
-          } else {
-            const days = Math.floor(secondsLeft / 86400);
-            const hours = Math.floor((secondsLeft % 86400) / 3600);
-            const minutes = Math.floor((secondsLeft % 3600) / 60);
-
-            $("remaining").textContent =
-              `Còn khoảng ${days} ngày ${hours} giờ ${minutes} phút.`;
-          }
-        } else {
-          $("remaining").textContent = "Không có dữ liệu thời hạn.";
-        }
-      }
-
-      function renderUid() {
-        $("uid").textContent = uidVisible
-          ? (actualUid || "Không có UID")
-          : "••••••••••••";
-
-        $("sessionMethod").textContent = uidVisible
-          ? "HttpOnly cookie"
-          : "••••••••";
-
-        $("sessionDuration").textContent = uidVisible
-          ? "7 ngày"
-          : "••••";
-
-        $("showUid").setAttribute(
-          "aria-label",
-          uidVisible
-            ? "Ẩn thông tin tài khoản"
-            : "Xác nhận trước khi xem thông tin tài khoản"
-        );
-
-        $("showUid").title = uidVisible
-          ? "Ẩn thông tin"
-          : "Xem thông tin riêng tư";
-
-        $("showUid").innerHTML = uidVisible
-          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                 aria-hidden="true">
-               <path d="M3 3l18 18"></path>
-               <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
-               <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7s-1.1 2.2-3.1 3.8"></path>
-               <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10.3 10.3 0 0 0 4-.8"></path>
-             </svg>`
-          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-                 aria-hidden="true">
-               <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
-               <circle cx="12" cy="12" r="3"></circle>
-             </svg>`;
       }
 
       async function checkSession() {
         if (busy || redirecting) return;
 
         busy = true;
-        clearError();
+        clearMessage();
+
         $("refresh").disabled = true;
+        $("sessionStatus").textContent = "Đang kiểm tra...";
+        $("verifiedText").textContent = "Đang xác minh với server...";
 
         try {
           const data = await getSession();
 
           if (!data) return;
 
-          renderSession(data);
+          $("sessionStatus").textContent = "Session active";
+          $("verifiedText").textContent =
+            "Session đã được server xác minh.";
+
           $("loading").hidden = true;
           $("app").hidden = false;
         } catch (error) {
           $("loading").hidden = true;
           $("app").hidden = false;
 
-          showError(
+          $("sessionStatus").textContent = "Không thể xác minh";
+          $("verifiedText").textContent =
+            "Chưa thể xác minh trạng thái session.";
+
+          showMessage(
             `${error.message || "Đã xảy ra lỗi."} Hãy kiểm tra kết nối và thử lại.`
           );
         } finally {
           busy = false;
           $("refresh").disabled = false;
         }
-      }
-
-      function stopPrivacyTimer() {
-        if (waitInterval !== null) {
-          clearInterval(waitInterval);
-          waitInterval = null;
-        }
-      }
-
-      function resetPrivacyConfirmation() {
-        stopPrivacyTimer();
-        secondsRemaining = PRIVACY_WAIT_SECONDS;
-        $("privacyConsent").checked = false;
-        $("confirmPrivacy").disabled = true;
-        $("waitStatus").textContent =
-          "Đánh dấu ô xác nhận để bắt đầu.";
-      }
-
-      function startPrivacyTimer() {
-        stopPrivacyTimer();
-
-        secondsRemaining = PRIVACY_WAIT_SECONDS;
-        $("confirmPrivacy").disabled = true;
-        $("waitStatus").textContent =
-          `Có thể xem sau ${secondsRemaining} giây.`;
-
-        waitInterval = setInterval(() => {
-          if (!$("privacyConsent").checked) {
-            resetPrivacyConfirmation();
-            return;
-          }
-
-          secondsRemaining -= 1;
-
-          if (secondsRemaining <= 0) {
-            stopPrivacyTimer();
-            secondsRemaining = 0;
-            $("waitStatus").textContent = "Bạn có thể xem thông tin.";
-            $("confirmPrivacy").disabled = false;
-            return;
-          }
-
-          $("waitStatus").textContent =
-            `Có thể xem sau ${secondsRemaining} giây.`;
-        }, 1000);
-      }
-
-      function openPrivacyModal() {
-        previousFocus = document.activeElement;
-        resetPrivacyConfirmation();
-        $("privacyBackdrop").hidden = false;
-        $("privacyConsent").focus();
-      }
-
-      function closePrivacyModal() {
-        stopPrivacyTimer();
-        $("privacyBackdrop").hidden = true;
-        resetPrivacyConfirmation();
-
-        if (previousFocus && typeof previousFocus.focus === "function") {
-          previousFocus.focus();
-        }
-      }
-
-      function confirmPrivacy() {
-        if (
-          !$("privacyConsent").checked ||
-          secondsRemaining > 0 ||
-          $("confirmPrivacy").disabled
-        ) {
-          return;
-        }
-
-        stopPrivacyTimer();
-        uidVisible = true;
-        renderUid();
-        $("privacyBackdrop").hidden = true;
-        resetPrivacyConfirmation();
-        $("showUid").focus();
       }
 
       async function logout() {
@@ -1366,8 +1046,10 @@
         busy = true;
         $("logout").disabled = true;
         $("refresh").disabled = true;
-        $("logout").querySelector("span").textContent = "Đang đăng xuất...";
-        clearError();
+        $("logout").querySelector("span").textContent =
+          "Đang đăng xuất...";
+
+        clearMessage();
 
         try {
           const { response, data } = await requestJSON(LOGOUT_URL, {
@@ -1388,54 +1070,16 @@
 
           window.location.replace(LOGIN_PATH);
         } catch (error) {
-          showError(error.message || "Không thể đăng xuất. Hãy thử lại.");
+          showMessage(
+            error.message || "Không thể đăng xuất. Hãy thử lại."
+          );
+
           $("logout").disabled = false;
           $("refresh").disabled = false;
           $("logout").querySelector("span").textContent = "Đăng xuất";
           busy = false;
         }
       }
-
-      $("showUid").addEventListener("click", () => {
-        if (uidVisible) {
-          uidVisible = false;
-          renderUid();
-          return;
-        }
-
-        if (!actualUid) {
-          showError("Không có Firebase UID để hiển thị.");
-          return;
-        }
-
-        openPrivacyModal();
-      });
-
-      $("privacyConsent").addEventListener("change", event => {
-        if (event.target.checked) {
-          startPrivacyTimer();
-        } else {
-          resetPrivacyConfirmation();
-        }
-      });
-
-      $("confirmPrivacy").addEventListener("click", confirmPrivacy);
-      $("cancelPrivacy").addEventListener("click", closePrivacyModal);
-
-      $("privacyBackdrop").addEventListener("click", event => {
-        if (event.target === $("privacyBackdrop")) {
-          closePrivacyModal();
-        }
-      });
-
-      document.addEventListener("keydown", event => {
-        if (
-          event.key === "Escape" &&
-          !$("privacyBackdrop").hidden
-        ) {
-          closePrivacyModal();
-        }
-      });
 
       $("refresh").addEventListener("click", checkSession);
       $("logout").addEventListener("click", logout);
