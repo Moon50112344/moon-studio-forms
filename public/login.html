@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -29,7 +30,6 @@
     }
 
     * { box-sizing: border-box; }
-
     html { min-height: 100%; }
 
     body {
@@ -49,9 +49,7 @@
     button, a { -webkit-tap-highlight-color: transparent; }
     a { color: inherit; text-decoration: none; }
 
-    button:focus-visible,
-    a:focus-visible,
-    input:focus-visible {
+    button:focus-visible, a:focus-visible, input:focus-visible {
       outline: 2px solid var(--blue);
       outline-offset: 3px;
     }
@@ -64,11 +62,7 @@
       align-items: center;
     }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; }
 
     .brand img {
       display: block;
@@ -133,10 +127,7 @@
       line-height: 1.75;
     }
 
-    .choice-list {
-      display: grid;
-      gap: 12px;
-    }
+    .choice-list { display: grid; gap: 12px; }
 
     .choice {
       width: 100%;
@@ -172,22 +163,9 @@
       background: rgba(47,139,255,.09);
     }
 
-    .choice-icon svg {
-      width: 21px;
-      height: 21px;
-    }
-
-    .choice-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .choice-title {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 13px;
-      font-weight: 700;
-    }
+    .choice-icon svg { width: 21px; height: 21px; }
+    .choice-content { flex: 1; min-width: 0; }
+    .choice-title { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 700; }
 
     .choice-description {
       display: block;
@@ -196,10 +174,7 @@
       line-height: 1.6;
     }
 
-    .choice-arrow {
-      color: #7586a2;
-      font-size: 20px;
-    }
+    .choice-arrow { color: #7586a2; font-size: 20px; }
 
     .note {
       margin-top: 18px;
@@ -223,11 +198,7 @@
     }
 
     .back-button:hover { color: var(--text); }
-
-    .form-group {
-      position: relative;
-      margin-bottom: 17px;
-    }
+    .form-group { position: relative; margin-bottom: 17px; }
 
     .form-group label.field-label {
       display: block;
@@ -237,11 +208,7 @@
       font-weight: 600;
     }
 
-    .input-box {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
+    .input-box { position: relative; display: flex; align-items: center; }
 
     .input-icon {
       position: absolute;
@@ -289,11 +256,7 @@
       cursor: pointer;
     }
 
-    .toggle-pass:hover {
-      color: var(--text);
-      background: #182238;
-    }
-
+    .toggle-pass:hover { color: var(--text); background: #182238; }
     .toggle-pass svg { width: 17px; height: 17px; }
 
     .error-text {
@@ -335,7 +298,6 @@
     }
 
     .forgot, .text-link { color: #69a9ff; }
-
     .forgot:hover, .text-link:hover { text-decoration: underline; }
 
     .btn-primary {
@@ -361,11 +323,7 @@
       transform: translateY(-1px);
     }
 
-    .btn-primary:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .btn-primary:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
     .btn-secondary {
       width: 100%;
@@ -394,7 +352,6 @@
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
-
     .btn-primary.loading .spinner { display: block; }
     .btn-primary.loading .button-arrow { display: none; }
 
@@ -414,12 +371,7 @@
       background: var(--border);
     }
 
-    .divider span {
-      flex: 0 0 auto;
-      color: #8997af;
-      font-size: 11px;
-      line-height: 1;
-    }
+    .divider span { flex: 0 0 auto; color: #8997af; font-size: 11px; line-height: 1; }
 
     .socials {
       display: grid;
@@ -443,11 +395,7 @@
       cursor: pointer;
     }
 
-    .social-btn:hover:not(:disabled) {
-      border-color: #3b5277;
-      background: #152137;
-    }
-
+    .social-btn:hover:not(:disabled) { border-color: #3b5277; background: #152137; }
     .social-btn:disabled { opacity: .5; cursor: not-allowed; }
     .social-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
@@ -459,11 +407,7 @@
       line-height: 1.8;
     }
 
-    .account-footer a {
-      color: #69a9ff;
-      font-weight: 600;
-    }
-
+    .account-footer a { color: #69a9ff; font-weight: 600; }
     .account-footer a:hover { text-decoration: underline; }
 
     .warning {
@@ -571,11 +515,7 @@
       transition: opacity .25s, transform .25s;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translate(-50%,0);
-    }
-
+    .toast.show { opacity: 1; transform: translate(-50%,0); }
     .toast.error { border-color: var(--error); }
     .toast.success { border-color: var(--success); }
 
@@ -597,11 +537,7 @@
       .card { padding: 22px 18px; }
       .brand img { width: 35px; height: 35px; }
       .brand-name { font-size: 14px; }
-      .site-footer {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
+      .site-footer { flex-direction: column; align-items: center; text-align: center; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -623,22 +559,17 @@
   </header>
 
   <main class="main">
-    <!-- MÀN HÌNH 1: CHỌN CÁCH TIẾP TỤC -->
     <section class="screen" id="choiceScreen" aria-labelledby="choiceHeading">
       <div class="card">
         <h1 class="heading" id="choiceHeading">Chào mừng bạn</h1>
-        <p class="description">
-          Chọn cách bạn muốn tiếp tục sử dụng Moon Studio Forms.
-        </p>
+        <p class="description">Chọn cách bạn muốn tiếp tục sử dụng Moon Studio Forms.</p>
 
         <div class="choice-list">
           <button type="button" class="choice" id="chooseLogin">
             <span class="choice-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-                <path d="M10 17l5-5-5-5"/>
-                <path d="M15 12H3"/>
+                <path d="M10 17l5-5-5-5"/><path d="M15 12H3"/>
               </svg>
             </span>
             <span class="choice-content">
@@ -650,10 +581,8 @@
 
           <button type="button" class="choice" id="chooseGuest">
             <span class="choice-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="8" r="4"/>
-                <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
               </svg>
             </span>
             <span class="choice-content">
@@ -664,13 +593,10 @@
           </button>
         </div>
 
-        <p class="note">
-          Tài khoản khách là lựa chọn tạm thời và không thay thế tài khoản chính thức.
-        </p>
+        <p class="note">Tài khoản khách là lựa chọn tạm thời và không thay thế tài khoản chính thức.</p>
       </div>
     </section>
 
-    <!-- MÀN HÌNH 2: ĐĂNG NHẬP / ĐĂNG KÝ -->
     <section class="screen hidden" id="authScreen" aria-labelledby="pageHeading">
       <button type="button" class="back-button" id="backFromAuth">Quay lại lựa chọn</button>
 
@@ -681,15 +607,10 @@
           <div class="form-group">
             <label class="field-label" for="email">Email</label>
             <div class="input-box">
-              <svg class="input-icon" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                   stroke-linejoin="round" aria-hidden="true">
-                <rect x="2" y="4" width="20" height="16" rx="3"/>
-                <path d="m3 6 9 7 9-7"/>
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="3"/><path d="m3 6 9 7 9-7"/>
               </svg>
-              <input type="email" id="email" name="email"
-                     placeholder="name@example.com" autocomplete="email"
-                     aria-describedby="emailError" required>
+              <input type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email" aria-describedby="emailError" required>
             </div>
             <span class="error-text" id="emailError" aria-live="polite"></span>
           </div>
@@ -697,30 +618,16 @@
           <div class="form-group">
             <label class="field-label" for="password">Mật khẩu</label>
             <div class="input-box">
-              <svg class="input-icon" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                   stroke-linejoin="round" aria-hidden="true">
-                <rect x="3" y="11" width="18" height="11" rx="2"/>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
               </svg>
-              <input type="password" id="password" name="password"
-                     placeholder="Nhập mật khẩu" autocomplete="current-password"
-                     aria-describedby="passwordError" required>
-              <button type="button" class="toggle-pass" id="togglePass"
-                      aria-label="Hiện mật khẩu" aria-pressed="false">
-                <svg id="eyeOn" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                     stroke-linejoin="round" aria-hidden="true">
-                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/>
-                  <circle cx="12" cy="12" r="3"/>
+              <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" autocomplete="current-password" aria-describedby="passwordError" required>
+              <button type="button" class="toggle-pass" id="togglePass" aria-label="Hiện mật khẩu" aria-pressed="false">
+                <svg id="eyeOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>
                 </svg>
-                <svg id="eyeOff" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                     stroke-linejoin="round" style="display:none" aria-hidden="true">
-                  <path d="m3 3 18 18"/>
-                  <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/>
-                  <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.2 4.1"/>
-                  <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 3-.5"/>
+                <svg id="eyeOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none" aria-hidden="true">
+                  <path d="m3 3 18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.2 4.1"/><path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 3-.5"/>
                 </svg>
               </button>
             </div>
@@ -730,23 +637,17 @@
           <div class="form-group confirm-group" id="confirmGroup">
             <label class="field-label" for="confirmPassword">Xác nhận mật khẩu</label>
             <div class="input-box">
-              <svg class="input-icon" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                   stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <path d="m9 12 2 2 4-4"/>
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>
               </svg>
-              <input type="password" id="confirmPassword" name="confirmPassword"
-                     placeholder="Nhập lại mật khẩu" autocomplete="new-password"
-                     aria-describedby="confirmError">
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" autocomplete="new-password" aria-describedby="confirmError">
             </div>
             <span class="error-text" id="confirmError" aria-live="polite"></span>
           </div>
 
           <div class="form-row" id="loginRow">
             <label class="checkbox-wrap" for="remember">
-              <input type="checkbox" id="remember" name="remember">
-              <span>Ghi nhớ email</span>
+              <input type="checkbox" id="remember" name="remember"><span>Ghi nhớ email</span>
             </label>
             <a href="#" class="forgot" id="forgotLink">Quên mật khẩu?</a>
           </div>
@@ -754,11 +655,8 @@
           <button type="submit" class="btn-primary" id="btnLogin">
             <span class="spinner" aria-hidden="true"></span>
             <span class="btn-text">Đăng nhập</span>
-            <svg class="button-arrow" width="16" height="16" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14"/>
-              <path d="m12 5 7 7-7 7"/>
+            <svg class="button-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
             </svg>
           </button>
         </form>
@@ -775,6 +673,7 @@
             </svg>
             Google
           </button>
+
           <button type="button" class="social-btn" id="facebookBtn">
             <svg viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true">
               <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/>
@@ -790,31 +689,23 @@
       </div>
     </section>
 
-    <!-- MÀN HÌNH 3: CẢNH BÁO TÀI KHOẢN KHÁCH -->
     <section class="screen hidden" id="guestScreen" aria-labelledby="guestHeading">
       <button type="button" class="back-button" id="backFromGuest">Quay lại lựa chọn</button>
 
       <div class="card">
         <span class="guest-label">TÀI KHOẢN KHÁCH</span>
         <h1 class="heading" id="guestHeading">Tiếp tục với tư cách khách</h1>
-        <p class="description">
-          Bạn có thể tạo một tài khoản khách tạm thời để tiếp tục.
-        </p>
+        <p class="description">Bạn có thể tạo một tài khoản khách tạm thời để tiếp tục.</p>
 
         <div class="warning">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-               aria-hidden="true">
-            <path d="M10.3 3.9 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>
-            <path d="M12 9v4"/>
-            <path d="M12 17h.01"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.3 3.9 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/>
           </svg>
           <span>
             <strong>Lưu ý trước khi tiếp tục.</strong><br>
-            Tài khoản khách có thể bị xóa. Dữ liệu liên quan có thể bị mất
-            và không khôi phục được. Tài khoản khách trên bản tĩnh này chỉ
-            được lưu trong trình duyệt hiện tại; xóa dữ liệu trình duyệt
-            hoặc đổi thiết bị có thể làm mất thông tin.
+            Tài khoản khách có thể bị xóa. Dữ liệu liên quan có thể bị mất và không khôi phục được.
+            Tài khoản khách trên bản tĩnh này chỉ được lưu trong trình duyệt hiện tại; xóa dữ liệu
+            trình duyệt hoặc đổi thiết bị có thể làm mất thông tin.
           </span>
         </div>
 
@@ -823,46 +714,28 @@
           <span>Tôi đã đọc và đồng ý với lưu ý trên.</span>
         </label>
 
-        <button type="button" class="btn-primary" id="createGuestBtn" disabled>
-          Tạo tài khoản khách
-        </button>
+        <button type="button" class="btn-primary" id="createGuestBtn" disabled>Tạo tài khoản khách</button>
 
-        <p class="note">
-          Giới hạn một tài khoản khách cho mỗi IP chưa được triển khai.
-          Bản tĩnh này không kiểm tra hoặc lưu địa chỉ IP.
-        </p>
+        <p class="note">Giới hạn một tài khoản khách cho mỗi IP chưa được triển khai. Bản tĩnh này không kiểm tra hoặc lưu địa chỉ IP.</p>
       </div>
     </section>
 
-    <!-- MÀN HÌNH 4: TẠO KHÁCH THÀNH CÔNG -->
     <section class="screen hidden" id="guestSuccessScreen" aria-labelledby="successHeading">
       <div class="card">
         <div class="status-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m5 12 4 4L19 6"/>
           </svg>
         </div>
 
         <h1 class="heading" id="successHeading">Tài khoản khách đã được tạo</h1>
-        <p class="description">
-          Đây là tên tài khoản khách được tạo trên trình duyệt hiện tại.
-          Hãy lưu lại nếu bạn cần nhận biết tài khoản này.
-        </p>
+        <p class="description">Đây là tên tài khoản khách được tạo trên trình duyệt hiện tại. Hãy lưu lại nếu bạn cần nhận biết tài khoản này.</p>
 
         <div class="guest-name" id="guestUsername">user_1000000000</div>
+        <button type="button" class="btn-primary" id="copyGuestBtn">Sao chép tên tài khoản</button>
+        <button type="button" class="btn-secondary" id="continueGuestBtn">Tiếp tục</button>
 
-        <button type="button" class="btn-primary" id="copyGuestBtn">
-          Sao chép tên tài khoản
-        </button>
-
-        <button type="button" class="btn-secondary" id="continueGuestBtn">
-          Tiếp tục
-        </button>
-
-        <p class="note" id="continueNote">
-          Bước tiếp theo chưa được kết nối. Dashboard sẽ được bổ sung sau.
-        </p>
+        <p class="note" id="continueNote">Bước tiếp theo chưa được kết nối. Dashboard sẽ được bổ sung sau.</p>
       </div>
     </section>
   </main>
@@ -875,51 +748,48 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script type="module">
-    import {
-      initializeApp,
-      getApps
-    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
     import {
       getAuth,
       setPersistence,
-      browserLocalPersistence,
-      browserSessionPersistence,
+      inMemoryPersistence,
       signInWithEmailAndPassword,
       createUserWithEmailAndPassword,
       sendPasswordResetEmail,
       sendEmailVerification,
       signOut,
-      onAuthStateChanged,
       GoogleAuthProvider,
       FacebookAuthProvider,
       signInWithPopup
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
     /*
-      CẤU HÌNH IP — CHƯA TRIỂN KHAI:
-      HTML phía trình duyệt không thể bảo đảm giới hạn một tài khoản khách/IP.
-      Bản này không gọi dịch vụ lấy IP và không thu thập địa chỉ IP.
-      Muốn triển khai giới hạn thực sự cần máy chủ.
-    */
+     * Firebase quản lý tài khoản.
+     * Worker quản lý phiên đăng nhập bằng cookie HttpOnly.
+     * Không lưu session token vào localStorage/sessionStorage.
+     */
 
     const firebaseConfig = {
-      apiKey: "AIzaSyDlTcZfcnoftOYIGEXPcmr_3g9pYcms3V8",
-      authDomain: "wifichecker-ccf9b.firebaseapp.com",
-      projectId: "wifichecker-ccf9b",
-      storageBucket: "wifichecker-ccf9b.firebasestorage.app",
-      messagingSenderId: "58738730558",
-      appId: "1:58738730558:web:b0c0e18daac85aa3d9136f",
-      measurementId: "G-5MLQGREBJE"
+      apiKey: "AIzaSyCoBpOgDMQSzE8TC8Xrpm5Cll8N8CJtEeA",
+      authDomain: "moon-studio-forms.firebaseapp.com",
+      projectId: "moon-studio-forms",
+      storageBucket: "moon-studio-forms.firebasestorage.app",
+      messagingSenderId: "681576741945",
+      appId: "1:681576741945:web:79edf661f310501cad61e8",
+      measurementId: "G-9DWYWNDH5D"
     };
 
-    const app = getApps().length
-      ? getApps()[0]
-      : initializeApp(firebaseConfig);
+    const existingApp = getApps().find(
+      item => item.options.projectId === firebaseConfig.projectId
+    );
 
+    const app = existingApp || initializeApp(firebaseConfig, "MoonStudioForms");
     const auth = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
     const facebookProvider = new FacebookAuthProvider();
+
+    googleProvider.setCustomParameters({ prompt: "select_account" });
 
     const $ = id => document.getElementById(id);
 
@@ -955,9 +825,8 @@
     const createGuestBtn = $("createGuestBtn");
 
     let mode = "login";
-    let toastTimer;
-    let isCreatingAccount = false;
-    let hasRedirected = false;
+    let toastTimer = null;
+    let isBusy = false;
 
     function showScreen(name) {
       if (!screens[name]) return;
@@ -1020,14 +889,43 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     }
 
+    function mapAuthError(code) {
+      const errors = {
+        "auth/invalid-email": "Email không hợp lệ.",
+        "auth/missing-email": "Vui lòng nhập email.",
+        "auth/missing-password": "Vui lòng nhập mật khẩu.",
+        "auth/user-disabled": "Tài khoản đã bị vô hiệu hóa.",
+        "auth/user-not-found": "Không tìm thấy tài khoản với email này.",
+        "auth/wrong-password": "Email hoặc mật khẩu không chính xác.",
+        "auth/invalid-credential": "Email hoặc mật khẩu không chính xác.",
+        "auth/too-many-requests": "Bạn đã thử quá nhiều lần. Hãy thử lại sau.",
+        "auth/network-request-failed": "Lỗi mạng. Hãy kiểm tra kết nối Internet.",
+        "auth/operation-not-allowed": "Phương thức này chưa được bật trong Firebase Console.",
+        "auth/weak-password": "Mật khẩu tối thiểu 6 ký tự.",
+        "auth/email-already-in-use": "Email này đã được đăng ký.",
+        "auth/popup-blocked": "Trình duyệt đã chặn cửa sổ đăng nhập.",
+        "auth/popup-closed-by-user": "Bạn đã đóng cửa sổ đăng nhập.",
+        "auth/cancelled-popup-request": "Một cửa sổ đăng nhập khác đang được mở.",
+        "auth/account-exists-with-different-credential": "Email này đã được dùng với phương thức đăng nhập khác.",
+        "auth/unauthorized-domain": "Tên miền hiện tại chưa được cho phép trong Firebase Authentication.",
+        "auth/invalid-api-key": "Firebase API key không hợp lệ. Hãy kiểm tra cấu hình Firebase.",
+        "auth/email-not-verified": "Email chưa được xác minh."
+      };
+
+      return errors[code] || "Đã xảy ra lỗi. Vui lòng thử lại.";
+    }
+
+    function getErrorMessage(error) {
+      if (error?.code) return mapAuthError(error.code);
+      if (error instanceof Error && error.message) return error.message;
+      return "Đã xảy ra lỗi. Vui lòng thử lại.";
+    }
+
     togglePass.addEventListener("click", () => {
       const shouldShow = passInput.type === "password";
 
       passInput.type = shouldShow ? "text" : "password";
-      togglePass.setAttribute(
-        "aria-label",
-        shouldShow ? "Ẩn mật khẩu" : "Hiện mật khẩu"
-      );
+      togglePass.setAttribute("aria-label", shouldShow ? "Ẩn mật khẩu" : "Hiện mật khẩu");
       togglePass.setAttribute("aria-pressed", String(shouldShow));
 
       eyeOn.style.display = shouldShow ? "none" : "";
@@ -1042,58 +940,46 @@
         rememberCheck.checked = true;
       }
     } catch {
-      // Tiếp tục hoạt động nếu storage không khả dụng.
+      // Storage có thể bị trình duyệt chặn.
     }
 
     function saveEmailPreference(email) {
       try {
-        if (rememberCheck.checked) {
+        if (rememberCheck.checked && email) {
           localStorage.setItem("saved_email", email);
         } else {
           localStorage.removeItem("saved_email");
         }
       } catch {
-        // Không ảnh hưởng đến quá trình xác thực.
+        // Không ảnh hưởng đến xác thực.
       }
     }
 
-    function setLoading(loading) {
-      btnLogin.disabled = loading;
-      btnLogin.classList.toggle("loading", loading);
+    function setBusy(busy) {
+      isBusy = busy;
+      btnLogin.disabled = busy;
+      btnLogin.classList.toggle("loading", busy);
+      googleBtn.disabled = busy;
+      facebookBtn.disabled = busy;
+      createGuestBtn.disabled = busy || !guestConsent.checked;
+      toggleModeLink.style.pointerEvents = busy ? "none" : "";
+      forgotLink.style.pointerEvents = busy ? "none" : "";
 
-      btnText.textContent = loading
+      btnText.textContent = busy
         ? "Đang xử lý..."
-        : mode === "register"
-          ? "Tạo tài khoản"
-          : "Đăng nhập";
-
-      googleBtn.disabled = loading;
-      facebookBtn.disabled = loading;
-      toggleModeLink.style.pointerEvents = loading ? "none" : "";
-      forgotLink.style.pointerEvents = loading ? "none" : "";
+        : mode === "register" ? "Tạo tài khoản" : "Đăng nhập";
     }
 
-    function switchMode(newMode) {
-      mode = newMode;
+    function switchMode(nextMode) {
+      mode = nextMode;
       clearErrors();
 
       const registering = mode === "register";
 
-      $("pageHeading").textContent = registering
-        ? "Tạo tài khoản"
-        : "Đăng nhập";
-
-      modeText.textContent = registering
-        ? "Đã có tài khoản? "
-        : "Chưa có tài khoản? ";
-
-      toggleModeLink.textContent = registering
-        ? "Đăng nhập ngay"
-        : "Đăng ký ngay";
-
-      btnText.textContent = registering
-        ? "Tạo tài khoản"
-        : "Đăng nhập";
+      $("pageHeading").textContent = registering ? "Tạo tài khoản" : "Đăng nhập";
+      modeText.textContent = registering ? "Đã có tài khoản? " : "Chưa có tài khoản? ";
+      toggleModeLink.textContent = registering ? "Đăng nhập ngay" : "Đăng ký ngay";
+      btnText.textContent = registering ? "Tạo tài khoản" : "Đăng nhập";
 
       confirmGroup.classList.toggle("show", registering);
       loginRow.style.display = registering ? "none" : "flex";
@@ -1101,50 +987,89 @@
 
       passInput.value = "";
       confirmInput.value = "";
-
-      passInput.autocomplete = registering
-        ? "new-password"
-        : "current-password";
+      passInput.autocomplete = registering ? "new-password" : "current-password";
     }
 
     toggleModeLink.addEventListener("click", event => {
       event.preventDefault();
 
-      if (!btnLogin.disabled) {
+      if (!isBusy) {
         switchMode(mode === "login" ? "register" : "login");
       }
     });
 
-    function mapAuthError(code) {
-      const errors = {
-        "auth/invalid-email": "Email không hợp lệ.",
-        "auth/missing-email": "Vui lòng nhập email.",
-        "auth/missing-password": "Vui lòng nhập mật khẩu.",
-        "auth/user-disabled": "Tài khoản đã bị vô hiệu hóa.",
-        "auth/user-not-found": "Không tìm thấy tài khoản với email này.",
-        "auth/wrong-password": "Email hoặc mật khẩu không chính xác.",
-        "auth/invalid-credential": "Email hoặc mật khẩu không chính xác.",
-        "auth/too-many-requests": "Bạn đã thử quá nhiều lần. Hãy thử lại sau.",
-        "auth/network-request-failed": "Lỗi mạng. Hãy kiểm tra kết nối Internet.",
-        "auth/operation-not-allowed": "Phương thức này chưa được bật trong Firebase Console.",
-        "auth/weak-password": "Mật khẩu quá yếu. Hãy dùng ít nhất 6 ký tự.",
-        "auth/email-already-in-use": "Email này đã được đăng ký.",
-        "auth/popup-blocked": "Trình duyệt đã chặn cửa sổ đăng nhập.",
-        "auth/popup-closed-by-user": "Bạn đã đóng cửa sổ đăng nhập.",
-        "auth/cancelled-popup-request": "Một cửa sổ đăng nhập khác đang được mở.",
-        "auth/account-exists-with-different-credential": "Email này đã được dùng với phương thức đăng nhập khác.",
-        "auth/unauthorized-domain": "Tên miền hiện tại chưa được cho phép trong Firebase Authentication.",
-        "auth/invalid-api-key": "Firebase API key không hợp lệ. Hãy kiểm tra cấu hình Firebase."
-      };
+    /*
+     * Gửi ID token Firebase tới Worker.
+     * Cookie phiên phải được tạo và xác minh phía máy chủ.
+     */
+    async function createServerSession(user) {
+      const idToken = await user.getIdToken(true);
 
-      return errors[code] || "Đã xảy ra lỗi. Vui lòng thử lại.";
+      const response = await fetch("/api/session/login", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ idToken })
+      });
+
+      let data = {};
+
+      try {
+        data = await response.json();
+      } catch {
+        // Worker có thể trả phản hồi không phải JSON.
+      }
+
+      if (!response.ok || data.authenticated !== true) {
+        if (response.status === 501) {
+          throw new Error("Worker chưa triển khai /api/session/login. Cần cập nhật Worker trước khi đăng nhập.");
+        }
+
+        throw new Error(
+          data.error || `Không thể tạo phiên đăng nhập (HTTP ${response.status}).`
+        );
+      }
+
+      return data;
+    }
+
+    async function finishLogin(user) {
+      const passwordProvider = user.providerData.some(
+        provider => provider.providerId === "password"
+      );
+
+      if (passwordProvider && !user.emailVerified) {
+        try {
+          await sendEmailVerification(user);
+        } catch {
+          // Vẫn yêu cầu xác minh email trước khi cấp session.
+        }
+
+        await signOut(auth);
+
+        throw new Error(
+          "Email chưa được xác minh. Hãy kiểm tra hộp thư rồi đăng nhập lại."
+        );
+      }
+
+      // Chỉ chuyển trang sau khi Worker xác nhận session.
+      await createServerSession(user);
+
+      saveEmailPreference(user.email || "");
+
+      // Không giữ trạng thái đăng nhập Firebase phía trình duyệt.
+      await signOut(auth);
+
+      window.location.assign("/dashboard");
     }
 
     form.addEventListener("submit", async event => {
       event.preventDefault();
-      clearErrors();
 
-      if (btnLogin.disabled) return;
+      if (isBusy) return;
+      clearErrors();
 
       const email = emailInput.value.trim();
       const password = passInput.value;
@@ -1170,16 +1095,10 @@
 
       if (mode === "register") {
         if (!confirmPassword) {
-          showFieldError(
-            "confirmPassword",
-            "Vui lòng xác nhận mật khẩu."
-          );
+          showFieldError("confirmPassword", "Vui lòng xác nhận mật khẩu.");
           valid = false;
         } else if (password !== confirmPassword) {
-          showFieldError(
-            "confirmPassword",
-            "Mật khẩu xác nhận không khớp."
-          );
+          showFieldError("confirmPassword", "Mật khẩu xác nhận không khớp.");
           valid = false;
         }
       }
@@ -1187,87 +1106,54 @@
       if (!valid) return;
 
       const submittedMode = mode;
-      setLoading(true);
+      setBusy(true);
 
       try {
-        const persistence = rememberCheck.checked
-          ? browserLocalPersistence
-          : browserSessionPersistence;
-
-        await setPersistence(auth, persistence);
+        // Firebase client chỉ giữ trạng thái trong bộ nhớ hiện tại.
+        await setPersistence(auth, inMemoryPersistence);
 
         if (submittedMode === "register") {
-          isCreatingAccount = true;
+          const credential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
 
           try {
-            const credential = await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-
             await sendEmailVerification(credential.user);
-            await signOut(auth);
-
-            saveEmailPreference(email);
-            switchMode("login");
-
-            emailInput.value = email;
-            rememberCheck.checked = true;
-
-            showToast(
-              "Tạo tài khoản thành công! Hãy kiểm tra email để xác minh trước khi đăng nhập.",
-              "success"
-            );
           } finally {
-            if (auth.currentUser && !auth.currentUser.emailVerified) {
-              try {
-                await signOut(auth);
-              } catch {
-                // Không ghi đè lỗi ban đầu nếu signOut thất bại.
-              }
+            if (auth.currentUser) {
+              await signOut(auth);
             }
-
-            isCreatingAccount = false;
           }
 
-          return;
-        }
-
-        const credential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        if (!credential.user.emailVerified) {
-          try {
-            await sendEmailVerification(credential.user);
-          } catch {
-            // Vẫn yêu cầu người dùng xác minh email.
-          }
-
-          await signOut(auth);
+          saveEmailPreference(email);
+          switchMode("login");
+          emailInput.value = email;
+          rememberCheck.checked = true;
 
           showToast(
-            "Tài khoản chưa được xác minh. Hãy kiểm tra email của bạn.",
-            "error"
+            "Tạo tài khoản thành công! Hãy xác minh email trước khi đăng nhập.",
+            "success"
           );
 
           return;
         }
 
-        saveEmailPreference(email);
-        hasRedirected = true;
-
-        showToast("Đăng nhập thành công.", "success");
-
-        // Giữ nguyên đích điều hướng để tích hợp Dashboard sau này.
-        window.location.assign("/dashboard");
+        const credential = await signInWithEmailAndPassword(auth, email, password);
+        await finishLogin(credential.user);
       } catch (error) {
-        showToast(mapAuthError(error?.code), "error");
+        if (auth.currentUser) {
+          try {
+            await signOut(auth);
+          } catch {
+            // Không ghi đè lỗi ban đầu.
+          }
+        }
+
+        showToast(getErrorMessage(error), "error");
       } finally {
-        setLoading(false);
+        setBusy(false);
       }
     });
 
@@ -1278,14 +1164,12 @@
       const email = emailInput.value.trim();
 
       if (!email || !isValidEmail(email)) {
-        showFieldError(
-          "email",
-          "Nhập email hợp lệ để đặt lại mật khẩu."
-        );
-
+        showFieldError("email", "Nhập email hợp lệ để đặt lại mật khẩu.");
         emailInput.focus();
         return;
       }
+
+      if (isBusy) return;
 
       forgotLink.style.pointerEvents = "none";
 
@@ -1293,83 +1177,62 @@
         await sendPasswordResetEmail(auth, email);
 
         showToast(
-          "Email đặt lại mật khẩu đã được gửi. Hãy kiểm tra hộp thư.",
+          "Nếu email được chấp nhận, hướng dẫn đặt lại mật khẩu sẽ được gửi. Hãy kiểm tra hộp thư.",
           "success"
         );
       } catch (error) {
-        showToast(mapAuthError(error?.code), "error");
+        showToast(getErrorMessage(error), "error");
       } finally {
         forgotLink.style.pointerEvents = "";
       }
     });
 
     async function socialSignIn(provider) {
-      if (googleBtn.disabled || facebookBtn.disabled) return;
+      if (isBusy) return;
 
-      googleBtn.disabled = true;
-      facebookBtn.disabled = true;
+      setBusy(true);
 
       try {
+        await setPersistence(auth, inMemoryPersistence);
+
         const result = await signInWithPopup(auth, provider);
-
-        saveEmailPreference(result.user.email || "");
-        hasRedirected = true;
-
-        window.location.assign("/dashboard");
+        await finishLogin(result.user);
       } catch (error) {
+        if (auth.currentUser) {
+          try {
+            await signOut(auth);
+          } catch {
+            // Không ghi đè lỗi ban đầu.
+          }
+        }
+
         if (error?.code !== "auth/popup-closed-by-user") {
-          showToast(mapAuthError(error?.code), "error");
+          showToast(getErrorMessage(error), "error");
         }
       } finally {
-        googleBtn.disabled = false;
-        facebookBtn.disabled = false;
+        setBusy(false);
       }
     }
 
-    googleBtn.addEventListener("click", () => {
-      socialSignIn(googleProvider);
-    });
-
-    facebookBtn.addEventListener("click", () => {
-      socialSignIn(facebookProvider);
-    });
-
-    onAuthStateChanged(auth, user => {
-      if (hasRedirected || isCreatingAccount || !user) return;
-
-      const path = window.location.pathname;
-
-      const isLoginPage =
-        path.endsWith("/login.html") ||
-        path === "/login" ||
-        path === "/login/";
-
-      // Không tự chuyển trang khi đang chọn tài khoản khách.
-      if (isLoginPage && user.emailVerified) {
-        hasRedirected = true;
-        window.location.assign("/dashboard");
-      }
-    });
+    googleBtn.addEventListener("click", () => socialSignIn(googleProvider));
+    facebookBtn.addEventListener("click", () => socialSignIn(facebookProvider));
 
     /*
-      TÀI KHOẢN KHÁCH TĨNH:
-      - Tên có định dạng user_##########.
-      - Suffix gồm đúng 10 chữ số.
-      - Tên được lưu trong localStorage của trình duyệt.
-      - Không phải tài khoản Firebase.
-      - Tên cũ dạng Guest-... sẽ được thay bằng định dạng mới.
-      - Chưa có xác minh IP hoặc giới hạn một tài khoản/IP.
-    */
-
+     * Tài khoản khách:
+     * - Lưu cục bộ trong trình duyệt.
+     * - Không phải tài khoản Firebase.
+     * - Không có cookie session Worker.
+     * - Chưa giới hạn một tài khoản trên mỗi IP.
+     */
     const GUEST_STORAGE_KEY = "moonstudio_guest_account";
     const GUEST_NAME_PATTERN = /^user_\d{10}$/;
 
     function generateGuestName() {
-      const suffix = Math.floor(
-        1000000000 + Math.random() * 9000000000
-      );
+      const bytes = new Uint32Array(1);
+      crypto.getRandomValues(bytes);
 
-      return `user_${suffix}`;
+      const suffix = 1000000000 + (bytes[0] % 9000000000);
+      return `user_${String(suffix).padStart(10, "0")}`;
     }
 
     function createGuestRecord() {
@@ -1390,16 +1253,15 @@
     }
 
     guestConsent.addEventListener("change", () => {
-      createGuestBtn.disabled = !guestConsent.checked;
+      createGuestBtn.disabled = isBusy || !guestConsent.checked;
     });
 
     createGuestBtn.addEventListener("click", () => {
-      if (!guestConsent.checked || createGuestBtn.disabled) return;
+      if (!guestConsent.checked || isBusy) return;
 
       createGuestBtn.disabled = true;
 
       let guest = null;
-      let savedSuccessfully = false;
       let storageFailed = false;
 
       try {
@@ -1408,36 +1270,19 @@
         if (saved) {
           try {
             const parsed = JSON.parse(saved);
-
-            if (isValidGuestRecord(parsed)) {
-              guest = parsed;
-            }
+            if (isValidGuestRecord(parsed)) guest = parsed;
           } catch {
-            // Dữ liệu cũ hoặc JSON hỏng: tạo bản ghi mới.
+            // Bản ghi hỏng sẽ được thay thế.
           }
         }
 
         if (!guest) {
           guest = createGuestRecord();
-
-          // Chỉ báo lưu thành công sau khi setItem hoàn tất.
-          localStorage.setItem(
-            GUEST_STORAGE_KEY,
-            JSON.stringify(guest)
-          );
-
-          savedSuccessfully = true;
-        } else {
-          // Tài khoản đã có sẵn và đang dùng đúng định dạng.
-          savedSuccessfully = true;
+          localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guest));
         }
       } catch {
         storageFailed = true;
-
-        // Chỉ tạo danh tính tạm thời cho phiên hiện tại.
         guest = createGuestRecord();
-      } finally {
-        createGuestBtn.disabled = !guestConsent.checked;
       }
 
       $("guestUsername").textContent = guest.username;
@@ -1448,12 +1293,11 @@
           "Không thể lưu vào trình duyệt. Tên này chỉ dùng tạm thời trong phiên hiện tại.",
           "error"
         );
-      } else if (savedSuccessfully) {
-        showToast(
-          "Tài khoản khách đã sẵn sàng.",
-          "success"
-        );
+      } else {
+        showToast("Tài khoản khách đã sẵn sàng.", "success");
       }
+
+      createGuestBtn.disabled = !guestConsent.checked;
     });
 
     $("copyGuestBtn").addEventListener("click", async () => {
@@ -1465,32 +1309,25 @@
         }
 
         await navigator.clipboard.writeText(username);
-
-        showToast(
-          "Đã sao chép tên tài khoản khách.",
-          "success"
-        );
+        showToast("Đã sao chép tên tài khoản khách.", "success");
       } catch {
         try {
           const range = document.createRange();
           range.selectNodeContents($("guestUsername"));
 
           const selection = window.getSelection();
-
-          if (!selection) {
-            throw new Error("Không thể chọn văn bản.");
-          }
+          if (!selection) throw new Error("Không thể chọn văn bản.");
 
           selection.removeAllRanges();
           selection.addRange(range);
 
           showToast(
-            "Không thể tự sao chép. Tên tài khoản đã được chọn để bạn sao chép thủ công.",
+            "Tên đã được chọn. Hãy sao chép thủ công.",
             "error"
           );
         } catch {
           showToast(
-            "Không thể sao chép tự động. Hãy sao chép tên tài khoản thủ công.",
+            "Không thể sao chép tự động. Hãy sao chép tên thủ công.",
             "error"
           );
         }
@@ -1498,12 +1335,17 @@
     });
 
     $("continueGuestBtn").addEventListener("click", () => {
-      // Chưa có Dashboard nên không điều hướng tới URL giả.
       showToast(
-        "Tài khoản khách đã sẵn sàng. Bước tiếp theo sẽ được bổ sung sau.",
-        "success"
+        "Tài khoản khách đã sẵn sàng, nhưng Dashboard khách chưa được kết nối.",
+        "error"
       );
     });
+
+    /*
+     * Không dùng onAuthStateChanged để tự chuyển trang.
+     * Trạng thái đăng nhập website phải do Worker xác minh qua
+     * GET /api/session/me. Cookie HttpOnly không thể đọc bằng JavaScript.
+     */
   </script>
 </body>
 </html>
