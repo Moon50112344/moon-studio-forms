@@ -1,4 +1,3 @@
-
 const COOKIE_NAME = "__Host-ms_session";
 const SESSION_TTL = 7 * 24 * 60 * 60;
 const FIREBASE_LOOKUP_TIMEOUT = 10000;
@@ -22,13 +21,10 @@ function getCookie(request, name) {
     const separator = part.indexOf("=");
     if (separator === -1) continue;
 
-    const key = part.slice(0, separator).trim();
-    if (key !== name) continue;
-
-    const value = part.slice(separator + 1).trim();
+    if (part.slice(0, separator).trim() !== name) continue;
 
     try {
-      return decodeURIComponent(value);
+      return decodeURIComponent(part.slice(separator + 1).trim());
     } catch {
       return null;
     }
@@ -49,13 +45,14 @@ function cookieHeader(value, maxAge) {
 }
 
 function clearSessionCookie() {
-  return cookieHeader("", 0) + "; Expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  return cookieHeader("", 0) +
+    "; Expires=Thu, 01 Jan 1970 00:00:00 GMT";
 }
 
 function generateSessionKey() {
   const bytes = crypto.getRandomValues(new Uint8Array(32));
 
-  return Array.from(bytes, (byte) =>
+  return Array.from(bytes, byte =>
     byte.toString(16).padStart(2, "0")
   ).join("");
 }
@@ -66,7 +63,7 @@ async function sha256(value) {
     new TextEncoder().encode(value)
   );
 
-  return Array.from(new Uint8Array(digest), (byte) =>
+  return Array.from(new Uint8Array(digest), byte =>
     byte.toString(16).padStart(2, "0")
   ).join("");
 }
@@ -98,16 +95,22 @@ async function readJson(request) {
   if (!contentType.toLowerCase().includes("application/json")) {
     return {
       ok: false,
-      response: json({ error: "Content-Type must be application/json." }, 415),
+      response: json({
+        error: "Content-Type must be application/json.",
+      }, 415),
     };
   }
 
-  const contentLength = Number(request.headers.get("Content-Length") || 0);
+  const contentLength = Number(
+    request.headers.get("Content-Length") || 0
+  );
 
   if (contentLength > 12000) {
     return {
       ok: false,
-      response: json({ error: "Request body is too large." }, 413),
+      response: json({
+        error: "Request body is too large.",
+      }, 413),
     };
   }
 
@@ -132,9 +135,24 @@ async function readJson(request) {
   return { ok: true, data };
 }
 
-/**
- * Firebase Identity Toolkit validates the ID token against
- * the Firebase project associated with FIREBASE_API_KEY.
+function normalizeAccountCreatedAt(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return null;
+  }
+
+  const milliseconds = Date.parse(value);
+
+  if (!Number.isFinite(milliseconds) || milliseconds <= 0) {
+    return null;
+  }
+
+  return Math.floor(milliseconds / 1000);
+}
+
+/*
+ * The Firebase accounts:lookup endpoint validates the ID token.
+ * Account creation time and provider information are taken from
+ * Firebase's response, never from client-supplied profile fields.
  */
 async function verifyFirebaseIdToken(idToken, env) {
   if (
@@ -174,14 +192,12 @@ async function verifyFirebaseIdToken(idToken, env) {
     }
 
     if (!response.ok) {
-      // Invalid or expired tokens are not accepted.
-      // Other Firebase errors may indicate a configuration or outage issue.
       if (response.status === 400 || response.status === 401) {
         return { ok: false, reason: "invalid-token" };
       }
 
       console.error(
-        "Firebase token lookup failed with HTTP status:",
+        "Firebase token lookup failed:",
         response.status
       );
 
@@ -206,16 +222,34 @@ async function verifyFirebaseIdToken(idToken, env) {
       return { ok: false, reason: "email-not-verified" };
     }
 
+    const providerIds = Array.isArray(user.providerUserInfo)
+      ? [
+          ...new Set(
+            user.providerUserInfo
+              .map(item => item?.providerId)
+              .filter(value =>
+                typeof value === "string" && value.length > 0
+              )
+          ),
+        ]
+      : [];
+
     return {
       ok: true,
       user: {
         uid: user.localId,
-        email: typeof user.email === "string" ? user.email : null,
-        displayName:
-          typeof user.displayName === "string" ? user.displayName : null,
-        photoURL:
-          typeof user.photoUrl === "string" ? user.photoUrl : null,
+        email: typeof user.email === "string"
+          ? user.email
+          : null,
+        displayName: typeof user.displayName === "string"
+          ? user.displayName
+          : null,
+        photoURL: typeof user.photoUrl === "string"
+          ? user.photoUrl
+          : null,
       },
+      accountCreatedAt: normalizeAccountCreatedAt(user.createdAt),
+      providerIds,
     };
   } catch (error) {
     console.error(
@@ -248,14 +282,16 @@ function firebaseErrorResponse(reason) {
     case "firebase-unavailable":
       return json({
         authenticated: false,
-        error: "Authentication service is temporarily unavailable. Please try again.",
+        error:
+          "Authentication service is temporarily unavailable. Please try again.",
         code: "AUTH_SERVICE_UNAVAILABLE",
       }, 503);
 
     default:
       return json({
         authenticated: false,
-        error: "Your sign-in session is invalid or has expired. Please sign in again.",
+        error:
+          "Your sign-in session is invalid or has expired. Please sign in again.",
         code: "INVALID_ID_TOKEN",
       }, 401);
   }
@@ -269,6 +305,30 @@ async function handleHealth(env) {
     service: "Moon Studio Forms",
     sessionSystem: configured ? "configured" : "needs-configuration",
   }, configured ? 200 : 503);
+}
+
+async function saveAccountMetadata(env, verification, now) {
+  /*
+   * Do not overwrite a previously saved creation date with NULL.
+   * This keeps existing valid metadata when Firebase omits a field.
+   */
+  await env.DB.prepare(
+    `INSERT INTO account_metadata
+       (user_id, account_created_at, provider_ids, updated_at)
+     VALUES (?, ?, ?, ?)
+     ON CONFLICT(user_id) DO UPDATE SET
+       account_created_at = COALESCE(
+         excluded.account_created_at,
+         account_metadata.account_created_at
+       ),
+       provider_ids = excluded.provider_ids,
+       updated_at = excluded.updated_at`
+  ).bind(
+    verification.user.uid,
+    verification.accountCreatedAt,
+    JSON.stringify(verification.providerIds),
+    now
+  ).run();
 }
 
 async function handleLogin(request, env) {
@@ -289,7 +349,9 @@ async function handleLogin(request, env) {
   const idToken = parsed.data.idToken;
 
   if (typeof idToken !== "string" || !idToken) {
-    return json({ error: "Firebase ID token is required." }, 400);
+    return json({
+      error: "Firebase ID token is required.",
+    }, 400);
   }
 
   const verification = await verifyFirebaseIdToken(idToken, env);
@@ -301,16 +363,20 @@ async function handleLogin(request, env) {
   const now = Math.floor(Date.now() / 1000);
   const expiresAt = now + SESSION_TTL;
 
-  // The raw session key is sent only to the browser in the cookie.
-  // D1 stores only its SHA-256 hash.
+  /*
+   * Firebase's accounts:lookup response provides linked providers,
+   * not necessarily the provider used for this particular sign-in.
+   * Therefore login_method remains NULL until the actual sign-in
+   * provider can be established by a trusted mechanism.
+   */
   const sessionKey = generateSessionKey();
   const sessionHash = await sha256(sessionKey);
 
   try {
     await env.DB.prepare(
       `INSERT INTO sessions
-        (id, user_id, created_at, expires_at, revoked_at)
-       VALUES (?, ?, ?, ?, NULL)`
+         (id, user_id, created_at, expires_at, revoked_at, login_method)
+       VALUES (?, ?, ?, ?, NULL, NULL)`
     ).bind(
       sessionHash,
       verification.user.uid,
@@ -318,26 +384,44 @@ async function handleLogin(request, env) {
       expiresAt
     ).run();
   } catch (error) {
-    console.error("Could not create D1 session:", error?.message || error);
+    console.error(
+      "Could not create D1 session:",
+      error?.message || error
+    );
 
     return json({
       error: "Could not create your sign-in session. Please try again.",
     }, 503);
   }
 
-  // Best-effort cleanup of expired and revoked sessions.
-  // Cleanup failure must not invalidate the newly created session.
+  /*
+   * Metadata is supplementary. If this write fails, the verified
+   * session remains usable; the API will report missing metadata.
+   */
+  try {
+    await saveAccountMetadata(env, verification, now);
+  } catch (error) {
+    console.error(
+      "Could not save account metadata:",
+      error?.message || error
+    );
+  }
+
   try {
     await env.DB.prepare(
       "DELETE FROM sessions WHERE expires_at <= ? OR revoked_at IS NOT NULL"
     ).bind(now).run();
   } catch (error) {
-    console.error("Session cleanup failed:", error?.message || error);
+    console.error(
+      "Session cleanup failed:",
+      error?.message || error
+    );
   }
 
   return json({
     authenticated: true,
     user: verification.user,
+    accountCreatedAt: verification.accountCreatedAt,
     expiresAt,
   }, 200, {
     "Set-Cookie": cookieHeader(sessionKey, SESSION_TTL),
@@ -346,15 +430,14 @@ async function handleLogin(request, env) {
 
 async function handleMe(request, env) {
   if (!isConfigured(env)) {
-    return json({ error: "Session service is not configured." }, 503);
+    return json({
+      error: "Session service is not configured.",
+    }, 503);
   }
 
   const sessionKey = getCookie(request, COOKIE_NAME);
 
-  if (
-    !sessionKey ||
-    !/^[a-f0-9]{64}$/.test(sessionKey)
-  ) {
+  if (!sessionKey || !/^[a-f0-9]{64}$/.test(sessionKey)) {
     return json({
       authenticated: false,
       error: "Not signed in.",
@@ -368,7 +451,7 @@ async function handleMe(request, env) {
 
   try {
     session = await env.DB.prepare(
-      `SELECT user_id, created_at, expires_at
+      `SELECT user_id, created_at, expires_at, login_method
        FROM sessions
        WHERE id = ?
          AND revoked_at IS NULL
@@ -376,9 +459,14 @@ async function handleMe(request, env) {
        LIMIT 1`
     ).bind(sessionHash, now).first();
   } catch (error) {
-    console.error("Could not read D1 session:", error?.message || error);
+    console.error(
+      "Could not read D1 session:",
+      error?.message || error
+    );
 
-    return json({ error: "Could not verify your session." }, 503);
+    return json({
+      error: "Could not verify your session.",
+    }, 503);
   }
 
   if (!session) {
@@ -390,11 +478,41 @@ async function handleMe(request, env) {
     });
   }
 
+  let metadata = null;
+
+  try {
+    metadata = await env.DB.prepare(
+      `SELECT account_created_at
+       FROM account_metadata
+       WHERE user_id = ?
+       LIMIT 1`
+    ).bind(session.user_id).first();
+  } catch (error) {
+    console.error(
+      "Could not read account metadata:",
+      error?.message || error
+    );
+  }
+
+  const accountCreatedAt =
+    Number.isSafeInteger(metadata?.account_created_at) &&
+    metadata.account_created_at > 0
+      ? metadata.account_created_at
+      : null;
+
+  const loginMethod =
+    typeof session.login_method === "string" &&
+    session.login_method.length > 0
+      ? session.login_method
+      : null;
+
   return json({
     authenticated: true,
     user: {
       uid: session.user_id,
     },
+    accountCreatedAt,
+    loginMethod,
     createdAt: session.created_at,
     expiresAt: session.expires_at,
   });
@@ -410,7 +528,8 @@ async function handleLogout(request, env) {
   if (sessionKey && /^[a-f0-9]{64}$/.test(sessionKey)) {
     if (!isConfigured(env)) {
       return json({
-        error: "Session service is not configured; sign-out could not be confirmed.",
+        error:
+          "Session service is not configured; sign-out could not be confirmed.",
       }, 503);
     }
 
@@ -425,9 +544,11 @@ async function handleLogout(request, env) {
            AND revoked_at IS NULL`
       ).bind(now, sessionHash).run();
     } catch (error) {
-      console.error("Could not revoke D1 session:", error?.message || error);
+      console.error(
+        "Could not revoke D1 session:",
+        error?.message || error
+      );
 
-      // Do not report a successful server-side logout if revocation failed.
       return json({
         error: "Could not revoke your session. Please try again.",
       }, 503);
@@ -468,7 +589,9 @@ async function handleRequest(request, env) {
     return env.ASSETS.fetch(request);
   }
 
-  return json({ error: "Static assets are not configured." }, 500);
+  return json({
+    error: "Static assets are not configured.",
+  }, 500);
 }
 
 export default {
@@ -481,7 +604,9 @@ export default {
         error?.message || error
       );
 
-      return json({ error: "Internal server error." }, 500);
+      return json({
+        error: "Internal server error.",
+      }, 500);
     }
   },
 };
