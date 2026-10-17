@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <meta name="description" content="Moon Studio Forms — Account Profile">
+  <title>Profile — Moon Studio Forms</title>
+
+  <style>
+    :root {
+      --bg: #070b14;
+      --sidebar: #090e19;
+      --panel: #0d1424;
+      --panel-hover: #111b2e;
+      --border: #1e2a44;
+      --text: #e8ecf5;
+      --muted: #8490aa;
+      --blue: #2f8bff;
+      --green: #42d6a0;
+      --red: #ff7b8c;
+      --yellow: #f5c66b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+
+    button, a { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .55;
+    }
+
+    [hidden] { display: none !important; }
+
+    .layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 235px minmax(0, 1fr);
+    }
+
+    aside {
+      display: flex;
+      flex-direction: column;
+      padding: 25px 17px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 8px 32px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--panel);
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .brand-name span { color: var(--blue); }
+
+    .brand-sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .nav-label {
+      padding: 8px 10px;
+      color: #697690;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    nav { display: grid; gap: 6px; }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      color: #9ba7bf;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      font-size: 13px;
+      transition: background .2s, border-color .2s;
+    }
+
+    .nav-link:hover { background: var(--panel-hover); }
+
+    .nav-link.active {
+      color: white;
+      background: #142543;
+      border-color: #24477a;
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-bottom { margin-top: auto; }
+
+    .sidebar-footer {
+      padding: 15px 8px 0;
+      border-top: 1px solid var(--border);
+      color: #697690;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .main-area { min-width: 0; }
+
+    header {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .breadcrumb strong { color: var(--text); }
+
+    .session-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #a2b1c9;
+      font-size: 12px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .content {
+      max-width: 1080px;
+      margin: auto;
+      padding: 34px 32px;
+    }
+
+    .page-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      margin-bottom: 10px;
+      color: #72b2ff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 35px);
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      max-width: 580px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 10px 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel);
+      color: var(--text);
+      font-size: 12px;
+      transition: border-color .2s, background .2s;
+    }
+
+    .button:hover { border-color: #3c5275; }
+
+    .button.danger { color: #ff9aa7; }
+
+    .button-icon {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .button:focus-visible,
+    .nav-link:focus-visible,
+    .copy-button:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    #message {
+      display: none;
+      padding: 13px 15px;
+      margin-bottom: 20px;
+      border: 1px solid #75404a;
+      border-radius: 10px;
+      background: #29141c;
+      color: #ffabb6;
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    #message.visible { display: block; }
+
+    #message.success {
+      border-color: #205943;
+      background: #102a22;
+      color: #8ce8c5;
+    }
+
+    .profile-hero {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 25px;
+      margin-bottom: 22px;
+      border: 1px solid #25436c;
+      border-radius: 15px;
+      background:
+        radial-gradient(ellipse at 90% 10%, #2f8bff1c, transparent 55%),
+        #0d1729;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 76px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 1px solid #3678c4;
+      border-radius: 20px;
+      background: #132a49;
+      color: #a7d0ff;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-hero h2 {
+      margin: 0;
+      font-size: 20px;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-hero p {
+      margin: 8px 0 0;
+      color: #a2afc8;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .account-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 12px;
+      padding: 6px 9px;
+      border: 1px solid #205943;
+      border-radius: 8px;
+      background: #102a22;
+      color: #6ce0b1;
+      font-size: 11px;
+    }
+
+    .account-status .dot {
+      width: 6px;
+      height: 6px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 28px 0 14px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .section-heading span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 21px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--panel);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 19px;
+    }
+
+    .panel-icon {
+      display: grid;
+      place-items: center;
+      width: 39px;
+      height: 39px;
+      flex-shrink: 0;
+      border: 1px solid #233c61;
+      border-radius: 11px;
+      background: #13243c;
+      color: #8fc2ff;
+    }
+
+    .panel-icon svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .panel-header h3 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .panel-header p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .info-label {
+      flex-shrink: 0;
+      color: #91a0ba;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .info-value {
+      min-width: 0;
+      max-width: 65%;
+      text-align: right;
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .uid-value {
+      color: #b5c7e5;
+      font-family: monospace;
+      font-size: 11px;
+      user-select: text;
+    }
+
+    .uid-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .copy-button {
+      display: inline-grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      flex-shrink: 0;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #111d31;
+      color: #9fc9ff;
+    }
+
+    .copy-button:hover {
+      border-color: #3a6ba7;
+      background: #172844;
+    }
+
+    .copy-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .provider-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .provider {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 8px;
+      border: 1px solid #293c5b;
+      border-radius: 7px;
+      background: #101c30;
+      color: #c6d4e9;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .provider.empty {
+      color: var(--muted);
+      border-style: dashed;
+      background: transparent;
+      font-weight: 400;
+    }
+
+    .note {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 14px;
+      margin-top: 16px;
+      border: 1px solid #293c5b;
+      border-radius: 10px;
+      background: #101c30;
+      color: #a9bad5;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .note svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: #8fc2ff;
+    }
+
+    .session-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #6ce0b1;
+    }
+
+    .session-state .dot {
+      width: 6px;
+      height: 6px;
+    }
+
+    .session-state.expired { color: #ff9aa7; }
+    .session-state.expired .dot { background: var(--red); }
+
+    .loading {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .spinner {
+      width: 29px;
+      height: 29px;
+      border: 2px solid #25334b;
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: #697690;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 950px) {
+      .layout {
+        grid-template-columns: 205px minmax(0, 1fr);
+      }
+
+      .content { padding: 25px 20px; }
+      header { padding: 0 20px; }
+      .panel-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 650px) {
+      .layout { display: block; }
+
+      aside {
+        padding: 14px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand { padding: 0 2px 13px; }
+      .nav-label, .sidebar-bottom { display: none; }
+
+      nav {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      nav::-webkit-scrollbar { display: none; }
+
+      .nav-link {
+        flex-shrink: 0;
+        padding: 10px;
+        font-size: 12px;
+      }
+
+      header {
+        min-height: 58px;
+        padding: 0 15px;
+      }
+
+      .content { padding: 23px 15px; }
+
+      .profile-hero {
+        align-items: flex-start;
+        gap: 15px;
+        padding: 19px;
+      }
+
+      .avatar {
+        width: 58px;
+        height: 58px;
+        border-radius: 15px;
+        font-size: 23px;
+      }
+
+      .profile-hero h2 { font-size: 17px; }
+      .panel { padding: 18px; }
+
+      .page-heading .button {
+        padding: 10px;
+        font-size: 11px;
+      }
+
+      footer { flex-direction: column; }
+    }
+
+    @media (max-width: 390px) {
+      .page-heading { flex-direction: column; }
+      .page-heading .button { align-self: flex-start; }
+      .session-indicator { font-size: 11px; }
+      .breadcrumb { font-size: 11px; }
+
+      .info-row { gap: 8px; }
+      .info-label { font-size: 11px; }
+      .info-value { max-width: 62%; font-size: 11px; }
+
+      .uid-actions { align-items: flex-end; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading" class="loading" role="status" aria-live="polite">
+    <div class="spinner" aria-hidden="true"></div>
+    <div id="loadingText">Đang xác minh phiên đăng nhập...</div>
+  </div>
+
+  <div id="app" class="layout" hidden>
+    <aside>
+      <a class="brand" href="/" aria-label="Moon Studio — Trang chính">
+        <img
+          class="brand-icon"
+          src="https://moonstudio.us.ci/logo.jpg"
+          alt="Moon Studio"
+          width="38"
+          height="38"
+        >
+        <div>
+          <div class="brand-name">Moon <span>Studio</span></div>
+          <div class="brand-sub">Forms workspace</div>
+        </div>
+      </a>
+
+      <div class="nav-label">WORKSPACE</div>
+
+      <nav aria-label="Điều hướng">
+        <a class="nav-link" href="/dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <rect x="3" y="3" width="8" height="8" rx="2"></rect>
+            <rect x="13" y="3" width="8" height="5" rx="2"></rect>
+            <rect x="13" y="10" width="8" height="11" rx="2"></rect>
+            <rect x="3" y="13" width="8" height="8" rx="2"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a class="nav-link" href="/survey">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+            <path d="M9 8h6M9 12h6M9 16h4"></path>
+          </svg>
+          <span>Surveys</span>
+        </a>
+
+        <a class="nav-link active" href="/profile" aria-current="page">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-footer">
+          Powered by Moon Studio<br>
+          © 2026 Moon Studio
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header>
+        <div class="breadcrumb">
+          Workspace / <strong>Profile</strong>
+        </div>
+
+        <div class="session-indicator">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="headerStatus">Đang xác minh</span>
+        </div>
+      </header>
+
+      <div class="content">
+        <div id="message" role="alert" aria-live="polite"></div>
+
+        <section class="page-heading">
+          <div>
+            <div class="eyebrow">MOON STUDIO / ACCOUNT</div>
+            <h1>Profile</h1>
+            <p class="subtitle">
+              Thông tin tài khoản, phương thức đăng nhập và trạng thái bảo mật
+              của bạn trên Moon Studio Forms.
+            </p>
+          </div>
+
+          <button id="logout" class="button danger" type="button">
+            <svg class="button-icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <path d="M10 17l5-5-5-5"></path>
+              <path d="M15 12H3"></path>
+              <path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"></path>
+            </svg>
+            <span>Đăng xuất</span>
+          </button>
+        </section>
+
+        <section class="profile-hero">
+          <div class="avatar" aria-hidden="true">
+            <span>MS</span>
+          </div>
+
+          <div>
+            <div class="eyebrow">YOUR ACCOUNT</div>
+            <h2 id="profileTitle">Moon Studio member</h2>
+            <p>
+              Tài khoản được xác minh thông qua hệ thống đăng nhập
+              Moon Studio Forms.
+            </p>
+
+            <span class="account-status">
+              <span class="dot" aria-hidden="true"></span>
+              <span id="accountStatus">Session active</span>
+            </span>
+          </div>
+        </section>
+
+        <div class="section-heading">
+          <h2>Account information</h2>
+          <span>Thông tin tài khoản</span>
+        </div>
+
+        <section class="panel-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <span class="panel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"></circle>
+                  <path d="M4 21a8 8 0 0 1 16 0"></path>
+                </svg>
+              </span>
+
+              <div>
+                <h3>Danh tính tài khoản</h3>
+                <p>Thông tin định danh do hệ thống cung cấp.</p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Firebase UID</span>
+
+              <div class="info-value">
+                <div class="uid-actions">
+                  <span id="uid" class="uid-value">••••••••••••</span>
+
+                  <button
+                    id="toggleUid"
+                    class="copy-button"
+                    type="button"
+                    aria-label="Hiện Firebase UID"
+                    title="Hiện hoặc ẩn UID"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true">
+                      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+
+                  <button
+                    id="copyUid"
+                    class="copy-button"
+                    type="button"
+                    aria-label="Sao chép Firebase UID"
+                    title="Sao chép UID"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true">
+                      <rect x="8" y="8" width="13" height="13" rx="2"></rect>
+                      <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Ngày tạo tài khoản</span>
+              <span id="accountCreated" class="info-value">Đang tải...</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Nhà cung cấp liên kết</span>
+              <span id="providers" class="info-value">Đang tải...</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Phương thức đăng nhập</span>
+              <span id="loginMethod" class="info-value">Đang tải...</span>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <span class="panel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round"
+                     stroke-linejoin="round">
+                  <rect x="3" y="5" width="18" height="15" rx="2"></rect>
+                  <path d="M7 3v4M17 3v4M3 10h18"></path>
+                </svg>
+              </span>
+
+              <div>
+                <h3>Session details</h3>
+                <p>Thông tin phiên đăng nhập hiện tại.</p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Trạng thái</span>
+              <span id="sessionState" class="info-value">
+                Đang xác minh...
+              </span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Thời điểm tạo session</span>
+              <span id="sessionCreated" class="info-value">Đang tải...</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Session hết hạn</span>
+              <span id="sessionExpires" class="info-value">Đang tải...</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Thời gian còn lại</span>
+              <span id="sessionRemaining" class="info-value">Đang tải...</span>
+            </div>
+
+            <div class="info-row">
+              <span class="info-label">Thời hạn session</span>
+              <span id="sessionDuration" class="info-value">Đang tải...</span>
+            </div>
+          </article>
+        </section>
+
+        <div class="note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 11v5M12 7h.01"></path>
+          </svg>
+
+          <div>
+            <strong>Lưu ý bảo mật</strong><br>
+            Firebase UID là mã định danh, không phải mật khẩu. Không chia sẻ
+            mật khẩu, mã xác minh hoặc cookie phiên đăng nhập. Phương thức đăng
+            nhập và nhà cung cấp liên kết là hai thông tin khác nhau; nếu server
+            chưa ghi nhận phương thức thực tế, trang sẽ hiển thị trạng thái chưa
+            có dữ liệu thay vì tự suy đoán.
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <h2>Account actions</h2>
+          <span>Thao tác tài khoản</span>
+        </div>
+
+        <section class="panel">
+          <div class="panel-header">
+            <span class="panel-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round"
+                   stroke-linejoin="round">
+                <path d="M20 7v5h-5"></path>
+                <path d="M4 17v-5h5"></path>
+                <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12"></path>
+                <path d="M4 12l2.8 5a7 7 0 0 0 11.6-2"></path>
+              </svg>
+            </span>
+
+            <div>
+              <h3>Kiểm tra thông tin mới nhất</h3>
+              <p>Lấy lại dữ liệu tài khoản và session từ server.</p>
+            </div>
+          </div>
+
+          <button id="refresh" class="button" type="button">
+            <svg class="button-icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <path d="M20 7v5h-5"></path>
+              <path d="M4 17v-5h5"></path>
+              <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12"></path>
+              <path d="M4 12l2.8 5a7 7 0 0 0 11.6-2"></path>
+            </svg>
+            <span>Làm mới dữ liệu</span>
+          </button>
+        </section>
+
+        <footer>
+          <div>© 2026 <strong>Moon Studio</strong>. All rights reserved.</div>
+          <div>Moon Studio Forms · Account profile</div>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const LOGIN_PATH = "/login.html";
+      const SESSION_URL = "/api/session/me";
+      const LOGOUT_URL = "/api/session/logout";
+
+      const $ = id => document.getElementById(id);
+
+      let busy = false;
+      let redirecting = false;
+      let actualUid = "";
+      let uidVisible = false;
+
+      function showMessage(message, success = false) {
+        const element = $("message");
+        element.textContent = message;
+        element.classList.toggle("success", success);
+        element.classList.add("visible");
+      }
+
+      function clearMessage() {
+        const element = $("message");
+        element.textContent = "";
+        element.classList.remove("visible", "success");
+      }
+
+      function formatDate(timestamp) {
+        if (
+          typeof timestamp !== "number" ||
+          !Number.isFinite(timestamp)
+        ) {
+          return "Chưa có dữ liệu";
+        }
+
+        const date = new Date(timestamp * 1000);
+
+        if (Number.isNaN(date.getTime())) {
+          return "Chưa có dữ liệu";
+        }
+
+        return new Intl.DateTimeFormat("vi-VN", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }).format(date);
+      }
+
+      function formatDuration(seconds) {
+        if (
+          typeof seconds !== "number" ||
+          !Number.isFinite(seconds) ||
+          seconds < 0
+        ) {
+          return "Chưa có dữ liệu";
+        }
+
+        const days = Math.floor(seconds / 86400);
+        const hours = Math.floor((seconds % 86400) / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+
+        if (days > 0) {
+          return `${days} ngày ${hours} giờ`;
+        }
+
+        if (hours > 0) {
+          return `${hours} giờ ${minutes} phút`;
+        }
+
+        if (minutes > 0) {
+          return `${minutes} phút`;
+        }
+
+        return "Dưới 1 phút";
+      }
+
+      async function requestJSON(url, options = {}) {
+        let response;
+
+        try {
+          response = await fetch(url, {
+            credentials: "same-origin",
+            cache: "no-store",
+            ...options,
+            headers: {
+              Accept: "application/json",
+              ...(options.headers || {})
+            }
+          });
+        } catch {
+          throw new Error(
+            "Không thể kết nối đến server. Hãy kiểm tra mạng."
+          );
+        }
+
+        let data;
+
+        try {
+          data = await response.json();
+        } catch {
+          throw new Error("Server trả về dữ liệu không hợp lệ.");
+        }
+
+        return { response, data };
+      }
+
+      async function getSession() {
+        const { response, data } = await requestJSON(SESSION_URL, {
+          method: "GET"
+        });
+
+        if (response.status === 401 || data.authenticated === false) {
+          if (!redirecting) {
+            redirecting = true;
+            $("loadingText").textContent =
+              "Phiên không hợp lệ. Đang chuyển đến đăng nhập...";
+            $("loading").hidden = false;
+            $("app").hidden = true;
+            window.location.replace(LOGIN_PATH);
+          }
+
+          return null;
+        }
+
+        if (!response.ok || data.authenticated !== true) {
+          throw new Error(
+            data.error || "Không thể xác minh session."
+          );
+        }
+
+        return data;
+      }
+
+      function providerLabel(provider) {
+        const labels = {
+          password: "Email / Password",
+          "google.com": "Google",
+          "github.com": "GitHub",
+          "facebook.com": "Facebook",
+          "apple.com": "Apple",
+          "microsoft.com": "Microsoft",
+          "twitter.com": "X / Twitter",
+          "phone": "Phone",
+          "yahoo.com": "Yahoo",
+          "outlook.com": "Outlook"
+        };
+
+        return labels[provider] || provider;
+      }
+
+      function renderProviders(providers) {
+        const container = $("providers");
+        container.replaceChildren();
+
+        if (
+          !Array.isArray(providers) ||
+          providers.length === 0
+        ) {
+          const empty = document.createElement("span");
+          empty.className = "provider empty";
+          empty.textContent = "Chưa có dữ liệu";
+          container.appendChild(empty);
+          return;
+        }
+
+        for (const provider of providers) {
+          if (typeof provider !== "string" || !provider.trim()) {
+            continue;
+          }
+
+          const tag = document.createElement("span");
+          tag.className = "provider";
+          tag.textContent = providerLabel(provider);
+          container.appendChild(tag);
+        }
+
+        if (!container.childElementCount) {
+          const empty = document.createElement("span");
+          empty.className = "provider empty";
+          empty.textContent = "Chưa có dữ liệu";
+          container.appendChild(empty);
+        }
+      }
+
+      function renderUid() {
+        $("uid").textContent = uidVisible
+          ? (actualUid || "Không có UID")
+          : "••••••••••••";
+
+        $("toggleUid").setAttribute(
+          "aria-label",
+          uidVisible ? "Ẩn Firebase UID" : "Hiện Firebase UID"
+        );
+
+        $("toggleUid").title = uidVisible
+          ? "Ẩn UID"
+          : "Hiện UID";
+
+        $("toggleUid").innerHTML = uidVisible
+          ? `<svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+               <path d="M3 3l18 18"></path>
+               <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+               <path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7s-1.1 2.2-3.1 3.8"></path>
+               <path d="M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10.3 10.3 0 0 0 4-.8"></path>
+             </svg>`
+          : `<svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+               <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"></path>
+               <circle cx="12" cy="12" r="3"></circle>
+             </svg>`;
+      }
+
+      function renderSession(data) {
+        const user = data.user || {};
+
+        actualUid =
+          typeof user.uid === "string" ? user.uid : "";
+
+        // Mỗi lần tải dữ liệu, UID được ẩn lại.
+        uidVisible = false;
+        renderUid();
+
+        $("profileTitle").textContent = actualUid
+          ? "Moon Studio member"
+          : "Account profile";
+
+        // accountCreatedAt là ngày tạo tài khoản,
+        // createdAt là thời điểm tạo session.
+        $("accountCreated").textContent =
+          formatDate(data.accountCreatedAt);
+
+        $("sessionCreated").textContent =
+          formatDate(data.createdAt);
+
+        $("sessionExpires").textContent =
+          formatDate(data.expiresAt);
+
+        const method = data.loginMethod;
+
+        $("loginMethod").textContent =
+          typeof method === "string" && method.trim()
+            ? providerLabel(method)
+            : "Chưa được ghi nhận";
+
+        renderProviders(data.linkedProviders);
+
+        const now = Math.floor(Date.now() / 1000);
+        const hasExpiry =
+          typeof data.expiresAt === "number" &&
+          Number.isFinite(data.expiresAt);
+
+        if (hasExpiry) {
+          const remaining = data.expiresAt - now;
+
+          $("sessionRemaining").textContent =
+            remaining > 0
+              ? formatDuration(remaining)
+              : "Đã hết hạn";
+
+          const duration =
+            typeof data.createdAt === "number" &&
+            Number.isFinite(data.createdAt)
+              ? data.expiresAt - data.createdAt
+              : null;
+
+          $("sessionDuration").textContent =
+            duration !== null && duration >= 0
+              ? formatDuration(duration)
+              : "Chưa có dữ liệu";
+        } else {
+          $("sessionRemaining").textContent = "Chưa có dữ liệu";
+          $("sessionDuration").textContent = "Chưa có dữ liệu";
+        }
+
+        const active = !hasExpiry || data.expiresAt > now;
+
+        $("sessionState").replaceChildren();
+
+        if (active) {
+          const state = document.createElement("span");
+          state.className = "session-state";
+
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          dot.setAttribute("aria-hidden", "true");
+
+          state.append(dot, document.createTextNode("Active"));
+          $("sessionState").appendChild(state);
+
+          $("accountStatus").textContent = "Session active";
+          $("headerStatus").textContent = "Session active";
+        } else {
+          const state = document.createElement("span");
+          state.className = "session-state expired";
+
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          dot.setAttribute("aria-hidden", "true");
+
+          state.append(dot, document.createTextNode("Expired"));
+          $("sessionState").appendChild(state);
+
+          $("accountStatus").textContent = "Session expired";
+          $("headerStatus").textContent = "Session expired";
+        }
+      }
+
+      async function checkSession() {
+        if (busy || redirecting) return;
+
+        busy = true;
+        clearMessage();
+
+        $("refresh").disabled = true;
+        $("refresh").querySelector("span").textContent = "Đang tải...";
+        $("headerStatus").textContent = "Đang xác minh...";
+
+        try {
+          const data = await getSession();
+
+          if (!data) return;
+
+          renderSession(data);
+
+          $("loading").hidden = true;
+          $("app").hidden = false;
+        } catch (error) {
+          $("loading").hidden = true;
+          $("app").hidden = false;
+
+          $("headerStatus").textContent = "Lỗi kết nối";
+
+          showMessage(
+            `${error.message || "Đã xảy ra lỗi."} Hãy kiểm tra kết nối và thử lại.`
+          );
+        } finally {
+          busy = false;
+          $("refresh").disabled = false;
+          $("refresh").querySelector("span").textContent =
+            "Làm mới dữ liệu";
+        }
+      }
+
+      async function copyUid() {
+        if (!actualUid) {
+          showMessage("Không có Firebase UID để sao chép.");
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(actualUid);
+          showMessage("Đã sao chép Firebase UID.", true);
+        } catch {
+          showMessage(
+            "Không thể truy cập clipboard. Hãy hiện UID rồi sao chép thủ công."
+          );
+        }
+      }
+
+      async function logout() {
+        if (busy || redirecting) return;
+
+        if (!window.confirm("Bạn muốn đăng xuất khỏi Moon Studio Forms?")) {
+          return;
+        }
+
+        busy = true;
+        $("logout").disabled = true;
+        $("refresh").disabled = true;
+        $("logout").querySelector("span").textContent =
+          "Đang đăng xuất...";
+
+        clearMessage();
+
+        try {
+          const { response, data } = await requestJSON(LOGOUT_URL, {
+            method: "POST"
+          });
+
+          if (!response.ok) {
+            throw new Error(
+              data.error || "Server không thể hoàn tất đăng xuất."
+            );
+          }
+
+          redirecting = true;
+          $("loadingText").textContent =
+            "Đã đăng xuất. Đang chuyển trang...";
+          $("loading").hidden = false;
+          $("app").hidden = true;
+
+          window.location.replace(LOGIN_PATH);
+        } catch (error) {
+          showMessage(
+            error.message || "Không thể đăng xuất. Hãy thử lại."
+          );
+
+          $("logout").disabled = false;
+          $("refresh").disabled = false;
+          $("logout").querySelector("span").textContent = "Đăng xuất";
+          busy = false;
+        }
+      }
+
+      $("toggleUid").addEventListener("click", () => {
+        if (!actualUid) {
+          showMessage("Server chưa cung cấp Firebase UID.");
+          return;
+        }
+
+        uidVisible = !uidVisible;
+        renderUid();
+      });
+
+      $("copyUid").addEventListener("click", copyUid);
+      $("refresh").addEventListener("click", checkSession);
+      $("logout").addEventListener("click", logout);
+
+      checkSession();
+    })();
+  </script>
+</body>
+</html>
+
