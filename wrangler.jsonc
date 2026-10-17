@@ -22,6 +22,12 @@
       "database_name": "moon-studio-forms",
       "database_id": "4f25074b-84c4-4e63-a9bb-89fd057549a5",
       "migrations_dir": "migrations"
+    },
+    {
+      "binding": "SURVEYS_DB",
+      "database_name": "moonstudio-surveys",
+      "database_id": "c5796c85-2a5d-467e-b0c0-f7690f3100ff",
+      "migrations_dir": "survey-migrations"
     }
   ]
 }
