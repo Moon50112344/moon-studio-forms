@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070b14">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Survey Admin — Moon Studio</title>
+  <link rel="icon" href="https://moonstudio.us.ci/logo.jpg">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070b14;
+      --panel: #0d1424;
+      --panel2: #101b30;
+      --text: #e8ecf5;
+      --muted: #8b98b4;
+      --border: #1e2a44;
+      --blue: #2f8bff;
+      --blue-hover: #1a7aee;
+      --green: #40d69a;
+      --red: #ff6b7a;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 50% -20%, #12274a 0, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .hidden { display: none !important; }
+
+    .topbar {
+      height: 68px;
+      padding: 0 6%;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(7, 11, 20, .88);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 750;
+      text-decoration: none;
+      letter-spacing: -.4px;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .brand span span { color: var(--blue); }
+
+    .top-label {
+      color: var(--muted);
+      font-size: 12px;
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      border-radius: 7px;
+    }
+
+    main {
+      width: min(1050px, 92%);
+      margin: 46px auto 70px;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-size: clamp(27px, 5vw, 38px);
+      line-height: 1.2;
+      letter-spacing: -1.2px;
+      margin: 8px 0 10px;
+    }
+
+    h1 span { color: var(--blue); }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0;
+      max-width: 600px;
+    }
+
+    .panel {
+      margin-top: 28px;
+      padding: 25px;
+      background: rgba(13, 20, 36, .94);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .panel-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 21px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -.3px;
+    }
+
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+
+    .field { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 7px;
+      color: #c9d4e9;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      color: var(--text);
+      background: #080e1a;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px 13px;
+      outline: none;
+      transition: border-color .18s, box-shadow .18s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px #2f8bff1c;
+    }
+
+    textarea { min-height: 105px; resize: vertical; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 16px;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 9px;
+      padding: 10px 15px;
+      font-weight: 750;
+      transition: background .18s, border-color .18s, transform .18s;
+    }
+
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--blue); color: white; }
+    .btn-primary:hover { background: var(--blue-hover); }
+    .btn-secondary {
+      background: #111d32;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover { border-color: #3b527a; }
+    .btn-danger {
+      background: #32151e;
+      border-color: #57232e;
+      color: #ffb4bd;
+    }
+    .btn:disabled { opacity: .55; cursor: wait; }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .status {
+      margin-top: 14px;
+      border-radius: 9px;
+      padding: 11px 13px;
+      display: none;
+      overflow-wrap: anywhere;
+    }
+
+    .status.show { display: block; }
+    .status.success {
+      background: #0c2925;
+      border: 1px solid #175449;
+      color: #8cf0c9;
+    }
+    .status.error {
+      background: #30151d;
+      border: 1px solid #592530;
+      color: #ffb1bc;
+    }
+    .status.info {
+      background: #10223d;
+      border: 1px solid #213f69;
+      color: #a9d0ff;
+    }
+
+    .login-wrap {
+      width: min(440px, 100%);
+      margin: 44px auto 0;
+    }
+
+    .login-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      background: #102b50;
+      color: #8fc4ff;
+      border: 1px solid #214a7b;
+      border-radius: 14px;
+      font-size: 23px;
+      margin-bottom: 18px;
+    }
+
+    .login-wrap .panel { margin-top: 0; }
+
+    .login-wrap .btn { width: 100%; }
+
+    .list { display: grid; gap: 12px; }
+
+    .survey-card {
+      border: 1px solid var(--border);
+      background: #0a1120;
+      border-radius: 12px;
+      padding: 17px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .survey-content { min-width: 0; }
+
+    .survey-title {
+      font-size: 15px;
+      font-weight: 750;
+      margin-bottom: 4px;
+      overflow-wrap: anywhere;
+    }
+
+    .survey-description {
+      color: var(--muted);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      margin-bottom: 10px;
+    }
+
+    .survey-url {
+      color: #83bcff;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+      text-decoration: none;
+    }
+
+    .survey-url:hover { text-decoration: underline; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 750;
+      margin: 0 5px 8px 0;
+    }
+
+    .badge-live { color: #79edbf; background: #103329; }
+    .badge-draft { color: #c1cbe0; background: #202b3e; }
+    .badge-expired { color: #ffb1bc; background: #351a24; }
+
+    .survey-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .survey-actions .btn {
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .empty {
+      border: 1px dashed #2a3854;
+      padding: 28px 15px;
+      text-align: center;
+      color: var(--muted);
+      border-radius: 12px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: #64728d;
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer span { color: var(--blue); }
+
+    @media (max-width: 650px) {
+      .topbar { padding: 0 4%; height: 60px; }
+      main { margin-top: 30px; }
+      .panel { padding: 18px; }
+      .grid { grid-template-columns: 1fr; }
+      .survey-card { flex-direction: column; }
+      .survey-actions { width: 100%; }
+      .survey-actions .btn { flex: 1; }
+      .top-label { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">
+      <img src="https://moonstudio.us.ci/logo.jpg" alt="Moon Studio">
+      <span>Moon <span>Studio</span></span>
+    </a>
+    <span class="top-label">SURVEY MANAGEMENT</span>
+  </header>
+
+  <main>
+    <section>
+      <div class="eyebrow">Moon Studio / Administration</div>
+      <h1>Survey <span>Management.</span></h1>
+      <p class="subtitle">Quản lý các khảo sát công khai của Moon Studio tại một nơi.</p>
+    </section>
+
+    <section id="loginSection" class="login-wrap">
+      <div class="panel">
+        <div class="login-icon" aria-hidden="true">⌘</div>
+        <h2>Đăng nhập quản trị</h2>
+        <p class="muted small">Nhập mật khẩu quản trị để tiếp tục. Phiên đăng nhập được quản lý bởi máy chủ.</p>
+        <form id="loginForm">
+          <div class="field">
+            <label for="adminPassword">Mật khẩu quản trị</label>
+            <input id="adminPassword" type="password" autocomplete="current-password"
+              placeholder="Nhập mật khẩu" required>
+          </div>
+          <button id="loginButton" class="btn btn-primary" type="submit">Đăng nhập</button>
+        </form>
+        <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <div class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Tạo Survey mới</h2>
+            <div class="muted small">Các trường có dấu * là bắt buộc.</div>
+          </div>
+          <button id="logoutButton" class="btn btn-secondary" type="button">Đăng xuất</button>
+        </div>
+
+        <form id="surveyForm">
+          <div class="field">
+            <label for="title">Tiêu đề Survey *</label>
+            <input id="title" name="title" maxlength="200" required
+              placeholder="Ví dụ: Moon Studio Community Survey">
+          </div>
+
+          <div class="field">
+            <label for="description">Mô tả</label>
+            <textarea id="description" name="description" maxlength="3000"
+              placeholder="Giới thiệu ngắn về khảo sát..."></textarea>
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="createdAt">Thời điểm bắt đầu *</label>
+              <input id="createdAt" name="createdAt" type="datetime-local" required>
+            </div>
+            <div class="field">
+              <label for="endsAt">Thời điểm kết thúc (không bắt buộc)</label>
+              <input id="endsAt" name="endsAt" type="datetime-local">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="destinationUrl">URL đích của Survey *</label>
+            <input id="destinationUrl" name="destinationUrl" type="url"
+              inputmode="url" placeholder="https://example.com/survey.html" required>
+            <div class="muted small">Chỉ chấp nhận đường dẫn HTTPS.</div>
+          </div>
+
+          <div class="field">
+            <label for="published">Trạng thái hiển thị</label>
+            <select id="published" name="published">
+              <option value="true">Công khai ngay</option>
+              <option value="false">Chưa công khai</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button id="createButton" class="btn btn-primary" type="submit">Tạo Survey</button>
+            <button id="resetButton" class="btn btn-secondary" type="reset">Xóa nội dung</button>
+          </div>
+        </form>
+        <div id="createStatus" class="status" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Survey đã tạo</h2>
+            <div class="muted small">Danh sách quản trị, bao gồm cả Survey chưa công khai.</div>
+          </div>
+          <button id="refreshButton" class="btn btn-secondary" type="button">↻ Làm mới</button>
+        </div>
+        <div id="surveyList" class="list">
+          <div class="empty">Đang tải danh sách Survey...</div>
+        </div>
+        <div id="listStatus" class="status" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>MOON STUDIO <span>© 2026</span> · Survey Administration</footer>
+
+  <script>
+    "use strict";
+
+    const API = "/api";
+    const $ = (id) => document.getElementById(id);
+
+    function showStatus(element, message, type = "info") {
+      element.textContent = message;
+      element.className = "status show " + type;
+    }
+
+    function clearStatus(element) {
+      element.textContent = "";
+      element.className = "status";
+    }
+
+    async function api(path, options = {}) {
+      const response = await fetch(API + path, {
+        credentials: "same-origin",
+        ...options,
+        headers: {
+          ...(options.body ? { "Content-Type": "application/json" } : {}),
+          ...(options.headers || {})
+        }
+      });
+
+      let data = {};
+      try {
+        data = await response.json();
+      } catch (_) {
+        data = {};
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || data.message || `Request failed (${response.status})`);
+      }
+
+      return data;
+    }
+
+    function setLoggedIn(loggedIn) {
+      $("loginSection").classList.toggle("hidden", loggedIn);
+      $("dashboard").classList.toggle("hidden", !loggedIn);
+
+      if (loggedIn) {
+        loadSurveys();
+      } else {
+        $("adminPassword").value = "";
+      }
+    }
+
+    function toLocalInputValue(date) {
+      const pad = (n) => String(n).padStart(2, "0");
+      return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" +
+        pad(date.getDate()) + "T" + pad(date.getHours()) + ":" +
+        pad(date.getMinutes());
+    }
+
+    function createId() {
+      const bytes = new Uint8Array(16);
+      crypto.getRandomValues(bytes);
+      return "MS-" + Array.from(bytes.slice(0, 4), b =>
+        b.toString(16).padStart(2, "0")).join("").toUpperCase() + "-" +
+        Array.from(bytes.slice(4, 8), b =>
+          b.toString(16).padStart(2, "0")).join("").toUpperCase();
+    }
+
+    function formatDate(value) {
+      if (value == null || value === "") return "Không giới hạn";
+      let date;
+
+      if (typeof value === "number") {
+        date = new Date(value < 1e12 ? value * 1000 : value);
+      } else {
+        date = new Date(value);
+      }
+
+      if (Number.isNaN(date.getTime())) return String(value);
+
+      return new Intl.DateTimeFormat("vi-VN", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZone: "Asia/Ho_Chi_Minh"
+      }).format(date);
+    }
+
+    function isExpired(survey) {
+      if (survey.ends_at == null) return false;
+      const value = typeof survey.ends_at === "number"
+        ? (survey.ends_at < 1e12 ? survey.ends_at * 1000 : survey.ends_at)
+        : new Date(survey.ends_at).getTime();
+      return Number.isFinite(value) && value <= Date.now();
+    }
+
+    function makeBadge(text, className) {
+      const badge = document.createElement("span");
+      badge.className = "badge " + className;
+      badge.textContent = text;
+      return badge;
+    }
+
+    function renderSurveys(surveys) {
+      const list = $("surveyList");
+      list.replaceChildren();
+
+      if (!Array.isArray(surveys) || surveys.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Chưa có Survey nào. Hãy tạo Survey đầu tiên ở phía trên.";
+        list.appendChild(empty);
+        return;
+      }
+
+      for (const survey of surveys) {
+        const card = document.createElement("article");
+        card.className = "survey-card";
+
+        const content = document.createElement("div");
+        content.className = "survey-content";
+
+        const title = document.createElement("div");
+        title.className = "survey-title";
+        title.textContent = survey.title || "Survey không có tiêu đề";
+        content.appendChild(title);
+
+        const published = survey.is_published === true ||
+          survey.is_published === 1 || survey.is_published === "1";
+
+        if (isExpired(survey)) {
+          content.appendChild(makeBadge("Đã kết thúc", "badge-expired"));
+        } else if (published) {
+          content.appendChild(makeBadge("Công khai", "badge-live"));
+        } else {
+          content.appendChild(makeBadge("Bản nháp", "badge-draft"));
+        }
+
+        const description = document.createElement("div");
+        description.className = "survey-description small";
+        description.textContent = survey.description || "Không có mô tả.";
+        content.appendChild(description);
+
+        const meta = document.createElement("div");
+        meta.className = "muted small";
+        meta.textContent = "Bắt đầu: " + formatDate(survey.created_at) +
+          " · Kết thúc: " + formatDate(survey.ends_at);
+        content.appendChild(meta);
+
+        if (survey.id) {
+          const idText = document.createElement("div");
+          idText.className = "muted small";
+          idText.textContent = "ID: " + survey.id;
+          content.appendChild(idText);
+        }
+
+        const link = document.createElement("a");
+        link.className = "survey-url";
+        link.href = survey.destination_url || "#";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = survey.destination_url || "Chưa có URL đích";
+        content.appendChild(link);
+
+        const actions = document.createElement("div");
+        actions.className = "survey-actions";
+
+        const copyButton = document.createElement("button");
+        copyButton.className = "btn btn-secondary";
+        copyButton.type = "button";
+        copyButton.textContent = "Sao chép URL";
+        copyButton.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(survey.destination_url);
+            copyButton.textContent = "Đã sao chép";
+            setTimeout(() => copyButton.textContent = "Sao chép URL", 1400);
+          } catch (_) {
+            window.prompt("Sao chép URL này:", survey.destination_url || "");
+          }
+        });
+        actions.appendChild(copyButton);
+
+        card.append(content, actions);
+        list.appendChild(card);
+      }
+    }
+
+    async function loadSurveys() {
+      const status = $("listStatus");
+      const list = $("surveyList");
+      clearStatus(status);
+      list.replaceChildren();
+
+      const loading = document.createElement("div");
+      loading.className = "empty";
+      loading.textContent = "Đang tải danh sách Survey...";
+      list.appendChild(loading);
+
+      $("refreshButton").disabled = true;
+
+      try {
+        const data = await api("/surveys/admin", { method: "GET" });
+        renderSurveys(data.surveys || data.items || []);
+      } catch (error) {
+        list.replaceChildren();
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Không tải được danh sách Survey.";
+        list.appendChild(empty);
+        showStatus(status, error.message, "error");
+
+        if (/unauthorized|unauthenticated|session|đăng nhập/i.test(error.message)) {
+          setLoggedIn(false);
+        }
+      } finally {
+        $("refreshButton").disabled = false;
+      }
+    }
+
+    $("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = $("loginButton");
+      const status = $("loginStatus");
+      clearStatus(status);
+      button.disabled = true;
+      button.textContent = "Đang xác thực...";
+
+      try {
+        await api("/survey-admin/login", {
+          method: "POST",
+          body: JSON.stringify({ password: $("adminPassword").value })
+        });
+
+        setLoggedIn(true);
+        showStatus($("listStatus"), "Đăng nhập thành công.", "success");
+      } catch (error) {
+        showStatus(status, error.message || "Đăng nhập thất bại.", "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Đăng nhập";
+      }
+    });
+
+    $("logoutButton").addEventListener("click", async () => {
+      $("logoutButton").disabled = true;
+      try {
+        await api("/survey-admin/logout", { method: "POST", body: "{}" });
+      } catch (_) {
+        // Luôn ẩn dashboard trên giao diện sau khi người dùng yêu cầu đăng xuất.
+      } finally {
+        setLoggedIn(false);
+        $("logoutButton").disabled = false;
+        clearStatus($("loginStatus"));
+        showStatus($("loginStatus"), "Đã đăng xuất.", "info");
+      }
+    });
+
+    $("surveyForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const button = $("createButton");
+      const status = $("createStatus");
+      clearStatus(status);
+
+      const title = $("title").value.trim();
+      const description = $("description").value.trim();
+      const createdInput = $("createdAt").value;
+      const endsInput = $("endsAt").value;
+      const destinationUrl = $("destinationUrl").value.trim();
+      const isPublished = $("published").value === "true";
+
+      if (!title) {
+        showStatus(status, "Vui lòng nhập tiêu đề Survey.", "error");
+        return;
+      }
+
+      if (!createdInput) {
+        showStatus(status, "Vui lòng chọn thời điểm bắt đầu.", "error");
+        return;
+      }
+
+      let destination;
+      try {
+        destination = new URL(destinationUrl);
+        if (destination.protocol !== "https:") throw new Error();
+      } catch (_) {
+        showStatus(status, "URL đích phải là một đường dẫn HTTPS hợp lệ.", "error");
+        return;
+      }
+
+      const createdAt = new Date(createdInput).getTime();
+      const endsAt = endsInput ? new Date(endsInput).getTime() : null;
+
+      if (!Number.isFinite(createdAt)) {
+        showStatus(status, "Thời điểm bắt đầu không hợp lệ.", "error");
+        return;
+      }
+
+      if (endsAt !== null && (!Number.isFinite(endsAt) || endsAt <= createdAt)) {
+        showStatus(status, "Thời điểm kết thúc phải sau thời điểm bắt đầu.", "error");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Đang tạo...";
+
+      try {
+        await api("/surveys/admin", {
+          method: "POST",
+          body: JSON.stringify({
+            id: createId(),
+            title,
+            description,
+            created_at: Math.floor(createdAt / 1000),
+            ends_at: endsAt === null ? null : Math.floor(endsAt / 1000),
+            destination_url: destination.href,
+            is_published: isPublished
+          })
+        });
+
+        showStatus(status, "Tạo Survey thành công!", "success");
+        $("surveyForm").reset();
+        $("createdAt").value = toLocalInputValue(new Date());
+        await loadSurveys();
+      } catch (error) {
+        showStatus(status, "Không tạo được Survey: " + error.message, "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Tạo Survey";
+      }
+    });
+
+    $("resetButton").addEventListener("click", () => {
+      clearStatus($("createStatus"));
+      setTimeout(() => {
+        $("createdAt").value = toLocalInputValue(new Date());
+      }, 0);
+    });
+
+    $("refreshButton").addEventListener("click", loadSurveys);
+
+    async function initialize() {
+      $("createdAt").value = toLocalInputValue(new Date());
+
+      try {
+        await api("/survey-admin/me", { method: "GET" });
+        setLoggedIn(true);
+      } catch (_) {
+        setLoggedIn(false);
+      }
+    }
+
+    initialize();
+  </script>
+</body>
+</html>
