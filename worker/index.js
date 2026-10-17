@@ -1,3 +1,4 @@
+
 const COOKIE_NAME = "__Host-ms_session";
 const SESSION_TTL = 7 * 24 * 60 * 60;
 const FIREBASE_LOOKUP_TIMEOUT = 10000;
@@ -135,12 +136,40 @@ async function readJson(request) {
   return { ok: true, data };
 }
 
+/*
+ * Supports ISO date strings and numeric Unix timestamps.
+ * Returns Unix seconds, or null when the value is invalid.
+ */
 function normalizeAccountCreatedAt(value) {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    const seconds = value > 1e12
+      ? Math.floor(value / 1000)
+      : Math.floor(value);
+
+    return seconds > 0 ? seconds : null;
+  }
+
   if (typeof value !== "string" || !value.trim()) {
     return null;
   }
 
-  const milliseconds = Date.parse(value);
+  const input = value.trim();
+
+  if (/^\d+$/.test(input)) {
+    const number = Number(input);
+
+    if (!Number.isSafeInteger(number) || number <= 0) {
+      return null;
+    }
+
+    const seconds = number > 1e12
+      ? Math.floor(number / 1000)
+      : number;
+
+    return seconds > 0 ? seconds : null;
+  }
+
+  const milliseconds = Date.parse(input);
 
   if (!Number.isFinite(milliseconds) || milliseconds <= 0) {
     return null;
@@ -149,11 +178,46 @@ function normalizeAccountCreatedAt(value) {
   return Math.floor(milliseconds / 1000);
 }
 
-/*
- * The Firebase accounts:lookup endpoint validates the ID token.
- * Account creation time and provider information are taken from
- * Firebase's response, never from client-supplied profile fields.
- */
+function getProviderIds(user) {
+  const providers = Array.isArray(user?.providerUserInfo)
+    ? user.providerUserInfo
+        .map(item => item?.providerId)
+        .filter(value =>
+          typeof value === "string" && value.length > 0
+        )
+    : [];
+
+  return [...new Set(providers)];
+}
+
+function getProviderLabel(providerIds) {
+  if (!Array.isArray(providerIds) || providerIds.length === 0) {
+    return null;
+  }
+
+  const labels = {
+    password: "Email/Password",
+    google.com: "Google",
+    "facebook.com": "Facebook",
+    "github.com": "GitHub",
+    "apple.com": "Apple",
+    "microsoft.com": "Microsoft",
+    "twitter.com": "X",
+    "phone": "Phone",
+    "yahoo.com": "Yahoo",
+  };
+
+  const recognized = providerIds
+    .map(id => labels[id])
+    .filter(Boolean);
+
+  if (recognized.length === 1) return recognized[0];
+
+  // Multiple linked providers do not establish which was used
+  // for the current login.
+  return recognized.length > 1 ? "Multiple linked providers" : null;
+}
+
 async function verifyFirebaseIdToken(idToken, env) {
   if (
     typeof idToken !== "string" ||
@@ -196,11 +260,7 @@ async function verifyFirebaseIdToken(idToken, env) {
         return { ok: false, reason: "invalid-token" };
       }
 
-      console.error(
-        "Firebase token lookup failed:",
-        response.status
-      );
-
+      console.error("Firebase token lookup failed:", response.status);
       return { ok: false, reason: "firebase-unavailable" };
     }
 
@@ -222,34 +282,23 @@ async function verifyFirebaseIdToken(idToken, env) {
       return { ok: false, reason: "email-not-verified" };
     }
 
-    const providerIds = Array.isArray(user.providerUserInfo)
-      ? [
-          ...new Set(
-            user.providerUserInfo
-              .map(item => item?.providerId)
-              .filter(value =>
-                typeof value === "string" && value.length > 0
-              )
-          ),
-        ]
-      : [];
+    const providerIds = getProviderIds(user);
 
     return {
       ok: true,
       user: {
         uid: user.localId,
-        email: typeof user.email === "string"
-          ? user.email
-          : null,
-        displayName: typeof user.displayName === "string"
-          ? user.displayName
-          : null,
-        photoURL: typeof user.photoUrl === "string"
-          ? user.photoUrl
-          : null,
+        email: typeof user.email === "string" ? user.email : null,
+        displayName:
+          typeof user.displayName === "string"
+            ? user.displayName
+            : null,
+        photoURL:
+          typeof user.photoUrl === "string" ? user.photoUrl : null,
       },
       accountCreatedAt: normalizeAccountCreatedAt(user.createdAt),
       providerIds,
+      providerLabel: getProviderLabel(providerIds),
     };
   } catch (error) {
     console.error(
@@ -282,16 +331,14 @@ function firebaseErrorResponse(reason) {
     case "firebase-unavailable":
       return json({
         authenticated: false,
-        error:
-          "Authentication service is temporarily unavailable. Please try again.",
+        error: "Authentication service is temporarily unavailable. Please try again.",
         code: "AUTH_SERVICE_UNAVAILABLE",
       }, 503);
 
     default:
       return json({
         authenticated: false,
-        error:
-          "Your sign-in session is invalid or has expired. Please sign in again.",
+        error: "Your sign-in session is invalid or has expired. Please sign in again.",
         code: "INVALID_ID_TOKEN",
       }, 401);
   }
@@ -308,10 +355,6 @@ async function handleHealth(env) {
 }
 
 async function saveAccountMetadata(env, verification, now) {
-  /*
-   * Do not overwrite a previously saved creation date with NULL.
-   * This keeps existing valid metadata when Firebase omits a field.
-   */
   await env.DB.prepare(
     `INSERT INTO account_metadata
        (user_id, account_created_at, provider_ids, updated_at)
@@ -337,21 +380,16 @@ async function handleLogin(request, env) {
   }
 
   if (!isConfigured(env)) {
-    return json({
-      error: "Session service is not configured.",
-    }, 503);
+    return json({ error: "Session service is not configured." }, 503);
   }
 
   const parsed = await readJson(request);
-
   if (!parsed.ok) return parsed.response;
 
   const idToken = parsed.data.idToken;
 
   if (typeof idToken !== "string" || !idToken) {
-    return json({
-      error: "Firebase ID token is required.",
-    }, 400);
+    return json({ error: "Firebase ID token is required." }, 400);
   }
 
   const verification = await verifyFirebaseIdToken(idToken, env);
@@ -362,26 +400,24 @@ async function handleLogin(request, env) {
 
   const now = Math.floor(Date.now() / 1000);
   const expiresAt = now + SESSION_TTL;
-
-  /*
-   * Firebase's accounts:lookup response provides linked providers,
-   * not necessarily the provider used for this particular sign-in.
-   * Therefore login_method remains NULL until the actual sign-in
-   * provider can be established by a trusted mechanism.
-   */
   const sessionKey = generateSessionKey();
   const sessionHash = await sha256(sessionKey);
 
+  /*
+   * providerLabel represents linked provider information, not
+   * guaranteed proof of the provider used for this exact sign-in.
+   */
   try {
     await env.DB.prepare(
       `INSERT INTO sessions
          (id, user_id, created_at, expires_at, revoked_at, login_method)
-       VALUES (?, ?, ?, ?, NULL, NULL)`
+       VALUES (?, ?, ?, ?, NULL, ?)`
     ).bind(
       sessionHash,
       verification.user.uid,
       now,
-      expiresAt
+      expiresAt,
+      verification.providerLabel
     ).run();
   } catch (error) {
     console.error(
@@ -394,10 +430,6 @@ async function handleLogin(request, env) {
     }, 503);
   }
 
-  /*
-   * Metadata is supplementary. If this write fails, the verified
-   * session remains usable; the API will report missing metadata.
-   */
   try {
     await saveAccountMetadata(env, verification, now);
   } catch (error) {
@@ -412,16 +444,14 @@ async function handleLogin(request, env) {
       "DELETE FROM sessions WHERE expires_at <= ? OR revoked_at IS NOT NULL"
     ).bind(now).run();
   } catch (error) {
-    console.error(
-      "Session cleanup failed:",
-      error?.message || error
-    );
+    console.error("Session cleanup failed:", error?.message || error);
   }
 
   return json({
     authenticated: true,
     user: verification.user,
     accountCreatedAt: verification.accountCreatedAt,
+    loginMethod: verification.providerLabel,
     expiresAt,
   }, 200, {
     "Set-Cookie": cookieHeader(sessionKey, SESSION_TTL),
@@ -430,9 +460,7 @@ async function handleLogin(request, env) {
 
 async function handleMe(request, env) {
   if (!isConfigured(env)) {
-    return json({
-      error: "Session service is not configured.",
-    }, 503);
+    return json({ error: "Session service is not configured." }, 503);
   }
 
   const sessionKey = getCookie(request, COOKIE_NAME);
@@ -459,14 +487,9 @@ async function handleMe(request, env) {
        LIMIT 1`
     ).bind(sessionHash, now).first();
   } catch (error) {
-    console.error(
-      "Could not read D1 session:",
-      error?.message || error
-    );
+    console.error("Could not read D1 session:", error?.message || error);
 
-    return json({
-      error: "Could not verify your session.",
-    }, 503);
+    return json({ error: "Could not verify your session." }, 503);
   }
 
   if (!session) {
@@ -482,7 +505,7 @@ async function handleMe(request, env) {
 
   try {
     metadata = await env.DB.prepare(
-      `SELECT account_created_at
+      `SELECT account_created_at, provider_ids
        FROM account_metadata
        WHERE user_id = ?
        LIMIT 1`
@@ -500,22 +523,29 @@ async function handleMe(request, env) {
       ? metadata.account_created_at
       : null;
 
-  const loginMethod =
-    typeof session.login_method === "string" &&
-    session.login_method.length > 0
-      ? session.login_method
-      : null;
-
   return json({
     authenticated: true,
-    user: {
-      uid: session.user_id,
-    },
+    user: { uid: session.user_id },
     accountCreatedAt,
-    loginMethod,
+    loginMethod:
+      typeof session.login_method === "string"
+        ? session.login_method
+        : null,
+    linkedProviders: metadata?.provider_ids
+      ? safeParseJson(metadata.provider_ids)
+      : [],
     createdAt: session.created_at,
     expiresAt: session.expires_at,
   });
+}
+
+function safeParseJson(value) {
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }
 
 async function handleLogout(request, env) {
@@ -528,8 +558,7 @@ async function handleLogout(request, env) {
   if (sessionKey && /^[a-f0-9]{64}$/.test(sessionKey)) {
     if (!isConfigured(env)) {
       return json({
-        error:
-          "Session service is not configured; sign-out could not be confirmed.",
+        error: "Session service is not configured; sign-out could not be confirmed.",
       }, 503);
     }
 
@@ -544,10 +573,7 @@ async function handleLogout(request, env) {
            AND revoked_at IS NULL`
       ).bind(now, sessionHash).run();
     } catch (error) {
-      console.error(
-        "Could not revoke D1 session:",
-        error?.message || error
-      );
+      console.error("Could not revoke D1 session:", error?.message || error);
 
       return json({
         error: "Could not revoke your session. Please try again.",
@@ -589,9 +615,7 @@ async function handleRequest(request, env) {
     return env.ASSETS.fetch(request);
   }
 
-  return json({
-    error: "Static assets are not configured.",
-  }, 500);
+  return json({ error: "Static assets are not configured." }, 500);
 }
 
 export default {
@@ -604,9 +628,7 @@ export default {
         error?.message || error
       );
 
-      return json({
-        error: "Internal server error.",
-      }, 500);
+      return json({ error: "Internal server error." }, 500);
     }
   },
 };
