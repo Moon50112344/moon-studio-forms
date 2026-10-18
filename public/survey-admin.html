@@ -13,14 +13,11 @@
       color-scheme: dark;
       --bg: #070b14;
       --panel: #0d1424;
-      --panel2: #101b30;
       --text: #e8ecf5;
       --muted: #8b98b4;
       --border: #1e2a44;
       --blue: #2f8bff;
       --blue-hover: #1a7aee;
-      --green: #40d69a;
-      --red: #ff6b7a;
       --radius: 16px;
     }
 
@@ -33,8 +30,7 @@
         radial-gradient(ellipse at 50% -20%, #12274a 0, transparent 55%),
         var(--bg);
       color: var(--text);
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 14px;
       line-height: 1.6;
     }
@@ -44,8 +40,8 @@
     .hidden { display: none !important; }
 
     .topbar {
-      height: 68px;
-      padding: 0 6%;
+      min-height: 68px;
+      padding: 12px 6%;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -126,12 +122,7 @@
       margin-bottom: 21px;
     }
 
-    h2 {
-      margin: 0;
-      font-size: 18px;
-      letter-spacing: -.3px;
-    }
-
+    h2 { margin: 0; font-size: 18px; letter-spacing: -.3px; }
     .muted { color: var(--muted); }
     .small { font-size: 12px; }
     .field { margin-bottom: 18px; }
@@ -177,6 +168,8 @@
     }
 
     .btn:active { transform: scale(.98); }
+    .btn:disabled { opacity: .55; cursor: wait; transform: none; }
+
     .btn-primary { background: var(--blue); color: white; }
     .btn-primary:hover { background: var(--blue-hover); }
 
@@ -199,12 +192,6 @@
       border-color: #8d3547;
     }
 
-    .btn:disabled {
-      opacity: .55;
-      cursor: wait;
-      transform: none;
-    }
-
     .form-actions {
       display: flex;
       gap: 10px;
@@ -221,6 +208,7 @@
     }
 
     .status.show { display: block; }
+
     .status.success {
       background: #0c2925;
       border: 1px solid #175449;
@@ -272,7 +260,7 @@
       gap: 18px;
     }
 
-    .survey-content { min-width: 0; }
+    .survey-content { min-width: 0; flex: 1; }
 
     .survey-title {
       font-size: 15px;
@@ -343,7 +331,7 @@
     footer span { color: var(--blue); }
 
     @media (max-width: 650px) {
-      .topbar { padding: 0 4%; height: 60px; }
+      .topbar { padding: 12px 4%; }
       main { margin-top: 30px; }
       .panel { padding: 18px; }
       .grid { grid-template-columns: 1fr; }
@@ -379,15 +367,11 @@
         <form id="loginForm">
           <div class="field">
             <label for="adminPassword">Mật khẩu quản trị</label>
-            <input id="adminPassword" type="password"
-              autocomplete="current-password"
+            <input id="adminPassword" type="password" autocomplete="current-password"
               placeholder="Nhập mật khẩu" required>
           </div>
-          <button id="loginButton" class="btn btn-primary" type="submit">
-            Đăng nhập
-          </button>
+          <button id="loginButton" class="btn btn-primary" type="submit">Đăng nhập</button>
         </form>
-
         <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
       </div>
     </section>
@@ -399,9 +383,7 @@
             <h2>Tạo Survey mới</h2>
             <div class="muted small">Các trường có dấu * là bắt buộc.</div>
           </div>
-          <button id="logoutButton" class="btn btn-secondary" type="button">
-            Đăng xuất
-          </button>
+          <button id="logoutButton" class="btn btn-secondary" type="button">Đăng xuất</button>
         </div>
 
         <form id="surveyForm">
@@ -420,8 +402,7 @@
           <div class="grid">
             <div class="field">
               <label for="createdAt">Thời điểm bắt đầu *</label>
-              <input id="createdAt" name="createdAt"
-                type="datetime-local" required>
+              <input id="createdAt" name="createdAt" type="datetime-local" required>
             </div>
             <div class="field">
               <label for="endsAt">Thời điểm kết thúc (không bắt buộc)</label>
@@ -445,15 +426,10 @@
           </div>
 
           <div class="form-actions">
-            <button id="createButton" class="btn btn-primary" type="submit">
-              Tạo Survey
-            </button>
-            <button id="resetButton" class="btn btn-secondary" type="reset">
-              Xóa nội dung
-            </button>
+            <button id="createButton" class="btn btn-primary" type="submit">Tạo Survey</button>
+            <button id="resetButton" class="btn btn-secondary" type="reset">Xóa nội dung</button>
           </div>
         </form>
-
         <div id="createStatus" class="status" role="status" aria-live="polite"></div>
       </div>
 
@@ -461,13 +437,9 @@
         <div class="panel-heading">
           <div>
             <h2>Survey đã tạo</h2>
-            <div class="muted small">
-              Danh sách quản trị, bao gồm cả Survey chưa công khai.
-            </div>
+            <div class="muted small">Danh sách quản trị, bao gồm cả Survey chưa công khai.</div>
           </div>
-          <button id="refreshButton" class="btn btn-secondary" type="button">
-            ↻ Làm mới
-          </button>
+          <button id="refreshButton" class="btn btn-secondary" type="button">↻ Làm mới</button>
         </div>
 
         <div id="surveyList" class="list">
@@ -598,15 +570,15 @@
 
       const title = String(survey.title || "Survey không có tiêu đề");
 
-      const confirmed = window.confirm(
+      if (!window.confirm(
         "XÓA SURVEY VĨNH VIỄN?\n\n" +
         "Tiêu đề: " + title + "\n" +
         "ID: " + id + "\n\n" +
-        "Thao tác này sẽ xóa Survey khỏi cơ sở dữ liệu và không thể hoàn tác.\n\n" +
+        "Survey sẽ bị xóa khỏi cơ sở dữ liệu và không thể hoàn tác.\n\n" +
         "Bạn có chắc chắn muốn tiếp tục?"
-      );
-
-      if (!confirmed) return;
+      )) {
+        return;
+      }
 
       const originalText = button.textContent;
       button.disabled = true;
@@ -644,8 +616,7 @@
       if (!Array.isArray(surveys) || surveys.length === 0) {
         const empty = document.createElement("div");
         empty.className = "empty";
-        empty.textContent =
-          "Chưa có Survey nào. Hãy tạo Survey đầu tiên ở phía trên.";
+        empty.textContent = "Chưa có Survey nào. Hãy tạo Survey đầu tiên ở phía trên.";
         list.appendChild(empty);
         return;
       }
@@ -710,19 +681,14 @@
 
         copyButton.addEventListener("click", async () => {
           try {
-            await navigator.clipboard.writeText(
-              survey.destination_url || ""
-            );
-
+            await navigator.clipboard.writeText(survey.destination_url || "");
             copyButton.textContent = "Đã sao chép";
+
             setTimeout(() => {
               copyButton.textContent = "Sao chép URL";
             }, 1400);
           } catch (_) {
-            window.prompt(
-              "Sao chép URL này:",
-              survey.destination_url || ""
-            );
+            window.prompt("Sao chép URL này:", survey.destination_url || "");
           }
         });
 
@@ -775,9 +741,7 @@
 
         showStatus(status, error.message, "error");
 
-        if (
-          /unauthorized|unauthenticated|session|đăng nhập/i.test(error.message)
-        ) {
+        if (/unauthorized|unauthenticated|session|đăng nhập/i.test(error.message)) {
           setLoggedIn(false);
         }
       } finally {
@@ -822,7 +786,7 @@
           body: "{}"
         });
       } catch (_) {
-        // Ẩn dashboard khi người dùng yêu cầu đăng xuất.
+        // Luôn ẩn dashboard sau yêu cầu đăng xuất.
       } finally {
         setLoggedIn(false);
         $("logoutButton").disabled = false;
@@ -836,7 +800,6 @@
 
       const button = $("createButton");
       const status = $("createStatus");
-
       clearStatus(status);
 
       const title = $("title").value.trim();
@@ -862,11 +825,7 @@
         destination = new URL(destinationUrl);
         if (destination.protocol !== "https:") throw new Error();
       } catch (_) {
-        showStatus(
-          status,
-          "URL đích phải là một đường dẫn HTTPS hợp lệ.",
-          "error"
-        );
+        showStatus(status, "URL đích phải là một đường dẫn HTTPS hợp lệ.", "error");
         return;
       }
 
@@ -878,15 +837,8 @@
         return;
       }
 
-      if (
-        endsAt !== null &&
-        (!Number.isFinite(endsAt) || endsAt <= createdAt)
-      ) {
-        showStatus(
-          status,
-          "Thời điểm kết thúc phải sau thời điểm bắt đầu.",
-          "error"
-        );
+      if (endsAt !== null && (!Number.isFinite(endsAt) || endsAt <= createdAt)) {
+        showStatus(status, "Thời điểm kết thúc phải sau thời điểm bắt đầu.", "error");
         return;
       }
 
@@ -901,9 +853,7 @@
             title,
             description,
             created_at: Math.floor(createdAt / 1000),
-            ends_at: endsAt === null
-              ? null
-              : Math.floor(endsAt / 1000),
+            ends_at: endsAt === null ? null : Math.floor(endsAt / 1000),
             destination_url: destination.href,
             is_published: isPublished
           })
@@ -912,14 +862,9 @@
         showStatus(status, "Tạo Survey thành công!", "success");
         $("surveyForm").reset();
         $("createdAt").value = toLocalInputValue(new Date());
-
         await loadSurveys();
       } catch (error) {
-        showStatus(
-          status,
-          "Không tạo được Survey: " + error.message,
-          "error"
-        );
+        showStatus(status, "Không tạo được Survey: " + error.message, "error");
       } finally {
         button.disabled = false;
         button.textContent = "Tạo Survey";
