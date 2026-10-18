@@ -1,0 +1,1339 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b14">
+  <meta name="description" content="Khám phá và tham gia các khảo sát từ Moon Studio Forms.">
+  <title>Surveys — Moon Studio Forms</title>
+
+  <style>
+    :root {
+      --bg: #070b14;
+      --sidebar: #090e19;
+      --panel: #0d1424;
+      --panel-hover: #111b2e;
+      --border: #1e2a44;
+      --text: #e8ecf5;
+      --muted: #8490aa;
+      --blue: #2f8bff;
+      --green: #42d6a0;
+      --red: #ff7b8c;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      min-height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+
+    button, input, a { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    [hidden] { display: none !important; }
+
+    .layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 235px minmax(0, 1fr);
+    }
+
+    /* SIDEBAR — giữ nguyên thiết kế từ Dashboard */
+
+    aside {
+      display: flex;
+      flex-direction: column;
+      padding: 25px 17px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 8px 32px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--panel);
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .brand-name span { color: var(--blue); }
+
+    .brand-sub {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .nav-label {
+      padding: 8px 10px;
+      color: #697690;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    nav { display: grid; gap: 6px; }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      color: #9ba7bf;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      font-size: 13px;
+      transition: background .2s, border-color .2s;
+    }
+
+    .nav-link:hover { background: var(--panel-hover); }
+
+    .nav-link.active {
+      color: white;
+      background: #142543;
+      border-color: #24477a;
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-bottom { margin-top: auto; }
+
+    .sidebar-footer {
+      padding: 15px 8px 0;
+      border-top: 1px solid var(--border);
+      color: #697690;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    /* MAIN */
+
+    .main-area { min-width: 0; }
+
+    header {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breadcrumb {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .breadcrumb strong { color: var(--text); }
+
+    .online {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #a2b1c9;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      display: inline-block;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .content {
+      max-width: 1450px;
+      margin: auto;
+      padding: 34px 32px;
+    }
+
+    .heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .eyebrow {
+      margin-bottom: 10px;
+      color: #72b2ff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(27px, 4vw, 34px);
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* SEARCH */
+
+    .search-panel {
+      margin-bottom: 25px;
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel);
+    }
+
+    .search-label {
+      display: block;
+      margin-bottom: 10px;
+      color: #c2cee2;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 49px;
+      padding: 0 14px;
+      border: 1px solid #2a3b59;
+      border-radius: 10px;
+      background: #080e1a;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px #2f8bff18;
+    }
+
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: #7faeea;
+    }
+
+    #searchInput {
+      width: 100%;
+      min-width: 0;
+      padding: 13px 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    #searchInput::placeholder { color: #65738d; }
+
+    .clear-search {
+      display: grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      flex-shrink: 0;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .clear-search:hover {
+      border-color: var(--border);
+      background: var(--panel-hover);
+      color: white;
+    }
+
+    .clear-search svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .search-hint {
+      margin: 11px 0 0;
+      color: #71809b;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    /* LIST HEADER */
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 27px 0 16px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .result-count {
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    /* SURVEY CARDS */
+
+    .survey-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .survey-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel);
+      transition: transform .2s, border-color .2s, background .2s;
+      animation: cardIn .3s ease both;
+    }
+
+    .survey-card:hover {
+      transform: translateY(-3px);
+      border-color: #34517a;
+      background: #0f192b;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(7px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .survey-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 17px;
+    }
+
+    .survey-icon {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      flex-shrink: 0;
+      border: 1px solid #233c61;
+      border-radius: 12px;
+      background: #13243c;
+      color: #8fc2ff;
+    }
+
+    .survey-icon svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .survey-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 130px;
+      padding: 6px 8px;
+      border: 1px solid #205943;
+      border-radius: 20px;
+      background: #102a22;
+      color: #8ce8c5;
+      font-size: 10px;
+      line-height: 1.3;
+    }
+
+    .survey-badge .dot {
+      width: 5px;
+      height: 5px;
+    }
+
+    .survey-badge.expired {
+      border-color: #57303a;
+      background: #29141c;
+      color: #ffabb6;
+    }
+
+    .survey-badge.expired .dot { background: var(--red); }
+
+    .topic-label {
+      margin-bottom: 8px;
+      color: #72b2ff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .survey-title {
+      margin: 0;
+      overflow-wrap: anywhere;
+      font-size: 16px;
+      line-height: 1.55;
+      font-weight: 750;
+    }
+
+    .survey-description {
+      margin: 10px 0 19px;
+      color: #a0adc4;
+      font-size: 12px;
+      line-height: 1.85;
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+    }
+
+    .survey-description.empty {
+      color: #6f7e98;
+      font-style: italic;
+    }
+
+    .survey-meta {
+      display: grid;
+      gap: 13px;
+      padding: 16px 0;
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .meta-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #8490aa;
+      font-size: 11px;
+      line-height: 1.7;
+      flex-shrink: 0;
+    }
+
+    .meta-label svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .meta-value {
+      color: #d7dfed;
+      font-size: 11px;
+      line-height: 1.7;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .survey-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 43px;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #101a2c;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+
+    .button:hover { border-color: #3c5275; }
+
+    .button.primary {
+      border-color: #2f8bff;
+      background: var(--blue);
+      color: white;
+    }
+
+    .button.primary:hover {
+      border-color: #63a8ff;
+      background: #1e7df0;
+    }
+
+    .button svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    .button.disabled {
+      border-color: #293348;
+      background: #151c29;
+      color: #71809b;
+      cursor: not-allowed;
+    }
+
+    /* LOADING, ERROR, EMPTY */
+
+    .state-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 13px;
+      min-height: 250px;
+      padding: 30px 20px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--panel);
+      text-align: center;
+    }
+
+    .state-icon {
+      display: grid;
+      place-items: center;
+      width: 53px;
+      height: 53px;
+      border: 1px solid #233c61;
+      border-radius: 15px;
+      background: #13243c;
+      color: #8fc2ff;
+    }
+
+    .state-icon svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .state-panel h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .state-panel p {
+      max-width: 430px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.9;
+      overflow-wrap: anywhere;
+    }
+
+    .spinner {
+      width: 27px;
+      height: 27px;
+      border: 2px solid #25334b;
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .inline-message {
+      display: none;
+      padding: 13px 15px;
+      margin-bottom: 18px;
+      border: 1px solid #75404a;
+      border-radius: 10px;
+      background: #29141c;
+      color: #ffabb6;
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .inline-message.visible { display: block; }
+
+    .inline-message.success {
+      border-color: #205943;
+      background: #102a22;
+      color: #8ce8c5;
+    }
+
+    .list-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: #697690;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .loading-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 1200px) {
+      .layout { grid-template-columns: 215px minmax(0, 1fr); }
+      .content { padding: 28px 23px; }
+      header { padding: 0 23px; }
+      .survey-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      .layout { display: block; }
+
+      aside {
+        padding: 14px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand { padding: 0 2px 13px; }
+      .nav-label, .sidebar-bottom { display: none; }
+
+      nav {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      nav::-webkit-scrollbar { display: none; }
+
+      .nav-link {
+        flex-shrink: 0;
+        padding: 10px;
+        font-size: 12px;
+      }
+
+      header {
+        min-height: 58px;
+        padding: 0 15px;
+      }
+
+      .content { padding: 23px 15px; }
+      .survey-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .survey-card { padding: 15px; }
+      .survey-title { font-size: 14px; }
+      .survey-description { font-size: 11px; }
+      .list-footer { flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .survey-grid { grid-template-columns: 1fr; }
+      .heading { margin-bottom: 21px; }
+      .search-panel { padding: 13px; }
+      .section-heading h2 { font-size: 15px; }
+      .survey-card { padding: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loadingPage" class="loading-page" role="status" aria-live="polite">
+    <div class="spinner" aria-hidden="true"></div>
+    <div>Đang tải danh sách khảo sát...</div>
+  </div>
+
+  <div id="app" class="layout" hidden>
+    <aside>
+      <a class="brand" href="/" aria-label="Moon Studio — Trang chính">
+        <img
+          class="brand-icon"
+          src="https://moonstudio.us.ci/logo.jpg"
+          alt="Moon Studio"
+          width="38"
+          height="38"
+        >
+        <div>
+          <div class="brand-name">Moon <span>Studio</span></div>
+          <div class="brand-sub">Forms workspace</div>
+        </div>
+      </a>
+
+      <div class="nav-label">WORKSPACE</div>
+
+      <nav aria-label="Điều hướng">
+        <a class="nav-link" href="/dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <rect x="3" y="3" width="8" height="8" rx="2"></rect>
+            <rect x="13" y="3" width="8" height="5" rx="2"></rect>
+            <rect x="13" y="10" width="8" height="11" rx="2"></rect>
+            <rect x="3" y="13" width="8" height="8" rx="2"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+
+        <a class="nav-link active" href="/survey" aria-current="page">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+            <path d="M9 8h6M9 12h6M9 16h4"></path>
+          </svg>
+          <span>Surveys</span>
+        </a>
+
+        <a class="nav-link" href="/profile">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-footer">
+          Powered by Moon Studio<br>
+          © 2026 Moon Studio
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header>
+        <div class="breadcrumb">
+          Workspace / <strong>Surveys</strong>
+        </div>
+
+        <div class="online">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Public surveys</span>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="heading">
+          <div>
+            <div class="eyebrow">MOON STUDIO / FORMS</div>
+            <h1>Khảo sát</h1>
+            <p class="subtitle">
+              Khám phá các khảo sát từ Moon Studio và chia sẻ ý kiến của bạn.
+            </p>
+          </div>
+        </section>
+
+        <div id="message" class="inline-message" role="alert" aria-live="polite"></div>
+
+        <section class="search-panel" aria-label="Tìm kiếm khảo sát">
+          <label class="search-label" for="searchInput">
+            Tìm kiếm khảo sát
+          </label>
+
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-4-4"></path>
+            </svg>
+
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Tìm theo chủ đề, mô tả, ngày tạo hoặc ngày kết thúc..."
+              autocomplete="off"
+              spellcheck="false"
+              aria-describedby="searchHint"
+            >
+
+            <button
+              id="clearSearch"
+              class="clear-search"
+              type="button"
+              aria-label="Xóa từ khóa tìm kiếm"
+              title="Xóa tìm kiếm"
+              hidden
+            >
+              <svg viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round"
+                   aria-hidden="true">
+                <path d="m18 6-12 12M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <p id="searchHint" class="search-hint">
+            Có thể tìm theo tên chủ đề, mô tả, ngày/tháng/năm.
+            Ví dụ: giao diện, tính năng, 01/10/2026 hoặc tháng 10.
+          </p>
+        </section>
+
+        <div class="section-heading">
+          <h2>Danh sách khảo sát</h2>
+          <span id="resultCount" class="result-count">Đang tải...</span>
+        </div>
+
+        <section id="loadingState" class="state-panel" aria-live="polite">
+          <div class="spinner" aria-hidden="true"></div>
+          <h3>Đang tải khảo sát</h3>
+          <p>Vui lòng chờ trong giây lát.</p>
+        </section>
+
+        <section id="errorState" class="state-panel" hidden>
+          <div class="state-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round"
+                 stroke-linejoin="round">
+              <path d="M12 9v4M12 17h.01"></path>
+              <path d="M10.3 3.9 2.5 17.4A2 2 0 0 0 4.2 20h15.6a2 2 0 0 0 1.7-2.6L13.7 3.9a2 2 0 0 0-3.4 0Z"></path>
+            </svg>
+          </div>
+          <h3>Không thể tải khảo sát</h3>
+          <p id="errorText">Vui lòng kiểm tra kết nối và thử lại.</p>
+          <button id="retryButton" class="button primary" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 7v5h-5"></path>
+              <path d="M4 17v-5h5"></path>
+              <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12"></path>
+              <path d="M4 12l2.8 5a7 7 0 0 0 11.6-2"></path>
+            </svg>
+            Thử lại
+          </button>
+        </section>
+
+        <section id="emptyState" class="state-panel" hidden>
+          <div class="state-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.8" stroke-linecap="round"
+                 stroke-linejoin="round">
+              <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+              <path d="M9 8h6M9 12h6M9 16h4"></path>
+            </svg>
+          </div>
+          <h3 id="emptyTitle">Chưa có khảo sát</h3>
+          <p id="emptyDescription">
+            Hiện chưa có khảo sát nào được công khai. Hãy quay lại sau nhé.
+          </p>
+          <button id="resetSearch" class="button" type="button" hidden>
+            Xóa tìm kiếm
+          </button>
+        </section>
+
+        <section
+          id="surveyGrid"
+          class="survey-grid"
+          aria-label="Các khảo sát có thể tham gia"
+          aria-live="polite"
+        ></section>
+
+        <footer class="list-footer">
+          <div>© 2026 <strong>Moon Studio</strong>. All rights reserved.</div>
+          <div>Moon Studio Forms · Community Surveys</div>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const API_URL = "/api/surveys";
+      const FORM_PATH = "/form/";
+
+      const $ = id => document.getElementById(id);
+
+      let allSurveys = [];
+      let loaded = false;
+
+      const ICONS = {
+        calendar: `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+            <path d="M16 3v4M8 3v4M3 10h18"></path>
+          </svg>`,
+        arrow: `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>`,
+        document: `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+            <path d="M9 8h6M9 12h6M9 16h4"></path>
+          </svg>`,
+        search: `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.8" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-4-4"></path>
+          </svg>`
+      };
+
+      function normalizeText(value) {
+        return String(value ?? "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/đ/g, "d")
+          .replace(/Đ/g, "D")
+          .toLocaleLowerCase("vi-VN")
+          .trim();
+      }
+
+      function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, character => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        })[character]);
+      }
+
+      function parseTimestamp(value) {
+        if (value === null || value === undefined || value === "") {
+          return null;
+        }
+
+        if (typeof value === "number" && Number.isFinite(value)) {
+          const milliseconds = value > 1e12 ? value : value * 1000;
+          const date = new Date(milliseconds);
+          return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+        if (typeof value === "string") {
+          const input = value.trim();
+          if (!input) return null;
+
+          if (/^\d+$/.test(input)) {
+            const number = Number(input);
+            if (!Number.isFinite(number)) return null;
+
+            const date = new Date(number > 1e12 ? number : number * 1000);
+            return Number.isNaN(date.getTime()) ? null : date;
+          }
+
+          const date = new Date(input);
+          return Number.isNaN(date.getTime()) ? null : date;
+        }
+
+        return null;
+      }
+
+      function formatDate(value) {
+        const date = parseTimestamp(value);
+        if (!date) return null;
+
+        return new Intl.DateTimeFormat("vi-VN", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          timeZone: "Asia/Ho_Chi_Minh"
+        }).format(date);
+      }
+
+      function dateSearchValues(value) {
+        const date = parseTimestamp(value);
+        if (!date) return "";
+
+        const day = new Intl.DateTimeFormat("en-GB", {
+          day: "2-digit",
+          timeZone: "Asia/Ho_Chi_Minh"
+        }).format(date);
+
+        const month = new Intl.DateTimeFormat("en-GB", {
+          month: "2-digit",
+          timeZone: "Asia/Ho_Chi_Minh"
+        }).format(date);
+
+        const year = new Intl.DateTimeFormat("en-GB", {
+          year: "numeric",
+          timeZone: "Asia/Ho_Chi_Minh"
+        }).format(date);
+
+        const monthName = new Intl.DateTimeFormat("vi-VN", {
+          month: "long",
+          timeZone: "Asia/Ho_Chi_Minh"
+        }).format(date);
+
+        const monthShort = new Intl.DateTimeFormat("vi-VN", {
+          month: "short",
+          timeZone: "Asia/Ho_Chi_Minh"
+        }).format(date);
+
+        return [
+          `${day}/${month}/${year}`,
+          `${Number(day)}/${Number(month)}/${year}`,
+          `${year}-${month}-${day}`,
+          `${year}-${month}`,
+          `${month}/${year}`,
+          `${Number(month)}/${year}`,
+          `${day}/${month}`,
+          `${Number(day)}/${Number(month)}`,
+          `${monthName} ${year}`,
+          `${monthShort} ${year}`,
+          `${year} tháng ${Number(month)}`,
+          `${year} thang ${Number(month)}`,
+          day,
+          month,
+          year
+        ].join(" ");
+      }
+
+      function getEndDate(survey) {
+        return survey.ends_at ?? survey.endsAt ?? null;
+      }
+
+      function getCreatedDate(survey) {
+        return survey.created_at ?? survey.createdAt ?? null;
+      }
+
+      function isExpired(survey) {
+        const endDate = parseTimestamp(getEndDate(survey));
+        return Boolean(endDate && endDate.getTime() <= Date.now());
+      }
+
+      function isPublished(survey) {
+        return survey.is_published === true ||
+          survey.is_published === 1 ||
+          survey.is_published === "1";
+      }
+
+      function buildSearchIndex(survey) {
+        const created = getCreatedDate(survey);
+        const ends = getEndDate(survey);
+
+        return normalizeText([
+          survey.title,
+          survey.description,
+          survey.id,
+          created,
+          ends,
+          formatDate(created),
+          formatDate(ends),
+          dateSearchValues(created),
+          dateSearchValues(ends),
+          created ? new Date(parseTimestamp(created)).toISOString() : "",
+          ends ? new Date(parseTimestamp(ends)).toISOString() : "",
+          ends ? "" : "khong co thoi han khong gioi han vo thoi han"
+        ].filter(value => value !== null && value !== undefined).join(" "));
+      }
+
+      function showMessage(text, success = false) {
+        const element = $("message");
+        element.textContent = text;
+        element.classList.toggle("success", success);
+        element.classList.add("visible");
+      }
+
+      function clearMessage() {
+        $("message").textContent = "";
+        $("message").classList.remove("visible", "success");
+      }
+
+      async function fetchSurveys() {
+        let response;
+
+        try {
+          response = await fetch(API_URL, {
+            method: "GET",
+            credentials: "same-origin",
+            cache: "no-store",
+            headers: {
+              Accept: "application/json"
+            }
+          });
+        } catch {
+          throw new Error("Không thể kết nối đến server. Hãy kiểm tra mạng.");
+        }
+
+        let data;
+
+        try {
+          data = await response.json();
+        } catch {
+          throw new Error("Server trả về dữ liệu không hợp lệ.");
+        }
+
+        if (!response.ok) {
+          throw new Error(data.error || "Không thể tải danh sách khảo sát.");
+        }
+
+        if (data.ok !== true || !Array.isArray(data.surveys)) {
+          throw new Error("Dữ liệu khảo sát không đúng định dạng.");
+        }
+
+        return data.surveys;
+      }
+
+      function setLoading(loading) {
+        $("loadingPage").hidden = !loading;
+        $("app").hidden = loading;
+      }
+
+      function setListState(state) {
+        $("loadingState").hidden = state !== "loading";
+        $("errorState").hidden = state !== "error";
+        $("emptyState").hidden = state !== "empty";
+        $("surveyGrid").hidden = state !== "list";
+      }
+
+      async function loadSurveys() {
+        setLoading(true);
+        clearMessage();
+
+        try {
+          const surveys = await fetchSurveys();
+
+          allSurveys = surveys.map(survey => ({
+            ...survey,
+            _searchIndex: buildSearchIndex(survey)
+          }));
+
+          loaded = true;
+          setLoading(false);
+          renderSurveys();
+        } catch (error) {
+          setLoading(false);
+          $("resultCount").textContent = "Không tải được";
+
+          $("loadingState").hidden = true;
+          $("surveyGrid").hidden = true;
+          $("emptyState").hidden = true;
+          $("errorState").hidden = false;
+
+          $("errorText").textContent =
+            error.message || "Đã xảy ra lỗi khi tải khảo sát.";
+        }
+      }
+
+      function createSurveyCard(survey, index) {
+        const card = document.createElement("article");
+        card.className = "survey-card";
+        card.style.animationDelay = `${Math.min(index * 35, 210)}ms`;
+
+        const title = String(survey.title || "Khảo sát chưa có tiêu đề");
+        const description = String(survey.description || "").trim();
+
+        const createdDate = formatDate(getCreatedDate(survey)) || "Chưa có thông tin";
+        const endDate = formatDate(getEndDate(survey)) ||
+          (getEndDate(survey) ? "Ngày không hợp lệ" : "Không có thời hạn");
+
+        const expired = isExpired(survey);
+        const id = String(survey.id ?? "");
+        const published = isPublished(survey);
+
+        card.innerHTML = `
+          <div class="survey-card-top">
+            <span class="survey-icon" aria-hidden="true">
+              ${ICONS.document}
+            </span>
+            <span class="survey-badge ${expired || !published ? "expired" : ""}">
+              <span class="dot" aria-hidden="true"></span>
+              ${expired ? "Đã kết thúc" : !published ? "Chưa mở" : "Đang mở"}
+            </span>
+          </div>
+
+          <div class="topic-label">Chủ đề</div>
+          <h3 class="survey-title">${escapeHTML(title)}</h3>
+
+          <p class="survey-description ${description ? "" : "empty"}">${
+            escapeHTML(description || "Khảo sát này chưa có mô tả.")
+          }</p>
+
+          <div class="survey-meta">
+            <div class="meta-row">
+              <span class="meta-label">
+                ${ICONS.calendar}
+                Ngày tạo
+              </span>
+              <span class="meta-value">${escapeHTML(createdDate)}</span>
+            </div>
+
+            <div class="meta-row">
+              <span class="meta-label">
+                ${ICONS.calendar}
+                Ngày kết thúc
+              </span>
+              <span class="meta-value">${escapeHTML(endDate)}</span>
+            </div>
+          </div>
+
+          <div class="survey-actions"></div>
+        `;
+
+        const actions = card.querySelector(".survey-actions");
+        const button = document.createElement("a");
+
+        button.className = "button primary";
+        button.innerHTML = `Bắt đầu khảo sát ${ICONS.arrow}`;
+
+        if (!id || expired || !published) {
+          button.className = "button disabled";
+          button.setAttribute("aria-disabled", "true");
+          button.addEventListener("click", event => event.preventDefault());
+
+          if (!id) {
+            button.textContent = "Chưa có mã khảo sát";
+          } else if (expired) {
+            button.textContent = "Khảo sát đã kết thúc";
+          } else {
+            button.textContent = "Khảo sát chưa mở";
+          }
+        } else {
+          button.href = FORM_PATH + encodeURIComponent(id);
+          button.setAttribute(
+            "aria-label",
+            `Bắt đầu khảo sát: ${title}`
+          );
+        }
+
+        actions.appendChild(button);
+        return card;
+      }
+
+      function renderSurveys() {
+        const query = normalizeText($("searchInput").value);
+        $("clearSearch").hidden = !query;
+
+        const visibleSurveys = allSurveys.filter(survey => {
+          return !query || survey._searchIndex.includes(query);
+        });
+
+        $("resultCount").textContent =
+          `${visibleSurveys.length} / ${allSurveys.length} khảo sát`;
+
+        $("surveyGrid").replaceChildren();
+
+        if (visibleSurveys.length > 0) {
+          setListState("list");
+
+          const fragment = document.createDocumentFragment();
+
+          visibleSurveys.forEach((survey, index) => {
+            fragment.appendChild(createSurveyCard(survey, index));
+          });
+
+          $("surveyGrid").appendChild(fragment);
+          return;
+        }
+
+        setListState("empty");
+
+        if (allSurveys.length === 0) {
+          $("emptyTitle").textContent = "Chưa có khảo sát";
+          $("emptyDescription").textContent =
+            "Hiện chưa có khảo sát nào được công khai. Hãy quay lại sau nhé.";
+          $("resetSearch").hidden = true;
+        } else {
+          $("emptyTitle").textContent = "Không tìm thấy khảo sát";
+          $("emptyDescription").textContent =
+            "Không có khảo sát nào khớp với từ khóa. Hãy thử tên chủ đề, mô tả hoặc một ngày khác.";
+          $("resetSearch").hidden = false;
+        }
+      }
+
+      $("searchInput").addEventListener("input", renderSurveys);
+
+      $("clearSearch").addEventListener("click", () => {
+        $("searchInput").value = "";
+        $("searchInput").focus();
+        renderSurveys();
+      });
+
+      $("resetSearch").addEventListener("click", () => {
+        $("searchInput").value = "";
+        $("searchInput").focus();
+        renderSurveys();
+      });
+
+      $("retryButton").addEventListener("click", loadSurveys);
+
+      // Hỗ trợ đường dẫn /survey?q=keyword
+      const params = new URLSearchParams(window.location.search);
+      const initialQuery = params.get("q");
+
+      if (initialQuery) {
+        $("searchInput").value = initialQuery.slice(0, 200);
+      }
+
+      loadSurveys();
+
+      // Cập nhật trạng thái hết hạn và kết quả theo thời gian.
+      window.setInterval(() => {
+        if (loaded && !$("app").hidden) {
+          renderSurveys();
+        }
+      }, 60000);
+    })();
+  </script>
+</body>
+</html>
