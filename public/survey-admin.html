@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -40,7 +41,6 @@
 
     button, input, textarea, select { font: inherit; }
     button { cursor: pointer; }
-
     .hidden { display: none !important; }
 
     .topbar {
@@ -134,7 +134,6 @@
 
     .muted { color: var(--muted); }
     .small { font-size: 12px; }
-
     .field { margin-bottom: 18px; }
 
     label {
@@ -180,18 +179,31 @@
     .btn:active { transform: scale(.98); }
     .btn-primary { background: var(--blue); color: white; }
     .btn-primary:hover { background: var(--blue-hover); }
+
     .btn-secondary {
       background: #111d32;
       border-color: var(--border);
       color: var(--text);
     }
+
     .btn-secondary:hover { border-color: #3b527a; }
+
     .btn-danger {
       background: #32151e;
       border-color: #57232e;
       color: #ffb4bd;
     }
-    .btn:disabled { opacity: .55; cursor: wait; }
+
+    .btn-danger:hover {
+      background: #491a27;
+      border-color: #8d3547;
+    }
+
+    .btn:disabled {
+      opacity: .55;
+      cursor: wait;
+      transform: none;
+    }
 
     .form-actions {
       display: flex;
@@ -214,11 +226,13 @@
       border: 1px solid #175449;
       color: #8cf0c9;
     }
+
     .status.error {
       background: #30151d;
       border: 1px solid #592530;
       color: #ffb1bc;
     }
+
     .status.info {
       background: #10223d;
       border: 1px solid #213f69;
@@ -244,9 +258,7 @@
     }
 
     .login-wrap .panel { margin-top: 0; }
-
     .login-wrap .btn { width: 100%; }
-
     .list { display: grid; gap: 12px; }
 
     .survey-card {
@@ -320,14 +332,6 @@
       border-radius: 12px;
     }
 
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
     footer {
       text-align: center;
       padding: 24px;
@@ -371,14 +375,19 @@
         <div class="login-icon" aria-hidden="true">⌘</div>
         <h2>Đăng nhập quản trị</h2>
         <p class="muted small">Nhập mật khẩu quản trị để tiếp tục. Phiên đăng nhập được quản lý bởi máy chủ.</p>
+
         <form id="loginForm">
           <div class="field">
             <label for="adminPassword">Mật khẩu quản trị</label>
-            <input id="adminPassword" type="password" autocomplete="current-password"
+            <input id="adminPassword" type="password"
+              autocomplete="current-password"
               placeholder="Nhập mật khẩu" required>
           </div>
-          <button id="loginButton" class="btn btn-primary" type="submit">Đăng nhập</button>
+          <button id="loginButton" class="btn btn-primary" type="submit">
+            Đăng nhập
+          </button>
         </form>
+
         <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
       </div>
     </section>
@@ -390,7 +399,9 @@
             <h2>Tạo Survey mới</h2>
             <div class="muted small">Các trường có dấu * là bắt buộc.</div>
           </div>
-          <button id="logoutButton" class="btn btn-secondary" type="button">Đăng xuất</button>
+          <button id="logoutButton" class="btn btn-secondary" type="button">
+            Đăng xuất
+          </button>
         </div>
 
         <form id="surveyForm">
@@ -409,7 +420,8 @@
           <div class="grid">
             <div class="field">
               <label for="createdAt">Thời điểm bắt đầu *</label>
-              <input id="createdAt" name="createdAt" type="datetime-local" required>
+              <input id="createdAt" name="createdAt"
+                type="datetime-local" required>
             </div>
             <div class="field">
               <label for="endsAt">Thời điểm kết thúc (không bắt buộc)</label>
@@ -433,10 +445,15 @@
           </div>
 
           <div class="form-actions">
-            <button id="createButton" class="btn btn-primary" type="submit">Tạo Survey</button>
-            <button id="resetButton" class="btn btn-secondary" type="reset">Xóa nội dung</button>
+            <button id="createButton" class="btn btn-primary" type="submit">
+              Tạo Survey
+            </button>
+            <button id="resetButton" class="btn btn-secondary" type="reset">
+              Xóa nội dung
+            </button>
           </div>
         </form>
+
         <div id="createStatus" class="status" role="status" aria-live="polite"></div>
       </div>
 
@@ -444,10 +461,15 @@
         <div class="panel-heading">
           <div>
             <h2>Survey đã tạo</h2>
-            <div class="muted small">Danh sách quản trị, bao gồm cả Survey chưa công khai.</div>
+            <div class="muted small">
+              Danh sách quản trị, bao gồm cả Survey chưa công khai.
+            </div>
           </div>
-          <button id="refreshButton" class="btn btn-secondary" type="button">↻ Làm mới</button>
+          <button id="refreshButton" class="btn btn-secondary" type="button">
+            ↻ Làm mới
+          </button>
         </div>
+
         <div id="surveyList" class="list">
           <div class="empty">Đang tải danh sách Survey...</div>
         </div>
@@ -492,7 +514,9 @@
       }
 
       if (!response.ok) {
-        throw new Error(data.error || data.message || `Request failed (${response.status})`);
+        throw new Error(
+          data.error || data.message || `Request failed (${response.status})`
+        );
       }
 
       return data;
@@ -519,14 +543,17 @@
     function createId() {
       const bytes = new Uint8Array(16);
       crypto.getRandomValues(bytes);
-      return "MS-" + Array.from(bytes.slice(0, 4), b =>
-        b.toString(16).padStart(2, "0")).join("").toUpperCase() + "-" +
+
+      return "MS-" +
+        Array.from(bytes.slice(0, 4), b =>
+          b.toString(16).padStart(2, "0")).join("").toUpperCase() + "-" +
         Array.from(bytes.slice(4, 8), b =>
           b.toString(16).padStart(2, "0")).join("").toUpperCase();
     }
 
     function formatDate(value) {
       if (value == null || value === "") return "Không giới hạn";
+
       let date;
 
       if (typeof value === "number") {
@@ -546,9 +573,11 @@
 
     function isExpired(survey) {
       if (survey.ends_at == null) return false;
+
       const value = typeof survey.ends_at === "number"
         ? (survey.ends_at < 1e12 ? survey.ends_at * 1000 : survey.ends_at)
         : new Date(survey.ends_at).getTime();
+
       return Number.isFinite(value) && value <= Date.now();
     }
 
@@ -559,6 +588,55 @@
       return badge;
     }
 
+    async function deleteSurvey(survey, button) {
+      const id = String(survey.id || "");
+
+      if (!id) {
+        showStatus($("listStatus"), "Survey không có ID hợp lệ.", "error");
+        return;
+      }
+
+      const title = String(survey.title || "Survey không có tiêu đề");
+
+      const confirmed = window.confirm(
+        "XÓA SURVEY VĨNH VIỄN?\n\n" +
+        "Tiêu đề: " + title + "\n" +
+        "ID: " + id + "\n\n" +
+        "Thao tác này sẽ xóa Survey khỏi cơ sở dữ liệu và không thể hoàn tác.\n\n" +
+        "Bạn có chắc chắn muốn tiếp tục?"
+      );
+
+      if (!confirmed) return;
+
+      const originalText = button.textContent;
+      button.disabled = true;
+      button.textContent = "Đang xóa...";
+      clearStatus($("listStatus"));
+
+      try {
+        await api("/surveys/admin/" + encodeURIComponent(id), {
+          method: "DELETE"
+        });
+
+        showStatus(
+          $("listStatus"),
+          "Đã xóa vĩnh viễn Survey: " + title,
+          "success"
+        );
+
+        await loadSurveys();
+      } catch (error) {
+        showStatus(
+          $("listStatus"),
+          "Không thể xóa Survey: " + error.message,
+          "error"
+        );
+
+        button.disabled = false;
+        button.textContent = originalText;
+      }
+    }
+
     function renderSurveys(surveys) {
       const list = $("surveyList");
       list.replaceChildren();
@@ -566,7 +644,8 @@
       if (!Array.isArray(surveys) || surveys.length === 0) {
         const empty = document.createElement("div");
         empty.className = "empty";
-        empty.textContent = "Chưa có Survey nào. Hãy tạo Survey đầu tiên ở phía trên.";
+        empty.textContent =
+          "Chưa có Survey nào. Hãy tạo Survey đầu tiên ở phía trên.";
         list.appendChild(empty);
         return;
       }
@@ -584,7 +663,8 @@
         content.appendChild(title);
 
         const published = survey.is_published === true ||
-          survey.is_published === 1 || survey.is_published === "1";
+          survey.is_published === 1 ||
+          survey.is_published === "1";
 
         if (isExpired(survey)) {
           content.appendChild(makeBadge("Đã kết thúc", "badge-expired"));
@@ -627,16 +707,41 @@
         copyButton.className = "btn btn-secondary";
         copyButton.type = "button";
         copyButton.textContent = "Sao chép URL";
+
         copyButton.addEventListener("click", async () => {
           try {
-            await navigator.clipboard.writeText(survey.destination_url);
+            await navigator.clipboard.writeText(
+              survey.destination_url || ""
+            );
+
             copyButton.textContent = "Đã sao chép";
-            setTimeout(() => copyButton.textContent = "Sao chép URL", 1400);
+            setTimeout(() => {
+              copyButton.textContent = "Sao chép URL";
+            }, 1400);
           } catch (_) {
-            window.prompt("Sao chép URL này:", survey.destination_url || "");
+            window.prompt(
+              "Sao chép URL này:",
+              survey.destination_url || ""
+            );
           }
         });
+
         actions.appendChild(copyButton);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "btn btn-danger";
+        deleteButton.type = "button";
+        deleteButton.textContent = "Xóa Survey";
+        deleteButton.setAttribute(
+          "aria-label",
+          "Xóa vĩnh viễn " + (survey.title || "Survey")
+        );
+
+        deleteButton.addEventListener("click", () => {
+          deleteSurvey(survey, deleteButton);
+        });
+
+        actions.appendChild(deleteButton);
 
         card.append(content, actions);
         list.appendChild(card);
@@ -646,6 +751,7 @@
     async function loadSurveys() {
       const status = $("listStatus");
       const list = $("surveyList");
+
       clearStatus(status);
       list.replaceChildren();
 
@@ -661,13 +767,17 @@
         renderSurveys(data.surveys || data.items || []);
       } catch (error) {
         list.replaceChildren();
+
         const empty = document.createElement("div");
         empty.className = "empty";
         empty.textContent = "Không tải được danh sách Survey.";
         list.appendChild(empty);
+
         showStatus(status, error.message, "error");
 
-        if (/unauthorized|unauthenticated|session|đăng nhập/i.test(error.message)) {
+        if (
+          /unauthorized|unauthenticated|session|đăng nhập/i.test(error.message)
+        ) {
           setLoggedIn(false);
         }
       } finally {
@@ -677,8 +787,10 @@
 
     $("loginForm").addEventListener("submit", async (event) => {
       event.preventDefault();
+
       const button = $("loginButton");
       const status = $("loginStatus");
+
       clearStatus(status);
       button.disabled = true;
       button.textContent = "Đang xác thực...";
@@ -686,7 +798,9 @@
       try {
         await api("/survey-admin/login", {
           method: "POST",
-          body: JSON.stringify({ password: $("adminPassword").value })
+          body: JSON.stringify({
+            password: $("adminPassword").value
+          })
         });
 
         setLoggedIn(true);
@@ -701,10 +815,14 @@
 
     $("logoutButton").addEventListener("click", async () => {
       $("logoutButton").disabled = true;
+
       try {
-        await api("/survey-admin/logout", { method: "POST", body: "{}" });
+        await api("/survey-admin/logout", {
+          method: "POST",
+          body: "{}"
+        });
       } catch (_) {
-        // Luôn ẩn dashboard trên giao diện sau khi người dùng yêu cầu đăng xuất.
+        // Ẩn dashboard khi người dùng yêu cầu đăng xuất.
       } finally {
         setLoggedIn(false);
         $("logoutButton").disabled = false;
@@ -718,6 +836,7 @@
 
       const button = $("createButton");
       const status = $("createStatus");
+
       clearStatus(status);
 
       const title = $("title").value.trim();
@@ -738,11 +857,16 @@
       }
 
       let destination;
+
       try {
         destination = new URL(destinationUrl);
         if (destination.protocol !== "https:") throw new Error();
       } catch (_) {
-        showStatus(status, "URL đích phải là một đường dẫn HTTPS hợp lệ.", "error");
+        showStatus(
+          status,
+          "URL đích phải là một đường dẫn HTTPS hợp lệ.",
+          "error"
+        );
         return;
       }
 
@@ -754,8 +878,15 @@
         return;
       }
 
-      if (endsAt !== null && (!Number.isFinite(endsAt) || endsAt <= createdAt)) {
-        showStatus(status, "Thời điểm kết thúc phải sau thời điểm bắt đầu.", "error");
+      if (
+        endsAt !== null &&
+        (!Number.isFinite(endsAt) || endsAt <= createdAt)
+      ) {
+        showStatus(
+          status,
+          "Thời điểm kết thúc phải sau thời điểm bắt đầu.",
+          "error"
+        );
         return;
       }
 
@@ -770,7 +901,9 @@
             title,
             description,
             created_at: Math.floor(createdAt / 1000),
-            ends_at: endsAt === null ? null : Math.floor(endsAt / 1000),
+            ends_at: endsAt === null
+              ? null
+              : Math.floor(endsAt / 1000),
             destination_url: destination.href,
             is_published: isPublished
           })
@@ -779,9 +912,14 @@
         showStatus(status, "Tạo Survey thành công!", "success");
         $("surveyForm").reset();
         $("createdAt").value = toLocalInputValue(new Date());
+
         await loadSurveys();
       } catch (error) {
-        showStatus(status, "Không tạo được Survey: " + error.message, "error");
+        showStatus(
+          status,
+          "Không tạo được Survey: " + error.message,
+          "error"
+        );
       } finally {
         button.disabled = false;
         button.textContent = "Tạo Survey";
@@ -790,6 +928,7 @@
 
     $("resetButton").addEventListener("click", () => {
       clearStatus($("createStatus"));
+
       setTimeout(() => {
         $("createdAt").value = toLocalInputValue(new Date());
       }, 0);
