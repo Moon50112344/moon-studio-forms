@@ -23,9 +23,7 @@
       --radius: 12px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html {
       min-height: 100%;
@@ -44,20 +42,11 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    button,
-    input,
-    textarea {
-      font: inherit;
-    }
+    button, input, textarea { font: inherit; }
 
-    button,
-    a {
-      -webkit-tap-highlight-color: transparent;
-    }
+    button, a { -webkit-tap-highlight-color: transparent; }
 
-    button {
-      color: inherit;
-    }
+    button { color: inherit; }
 
     a {
       color: inherit;
@@ -72,13 +61,15 @@
       outline-offset: 3px;
     }
 
+    [hidden] { display: none !important; }
+
+    /* Sidebar — matched to Dashboard */
+
     .layout {
       display: grid;
       grid-template-columns: 235px minmax(0, 1fr);
       min-height: 100vh;
     }
-
-    /* Original Moon Studio sidebar */
 
     aside {
       display: flex;
@@ -94,127 +85,119 @@
       align-items: center;
       gap: 11px;
       min-width: 0;
-      margin-bottom: 39px;
-      padding: 0 5px;
+      padding: 0 8px 32px;
     }
 
-    .brand-logo {
+    .brand-icon {
       width: 38px;
       height: 38px;
       flex-shrink: 0;
+      object-fit: cover;
       border: 1px solid var(--border);
       border-radius: 11px;
-      object-fit: cover;
       background: var(--panel);
     }
 
-    .brand-copy {
-      min-width: 0;
-    }
+    .brand-copy { min-width: 0; }
 
     .brand-name {
       margin: 0;
       font-size: 16px;
-      font-weight: 750;
-      letter-spacing: -0.6px;
+      font-weight: 800;
+      letter-spacing: 0;
       white-space: nowrap;
     }
 
-    .brand-name .studio {
-      color: var(--blue);
-    }
+    .brand-name span { color: var(--blue); }
 
-    .brand-subtitle {
+    .brand-sub {
       margin-top: 4px;
       color: var(--muted);
       font-size: 11px;
     }
 
     .nav-label {
-      margin: 0 9px 11px;
-      color: var(--muted);
+      margin: 0;
+      padding: 8px 10px;
+      color: #697690;
       font-size: 10px;
-      font-weight: 750;
+      font-weight: 800;
       letter-spacing: 1.5px;
     }
 
     .sidebar-nav {
       display: grid;
-      gap: 5px;
+      gap: 6px;
     }
 
     .nav-link {
       display: flex;
       align-items: center;
-      gap: 11px;
-      min-height: 42px;
-      padding: 0 12px;
-      color: var(--muted);
+      gap: 12px;
+      min-height: 0;
+      padding: 12px;
+      color: #9ba7bf;
       border: 1px solid transparent;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 13px;
-      font-weight: 550;
-      transition: background 160ms ease, color 160ms ease,
-        border-color 160ms ease;
+      font-weight: 400;
+      transition: background .2s, border-color .2s;
     }
 
     .nav-link:hover {
-      color: var(--text);
+      color: #9ba7bf;
       background: var(--panel-hover);
     }
 
     .nav-link.active {
-      color: var(--text);
-      background: #101c30;
-      border-color: #1b3455;
-    }
-
-    .nav-link.active .nav-icon {
-      color: var(--blue);
+      color: white;
+      background: #142543;
+      border-color: #24477a;
     }
 
     .nav-icon {
-      display: grid;
+      display: block;
       width: 18px;
       height: 18px;
       flex-shrink: 0;
-      place-items: center;
-      color: currentColor;
     }
 
     .nav-icon svg {
+      display: block;
       width: 18px;
       height: 18px;
       fill: none;
       stroke: currentColor;
-      stroke-width: 1.7;
+      stroke-width: 1.8;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
 
-    .sidebar-footer {
-      margin-top: auto;
-      padding: 19px 9px 0;
-      border-top: 1px solid var(--border);
-    }
+    .sidebar-bottom { margin-top: auto; }
 
-    .sidebar-footer p {
-      margin: 0;
-      color: var(--muted);
+    .sidebar-footer {
+      padding: 15px 8px 0;
+      border-top: 1px solid var(--border);
+      color: #697690;
       font-size: 11px;
       line-height: 1.8;
     }
 
+    .sidebar-footer p {
+      margin: 0;
+      color: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
     .sidebar-footer strong {
-      color: var(--text);
-      font-weight: 600;
+      color: inherit;
+      font-weight: 400;
     }
 
     /* Main layout */
 
-    main {
-      min-width: 0;
-    }
+    main { min-width: 0; }
 
     .topbar {
       display: flex;
@@ -234,9 +217,7 @@
       font-size: 12px;
     }
 
-    .breadcrumb .current {
-      color: var(--text);
-    }
+    .breadcrumb .current { color: var(--text); }
 
     .topbar-right {
       display: flex;
@@ -271,9 +252,7 @@
       padding: 39px 38px 70px;
     }
 
-    .page-heading {
-      margin-bottom: 29px;
-    }
+    .page-heading { margin-bottom: 29px; }
 
     .eyebrow {
       margin: 0 0 9px;
@@ -299,7 +278,7 @@
       line-height: 1.8;
     }
 
-    /* Two horizontal choices: intentionally not cards */
+    /* Profile tabs */
 
     .profile-tabs {
       display: flex;
@@ -327,13 +306,8 @@
       transition: color 160ms ease;
     }
 
-    .profile-tab:hover {
-      color: var(--text);
-    }
-
-    .profile-tab.active {
-      color: var(--text);
-    }
+    .profile-tab:hover,
+    .profile-tab.active { color: var(--text); }
 
     .profile-tab.active::after {
       position: absolute;
@@ -357,23 +331,17 @@
       stroke-linejoin: round;
     }
 
-    .profile-tab.active svg {
-      color: var(--blue);
-    }
+    .profile-tab.active svg { color: var(--blue); }
 
-    .tab-panel[hidden] {
-      display: none !important;
-    }
+    .tab-panel[hidden] { display: none !important; }
 
-    .section-heading {
-      margin-bottom: 25px;
-    }
+    .section-heading { margin-bottom: 25px; }
 
     .section-heading h2 {
       margin: 0;
       font-size: 19px;
       font-weight: 680;
-      letter-spacing: -0.45px;
+      letter-spacing: -.45px;
     }
 
     .section-heading p {
@@ -391,9 +359,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .form-section:last-of-type {
-      margin-bottom: 22px;
-    }
+    .form-section:last-of-type { margin-bottom: 22px; }
 
     .form-section-title {
       margin: 0 0 17px;
@@ -483,9 +449,7 @@
       border-color: #1a7aee;
     }
 
-    .btn-danger {
-      color: var(--red);
-    }
+    .btn-danger { color: var(--red); }
 
     .btn svg {
       width: 15px;
@@ -497,13 +461,8 @@
       stroke-linejoin: round;
     }
 
-    .field {
-      margin-bottom: 20px;
-    }
-
-    .field:last-child {
-      margin-bottom: 0;
-    }
+    .field { margin-bottom: 20px; }
+    .field:last-child { margin-bottom: 0; }
 
     .field label {
       display: block;
@@ -545,9 +504,7 @@
     }
 
     .text-input::placeholder,
-    .text-area::placeholder {
-      color: #596680;
-    }
+    .text-area::placeholder { color: #596680; }
 
     .text-input:focus,
     .text-area:focus {
@@ -555,10 +512,7 @@
       box-shadow: 0 0 0 3px #2f8bff16;
     }
 
-    .links-list {
-      display: grid;
-      gap: 13px;
-    }
+    .links-list { display: grid; gap: 13px; }
 
     .link-item {
       padding-bottom: 15px;
@@ -586,7 +540,7 @@
 
     .link-fields {
       display: grid;
-      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
       gap: 12px;
     }
 
@@ -600,9 +554,7 @@
       font-size: 11px;
     }
 
-    .link-limit.full {
-      color: var(--red);
-    }
+    .link-limit.full { color: var(--red); }
 
     .editor-actions {
       display: flex;
@@ -618,19 +570,12 @@
       line-height: 1.6;
     }
 
-    .save-status.success {
-      color: var(--green);
-    }
-
-    .save-status.error {
-      color: var(--red);
-    }
+    .save-status.success { color: var(--green); }
+    .save-status.error { color: var(--red); }
 
     /* Account details */
 
-    .account-security {
-      margin-bottom: 27px;
-    }
+    .account-security { margin-bottom: 27px; }
 
     .account-security h3 {
       margin: 0 0 8px;
@@ -653,7 +598,7 @@
 
     .detail-row {
       display: grid;
-      grid-template-columns: minmax(190px, 0.7fr) minmax(0, 1.3fr);
+      grid-template-columns: minmax(190px, .7fr) minmax(0, 1.3fr);
       gap: 20px;
       padding: 17px 0;
       border-bottom: 1px solid var(--border);
@@ -694,9 +639,7 @@
       font-weight: 600;
     }
 
-    .inline-button:hover {
-      color: #75b4ff;
-    }
+    .inline-button:hover { color: #75b4ff; }
 
     .inline-button svg {
       width: 14px;
@@ -763,88 +706,66 @@
       line-height: 1.8;
     }
 
-    .error-text {
-      color: var(--red);
-    }
+    .error-text { color: var(--red); }
+    .hidden-file { display: none; }
 
-    .hidden-file {
-      display: none;
-    }
-
-    @media (min-width: 1100px) {
-      .content {
-        padding-right: 46px;
-        padding-left: 46px;
-      }
-    }
-
-    @media (max-width: 850px) {
-      .topbar {
-        padding-right: 24px;
-        padding-left: 24px;
+    @media (max-width: 1000px) {
+      .layout {
+        grid-template-columns: 205px minmax(0, 1fr);
       }
 
-      .content {
-        padding: 30px 24px 55px;
-      }
+      .content { padding: 30px 24px 55px; }
+      .topbar { padding-right: 24px; padding-left: 24px; }
 
       .detail-row {
-        grid-template-columns: minmax(150px, 0.65fr) minmax(0, 1.35fr);
+        grid-template-columns: minmax(150px, .65fr) minmax(0, 1.35fr);
       }
     }
 
     @media (max-width: 650px) {
-      .layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
+      .layout { display: block; }
 
       aside {
-        padding: 15px 16px 12px;
+        padding: 14px;
         border-right: 0;
         border-bottom: 1px solid var(--border);
       }
 
-      .brand {
-        margin-bottom: 16px;
-      }
+      .brand { padding: 0 2px 13px; }
+
+      .nav-label,
+      .sidebar-bottom { display: none; }
 
       .sidebar-nav {
         display: flex;
         gap: 6px;
         overflow-x: auto;
-        padding-bottom: 2px;
+        padding-bottom: 0;
+        scrollbar-width: none;
       }
 
-      .nav-label,
-      .sidebar-footer {
-        display: none;
-      }
+      .sidebar-nav::-webkit-scrollbar { display: none; }
 
       .nav-link {
-        min-height: 37px;
+        min-height: 0;
         flex-shrink: 0;
-        padding: 0 10px;
+        padding: 10px;
         font-size: 12px;
       }
 
       .nav-icon,
       .nav-icon svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
       }
 
       .topbar {
-        min-height: 55px;
-        padding: 0 18px;
+        min-height: 58px;
+        padding: 0 15px;
       }
 
-      .content {
-        padding: 27px 18px 45px;
-      }
-
-      .page-heading {
-        margin-bottom: 25px;
-      }
+      .content { padding: 27px 18px 45px; }
+      .page-heading { margin-bottom: 25px; }
 
       .profile-tabs {
         gap: 22px;
@@ -852,9 +773,7 @@
         overflow-x: auto;
       }
 
-      .profile-tab {
-        font-size: 12px;
-      }
+      .profile-tab { font-size: 12px; }
 
       .detail-row {
         grid-template-columns: minmax(0, 1fr);
@@ -862,9 +781,7 @@
         padding: 14px 0;
       }
 
-      .detail-row dd {
-        font-size: 13px;
-      }
+      .detail-row dd { font-size: 13px; }
     }
 
     @media (max-width: 420px) {
@@ -873,17 +790,10 @@
         gap: 13px;
       }
 
-      .topbar-right .status-indicator {
-        font-size: 10px;
-      }
+      .topbar-right .status-indicator { font-size: 10px; }
 
-      .profile-tabs {
-        gap: 18px;
-      }
-
-      .profile-tab {
-        gap: 7px;
-      }
+      .profile-tabs { gap: 18px; }
+      .profile-tab { gap: 7px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -900,59 +810,55 @@
 <body>
   <div class="layout">
     <aside>
-      <a class="brand" href="/dashboard" aria-label="Moon Studio Forms dashboard">
+      <a class="brand" href="/" aria-label="Moon Studio — Trang chính">
         <img
-          class="brand-logo"
+          class="brand-icon"
           src="https://moonstudio.us.ci/logo.jpg"
           alt="Moon Studio"
+          width="38"
+          height="38"
         >
         <div class="brand-copy">
-          <p class="brand-name">Moon <span class="studio">Studio</span></p>
-          <div class="brand-subtitle">Forms workspace</div>
+          <div class="brand-name">Moon <span>Studio</span></div>
+          <div class="brand-sub">Forms workspace</div>
         </div>
       </a>
 
-      <p class="nav-label">WORKSPACE</p>
+      <div class="nav-label">WORKSPACE</div>
 
-      <nav class="sidebar-nav" aria-label="Workspace navigation">
+      <nav class="sidebar-nav" aria-label="Điều hướng">
         <a class="nav-link" href="/dashboard">
-          <span class="nav-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/>
-              <rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/>
-              <rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/>
-              <rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>
-            </svg>
-          </span>
-          Dashboard
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="8" height="8" rx="2"></rect>
+            <rect x="13" y="3" width="8" height="5" rx="2"></rect>
+            <rect x="13" y="10" width="8" height="11" rx="2"></rect>
+            <rect x="3" y="13" width="8" height="8" rx="2"></rect>
+          </svg>
+          <span>Dashboard</span>
         </a>
 
         <a class="nav-link" href="/survey">
-          <span class="nav-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M8 4.5h-2A2.5 2.5 0 0 0 3.5 7v12A2.5 2.5 0 0 0 6 21.5h12a2.5 2.5 0 0 0 2.5-2.5V7A2.5 2.5 0 0 0 18 4.5h-2"/>
-              <rect x="8" y="2.5" width="8" height="4" rx="1.5"/>
-              <path d="m8 12 2 2 5-5"/>
-              <path d="M8 17h8"/>
-            </svg>
-          </span>
-          Surveys
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+            <path d="M9 8h6M9 12h6M9 16h4"></path>
+          </svg>
+          <span>Surveys</span>
         </a>
 
         <a class="nav-link active" href="/profile" aria-current="page">
-          <span class="nav-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="8" r="4"/>
-              <path d="M4 21a8 8 0 0 1 16 0"/>
-            </svg>
-          </span>
-          Profile
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+          <span>Profile</span>
         </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <p><strong>Powered by Moon Studio</strong></p>
-        <p>© 2026 Moon Studio</p>
+      <div class="sidebar-bottom">
+        <div class="sidebar-footer">
+          Powered by Moon Studio<br>
+          © 2026 Moon Studio
+        </div>
       </div>
     </aside>
 
@@ -982,7 +888,6 @@
           </p>
         </header>
 
-        <!-- Two horizontal choices, not separate cards -->
         <div class="profile-tabs" role="tablist" aria-label="Profile sections">
           <button
             class="profile-tab active"
@@ -1018,7 +923,6 @@
           </button>
         </div>
 
-        <!-- EDIT PROFILE -->
         <section
           class="tab-panel"
           id="editPanel"
@@ -1053,11 +957,7 @@
                       Upload avatar
                     </button>
 
-                    <button
-                      class="btn btn-danger"
-                      type="button"
-                      id="removeAvatarButton"
-                    >
+                    <button class="btn btn-danger" type="button" id="removeAvatarButton">
                       Remove
                     </button>
                   </div>
@@ -1111,9 +1011,7 @@
 
             <section class="form-section">
               <div class="link-item-head">
-                <h3 class="form-section-title" style="margin:0">
-                  Links
-                </h3>
+                <h3 class="form-section-title" style="margin:0">Links</h3>
                 <span class="link-limit" id="linkLimit">0 of 5 links</span>
               </div>
 
@@ -1136,25 +1034,13 @@
             </section>
 
             <div class="editor-actions">
-              <button class="btn btn-primary" type="submit">
-                Save changes
-              </button>
-
-              <button class="btn" type="button" id="resetButton">
-                Discard changes
-              </button>
-
-              <span
-                class="save-status"
-                id="saveStatus"
-                role="status"
-                aria-live="polite"
-              ></span>
+              <button class="btn btn-primary" type="submit">Save changes</button>
+              <button class="btn" type="button" id="resetButton">Discard changes</button>
+              <span class="save-status" id="saveStatus" role="status" aria-live="polite"></span>
             </div>
           </form>
         </section>
 
-        <!-- ACCOUNT DETAILS -->
         <section
           class="tab-panel"
           id="detailsPanel"
@@ -1181,25 +1067,14 @@
               <dd>
                 <span class="detail-value">
                   <span id="firebaseUid">Loading...</span>
-                  <button
-                    class="inline-button"
-                    type="button"
-                    id="toggleUidButton"
-                    hidden
-                    aria-label="Show Firebase UID"
-                  >
+                  <button class="inline-button" type="button" id="toggleUidButton" hidden aria-label="Show Firebase UID">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
                       <circle cx="12" cy="12" r="3"/>
                     </svg>
                     Show
                   </button>
-                  <button
-                    class="inline-button"
-                    type="button"
-                    id="copyUidButton"
-                    hidden
-                  >
+                  <button class="inline-button" type="button" id="copyUidButton" hidden>
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <rect x="8" y="8" width="12" height="12" rx="2"/>
                       <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>
@@ -1263,36 +1138,29 @@
 
       const API_BASE = "https://forms.moonstudio.us.ci";
       const PROFILE_STORAGE_PREFIX = "moonstudio_profile_v1:";
-
-      const $ = (id) => document.getElementById(id);
+      const $ = id => document.getElementById(id);
 
       const elements = {
         editTab: $("editTab"),
         detailsTab: $("detailsTab"),
         editPanel: $("editPanel"),
         detailsPanel: $("detailsPanel"),
-
         form: $("profileForm"),
         displayName: $("displayName"),
         description: $("description"),
         descriptionCount: $("descriptionCount"),
-
         avatarPreview: $("avatarPreview"),
         avatarInitial: $("avatarInitial"),
         avatarFile: $("avatarFile"),
         uploadAvatarButton: $("uploadAvatarButton"),
         removeAvatarButton: $("removeAvatarButton"),
-
         linksList: $("linksList"),
         linkLimit: $("linkLimit"),
         addLinkButton: $("addLinkButton"),
-
         saveStatus: $("saveStatus"),
         resetButton: $("resetButton"),
-
         connectionDot: $("connectionDot"),
         connectionLabel: $("connectionLabel"),
-
         firebaseUid: $("firebaseUid"),
         toggleUidButton: $("toggleUidButton"),
         copyUidButton: $("copyUidButton"),
@@ -1322,36 +1190,19 @@
 
         elements.editTab.classList.toggle("active", editActive);
         elements.detailsTab.classList.toggle("active", !editActive);
-
-        elements.editTab.setAttribute(
-          "aria-selected",
-          String(editActive)
-        );
-
-        elements.detailsTab.setAttribute(
-          "aria-selected",
-          String(!editActive)
-        );
-
+        elements.editTab.setAttribute("aria-selected", String(editActive));
+        elements.detailsTab.setAttribute("aria-selected", String(!editActive));
         elements.editPanel.hidden = !editActive;
         elements.detailsPanel.hidden = editActive;
       }
 
-      elements.editTab.addEventListener("click", () => {
-        switchTab("editPanel");
-      });
-
-      elements.detailsTab.addEventListener("click", () => {
-        switchTab("detailsPanel");
-      });
+      elements.editTab.addEventListener("click", () => switchTab("editPanel"));
+      elements.detailsTab.addEventListener("click", () => switchTab("detailsPanel"));
 
       function setSaveStatus(message, type = "") {
         elements.saveStatus.textContent = message;
         elements.saveStatus.className = "save-status";
-
-        if (type) {
-          elements.saveStatus.classList.add(type);
-        }
+        if (type) elements.saveStatus.classList.add(type);
       }
 
       function setConnection(connected, label) {
@@ -1360,7 +1211,7 @@
       }
 
       function escapeHTML(value) {
-        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
           "&": "&amp;",
           "<": "&lt;",
           ">": "&gt;",
@@ -1375,21 +1226,11 @@
         }
 
         let number = Number(timestamp);
-
-        if (!Number.isFinite(number)) {
-          return "Not available";
-        }
-
-        // Support Unix seconds and millisecond timestamps.
-        if (number < 100000000000) {
-          number *= 1000;
-        }
+        if (!Number.isFinite(number)) return "Not available";
+        if (number < 100000000000) number *= 1000;
 
         const date = new Date(number);
-
-        if (Number.isNaN(date.getTime())) {
-          return "Not available";
-        }
+        if (Number.isNaN(date.getTime())) return "Not available";
 
         return new Intl.DateTimeFormat("en-GB", {
           hour: "2-digit",
@@ -1402,15 +1243,10 @@
       }
 
       function normalizeTimestamp(value) {
-        if (value === null || value === undefined || value === "") {
-          return null;
-        }
+        if (value === null || value === undefined || value === "") return null;
 
         const number = Number(value);
-
-        if (!Number.isFinite(number) || number <= 0) {
-          return null;
-        }
+        if (!Number.isFinite(number) || number <= 0) return null;
 
         return number < 100000000000 ? number * 1000 : number;
       }
@@ -1431,46 +1267,30 @@
         } else {
           const initial = document.createElement("span");
           const cleanName = String(name || "").trim();
-
-          initial.textContent = cleanName
-            ? Array.from(cleanName)[0].toUpperCase()
-            : "U";
-
+          initial.textContent = cleanName ? Array.from(cleanName)[0].toUpperCase() : "U";
           elements.avatarPreview.appendChild(initial);
         }
       }
 
       function updateDescriptionCount() {
-        setText(
-          "descriptionCount",
-          String(elements.description.value.length)
-        );
+        setText("descriptionCount", String(elements.description.value.length));
       }
 
       function safeLoadProfile(uid) {
         const fallback = defaultProfile();
 
         try {
-          const raw = localStorage.getItem(
-            PROFILE_STORAGE_PREFIX + uid
-          );
-
+          const raw = localStorage.getItem(PROFILE_STORAGE_PREFIX + uid);
           if (!raw) return fallback;
 
           const parsed = JSON.parse(raw);
 
           return {
-            displayName: typeof parsed.displayName === "string"
-              ? parsed.displayName.slice(0, 50)
-              : "",
-            description: typeof parsed.description === "string"
-              ? parsed.description.slice(0, 300)
-              : "",
-            avatar: typeof parsed.avatar === "string"
-              ? parsed.avatar
-              : "",
+            displayName: typeof parsed.displayName === "string" ? parsed.displayName.slice(0, 50) : "",
+            description: typeof parsed.description === "string" ? parsed.description.slice(0, 300) : "",
+            avatar: typeof parsed.avatar === "string" ? parsed.avatar : "",
             links: Array.isArray(parsed.links)
-              ? parsed.links.slice(0, 5).map((link) => ({
+              ? parsed.links.slice(0, 5).map(link => ({
                   label: String(link.label || "").slice(0, 40),
                   url: String(link.url || "").slice(0, 500)
                 }))
@@ -1485,7 +1305,7 @@
       function getProfileFromForm() {
         const links = Array.from(
           elements.linksList.querySelectorAll(".link-item")
-        ).map((item) => ({
+        ).map(item => ({
           label: item.querySelector(".link-label").value.trim(),
           url: item.querySelector(".link-url").value.trim()
         }));
@@ -1500,54 +1320,33 @@
 
       function renderLinks(links = []) {
         elements.linksList.replaceChildren();
-
-        const limitedLinks = links.slice(0, 5);
-
-        limitedLinks.forEach((link, index) => {
-          addLinkRow(link, index);
-        });
-
+        links.slice(0, 5).forEach((link, index) => addLinkRow(link, index));
         updateLinkLimit();
       }
 
       function addLinkRow(link = {}, index = null) {
-        const currentCount =
-          elements.linksList.querySelectorAll(".link-item").length;
-
+        const currentCount = elements.linksList.querySelectorAll(".link-item").length;
         if (currentCount >= 5) return;
 
         const number = index === null ? currentCount : index;
         const item = document.createElement("div");
-
         item.className = "link-item";
 
         item.innerHTML = `
           <div class="link-item-head">
             <span class="link-number">LINK ${number + 1}</span>
-            <button class="inline-button remove-link" type="button">
-              Remove
-            </button>
+            <button class="inline-button remove-link" type="button">Remove</button>
           </div>
           <div class="link-fields">
             <div class="field">
               <label>Link name</label>
-              <input
-                class="text-input link-label"
-                type="text"
-                maxlength="40"
-                placeholder="e.g. My website"
-                value="${escapeHTML(link.label || "")}"
-              >
+              <input class="text-input link-label" type="text" maxlength="40"
+                placeholder="e.g. My website" value="${escapeHTML(link.label || "")}">
             </div>
             <div class="field">
               <label>URL</label>
-              <input
-                class="text-input link-url"
-                type="url"
-                maxlength="500"
-                placeholder="https://example.com"
-                value="${escapeHTML(link.url || "")}"
-              >
+              <input class="text-input link-url" type="url" maxlength="500"
+                placeholder="https://example.com" value="${escapeHTML(link.url || "")}">
             </div>
           </div>
         `;
@@ -1564,17 +1363,13 @@
       }
 
       function renumberLinks() {
-        const items = elements.linksList.querySelectorAll(".link-item");
-
-        items.forEach((item, index) => {
-          item.querySelector(".link-number").textContent =
-            `LINK ${index + 1}`;
+        elements.linksList.querySelectorAll(".link-item").forEach((item, index) => {
+          item.querySelector(".link-number").textContent = `LINK ${index + 1}`;
         });
       }
 
       function updateLinkLimit() {
-        const count =
-          elements.linksList.querySelectorAll(".link-item").length;
+        const count = elements.linksList.querySelectorAll(".link-item").length;
         const full = count >= 5;
 
         elements.linkLimit.textContent = `${count} of 5 links`;
@@ -1587,7 +1382,6 @@
       function populateEditor(profile) {
         elements.displayName.value = profile.displayName || "";
         elements.description.value = profile.description || "";
-
         showAvatar(profile.avatar || "", profile.displayName || "");
         renderLinks(profile.links || []);
         updateDescriptionCount();
@@ -1595,24 +1389,15 @@
       }
 
       elements.addLinkButton.addEventListener("click", () => {
-        const count =
-          elements.linksList.querySelectorAll(".link-item").length;
-
-        if (count >= 5) return;
-
-        addLinkRow();
+        const count = elements.linksList.querySelectorAll(".link-item").length;
+        if (count < 5) addLinkRow();
       });
 
       elements.displayName.addEventListener("input", () => {
-        if (!avatarData) {
-          showAvatar("", elements.displayName.value);
-        }
+        if (!avatarData) showAvatar("", elements.displayName.value);
       });
 
-      elements.description.addEventListener(
-        "input",
-        updateDescriptionCount
-      );
+      elements.description.addEventListener("input", updateDescriptionCount);
 
       elements.uploadAvatarButton.addEventListener("click", () => {
         elements.avatarFile.click();
@@ -1620,15 +1405,9 @@
 
       elements.avatarFile.addEventListener("change", () => {
         const file = elements.avatarFile.files?.[0];
-
         if (!file) return;
 
-        const allowedTypes = [
-          "image/png",
-          "image/jpeg",
-          "image/gif",
-          "image/webp"
-        ];
+        const allowedTypes = ["image/png", "image/jpeg", "image/gif", "image/webp"];
 
         if (!allowedTypes.includes(file.type)) {
           setSaveStatus("Please select a PNG, JPG, GIF or WebP image.", "error");
@@ -1655,11 +1434,7 @@
           image.onload = () => {
             try {
               const maxSize = 400;
-              const ratio = Math.min(
-                1,
-                maxSize / Math.max(image.width, image.height)
-              );
-
+              const ratio = Math.min(1, maxSize / Math.max(image.width, image.height));
               const canvas = document.createElement("canvas");
               canvas.width = Math.max(1, Math.round(image.width * ratio));
               canvas.height = Math.max(1, Math.round(image.height * ratio));
@@ -1674,35 +1449,21 @@
               context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
               const isPng = file.type === "image/png";
-              const outputType = isPng ? "image/png" : "image/jpeg";
-
-              avatarData = canvas.toDataURL(
-                outputType,
-                isPng ? undefined : 0.86
-              );
+              avatarData = canvas.toDataURL(isPng ? "image/png" : "image/jpeg", isPng ? undefined : 0.86);
 
               showAvatar(avatarData, elements.displayName.value);
               setSaveStatus("Avatar selected. Save changes to keep it.", "");
             } catch (error) {
               console.error(error);
-              setSaveStatus(
-                "Could not process this image. Try another file.",
-                "error"
-              );
+              setSaveStatus("Could not process this image. Try another file.", "error");
             }
           };
 
-          image.onerror = () => {
-            setSaveStatus("This image could not be opened.", "error");
-          };
-
+          image.onerror = () => setSaveStatus("This image could not be opened.", "error");
           image.src = reader.result;
         };
 
-        reader.onerror = () => {
-          setSaveStatus("Could not read this image.", "error");
-        };
-
+        reader.onerror = () => setSaveStatus("Could not read this image.", "error");
         reader.readAsDataURL(file);
       });
 
@@ -1714,21 +1475,12 @@
       });
 
       function validateProfile(profile) {
-        if (profile.displayName.length > 50) {
-          return "Account name must be 50 characters or fewer.";
-        }
-
-        if (profile.description.length > 300) {
-          return "Description must be 300 characters or fewer.";
-        }
-
-        if (profile.links.length > 5) {
-          return "You can add up to five links.";
-        }
+        if (profile.displayName.length > 50) return "Account name must be 50 characters or fewer.";
+        if (profile.description.length > 300) return "Description must be 300 characters or fewer.";
+        if (profile.links.length > 5) return "You can add up to five links.";
 
         for (let index = 0; index < profile.links.length; index++) {
           const link = profile.links[index];
-
           if (!link.label && !link.url) continue;
 
           if (!link.label || !link.url) {
@@ -1751,7 +1503,7 @@
         return "";
       }
 
-      elements.form.addEventListener("submit", (event) => {
+      elements.form.addEventListener("submit", event => {
         event.preventDefault();
 
         if (!currentUserId) {
@@ -1772,10 +1524,7 @@
 
         try {
           const serialized = JSON.stringify(profile);
-          const key = PROFILE_STORAGE_PREFIX + currentUserId;
-
-          localStorage.setItem(key, serialized);
-
+          localStorage.setItem(PROFILE_STORAGE_PREFIX + currentUserId, serialized);
           originalProfile = JSON.parse(serialized);
           populateEditor(originalProfile);
 
@@ -1785,7 +1534,6 @@
           );
         } catch (error) {
           console.error("Could not save profile.", error);
-
           setSaveStatus(
             "Could not save. Browser storage may be full or unavailable.",
             "error"
@@ -1795,18 +1543,11 @@
 
       elements.resetButton.addEventListener("click", () => {
         if (!originalProfile) return;
-
-        populateEditor(
-          JSON.parse(JSON.stringify(originalProfile))
-        );
+        populateEditor(JSON.parse(JSON.stringify(originalProfile)));
       });
 
-      // Account details
-
       function providerLabel(provider) {
-        const normalized = String(provider || "")
-          .toLowerCase()
-          .trim();
+        const normalized = String(provider || "").toLowerCase().trim();
 
         const labels = {
           password: "Email and password",
@@ -1816,8 +1557,8 @@
           "apple.com": "Apple",
           "microsoft.com": "Microsoft",
           "twitter.com": "X / Twitter",
-          "phone": "Phone",
-          "anonymous": "Anonymous"
+          phone: "Phone",
+          anonymous: "Anonymous"
         };
 
         return labels[normalized] || String(provider || "Unknown provider");
@@ -1834,7 +1575,7 @@
         const wrapper = document.createElement("div");
         wrapper.className = "provider-list";
 
-        providers.forEach((provider) => {
+        providers.forEach(provider => {
           const tag = document.createElement("span");
           tag.className = "provider-tag";
           tag.textContent = providerLabel(provider);
@@ -1895,12 +1636,8 @@
 
       elements.toggleUidButton.addEventListener("click", () => {
         if (!currentUserId) return;
-
-        if (uidVisible) {
-          hideUid();
-        } else {
-          showUid(currentUserId);
-        }
+        if (uidVisible) hideUid();
+        else showUid(currentUserId);
       });
 
       elements.copyUidButton.addEventListener("click", async () => {
@@ -1924,19 +1661,15 @@
         setText("firebaseUid", "••••••••••");
         elements.toggleUidButton.hidden = true;
         elements.copyUidButton.hidden = true;
-
         setText("accountCreated", "Not available");
         setText("linkedProviders", "Not available");
         setText("loginMethod", "Not recorded for this session");
         setText("sessionStarted", "Not available");
         setText("sessionExpires", "Not available");
         setText("sessionRemaining", "");
-
         setConnection(false, "Session unavailable");
 
-        if (message) {
-          setText("loginMethod", message);
-        }
+        if (message) setText("loginMethod", message);
       }
 
       async function loadAccountDetails() {
@@ -1946,9 +1679,7 @@
           const response = await fetch(`${API_BASE}/api/session/me`, {
             method: "GET",
             credentials: "include",
-            headers: {
-              "Accept": "application/json"
-            },
+            headers: { "Accept": "application/json" },
             cache: "no-store"
           });
 
@@ -1961,10 +1692,7 @@
           if (data.authenticated !== true || !data.user?.uid) {
             clearAccountDetails("Not recorded for this session");
             setConnection(false, "Not signed in");
-            setText(
-              "loginMethod",
-              "No authenticated session. Please sign in again."
-            );
+            setText("loginMethod", "No authenticated session. Please sign in again.");
             return;
           }
 
@@ -1974,34 +1702,18 @@
           elements.toggleUidButton.hidden = false;
           elements.copyUidButton.hidden = false;
 
-          setText(
-            "accountCreated",
-            formatDate(data.accountCreatedAt)
-          );
-
+          setText("accountCreated", formatDate(data.accountCreatedAt));
           renderProviders(data.linkedProviders);
 
           setText(
             "loginMethod",
-            data.loginMethod
-              ? providerLabel(data.loginMethod)
-              : "Not recorded for this session"
+            data.loginMethod ? providerLabel(data.loginMethod) : "Not recorded for this session"
           );
 
-          setText(
-            "sessionStarted",
-            formatDate(data.createdAt)
-          );
-
+          setText("sessionStarted", formatDate(data.createdAt));
           sessionExpiresAt = normalizeTimestamp(data.expiresAt);
-
-          setText(
-            "sessionExpires",
-            formatDate(data.expiresAt)
-          );
-
+          setText("sessionExpires", formatDate(data.expiresAt));
           displaySessionRemaining();
-
           setConnection(true, "Session active");
 
           const profile = safeLoadProfile(currentUserId);
@@ -2009,11 +1721,8 @@
           populateEditor(profile);
         } catch (error) {
           console.error("Could not load account details.", error);
-
           clearAccountDetails("Unable to retrieve session information");
           setConnection(false, "Connection unavailable");
-
-          // A failed request must not create a fake account identity.
           setSaveStatus(
             "Could not verify your account. Sign in again or check the connection before editing.",
             "error"
@@ -2021,10 +1730,7 @@
         }
       }
 
-      // Start with the account details from the authenticated session.
       loadAccountDetails();
-
-      // Update the remaining session time without repeatedly requesting the API.
       window.setInterval(displaySessionRemaining, 60000);
     })();
   </script>
